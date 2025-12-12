@@ -1,4 +1,4 @@
-import { Shield, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -12,9 +12,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
-              <Shield className="w-5 h-5 text-primary-foreground" />
-            </div>
+            <img src="/logo.png" alt="SafeTrail Logo" className="w-9 h-9 rounded-lg" />
             <span className="text-xl font-bold">SafeTrail</span>
           </Link>
 

@@ -1,5 +1,3 @@
-import { Shield } from 'lucide-react';
-
 const Footer = () => {
   return (
     <footer className="bg-card border-t border-border py-12">
@@ -7,9 +5,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Shield className="w-4 h-4 text-primary-foreground" />
-            </div>
+            <img src="/logo.png" alt="SafeTrail Logo" className="w-8 h-8 rounded-lg" />
             <span className="text-lg font-bold">SafeTrail</span>
           </div>
 

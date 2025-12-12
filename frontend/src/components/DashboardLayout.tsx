@@ -105,7 +105,7 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
               {!sidebarCollapsed ? (
                 <>
                   <div className="flex items-center gap-2 min-w-0 flex-1">
-                    <Shield className="w-6 h-6 text-primary flex-shrink-0" />
+                    <img src="/logo.png" alt="SafeTrail Logo" className="w-6 h-6 rounded flex-shrink-0" />
                     <span className="text-lg font-bold truncate text-foreground">SafeTrail</span>
                   </div>
                   <button
