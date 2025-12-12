@@ -6,7 +6,7 @@ async function seed() {
     console.log('🌱 Seeding database...');
 
     // Clear existing data
-    await query('TRUNCATE TABLE alerts, report_photos, reports, places, cities, users RESTART IDENTITY CASCADE;');
+    await query('TRUNCATE TABLE alerts, report_photos, reports, places, cities, countries, users RESTART IDENTITY CASCADE;');
 
     // Create users
     const hashedPassword = await bcrypt.hash('password123', 10);
@@ -22,19 +22,33 @@ async function seed() {
     );
     const userId = userResult.rows[0].id;
 
+    // Create countries
+    const countries = [
+      { name: 'India', code: 'IN' },
+    ];
+
+    const countryIds: number[] = [];
+    for (const country of countries) {
+      const result = await query(
+        'INSERT INTO countries (name, code, safety_score) VALUES ($1, $2, $3) RETURNING id',
+        [country.name, country.code, Math.random() * 30 + 60]
+      );
+      countryIds.push(result.rows[0].id);
+    }
+
     // Create cities
     const cities = [
-      { name: 'New Delhi', lat: 28.6139, lng: 77.2090 },
-      { name: 'Mumbai', lat: 19.0760, lng: 72.8777 },
-      { name: 'Bangalore', lat: 12.9716, lng: 77.5946 },
-      { name: 'Jaipur', lat: 26.9124, lng: 75.7873 },
+      { countryIdx: 0, name: 'New Delhi', lat: 28.6139, lng: 77.2090 },
+      { countryIdx: 0, name: 'Mumbai', lat: 19.0760, lng: 72.8777 },
+      { countryIdx: 0, name: 'Bangalore', lat: 12.9716, lng: 77.5946 },
+      { countryIdx: 0, name: 'Jaipur', lat: 26.9124, lng: 75.7873 },
     ];
 
     const cityIds: number[] = [];
     for (const city of cities) {
       const result = await query(
-        'INSERT INTO cities (name, latitude, longitude, safety_score) VALUES ($1, $2, $3, $4) RETURNING id',
-        [city.name, city.lat, city.lng, Math.random() * 30 + 60]
+        'INSERT INTO cities (country_id, name, latitude, longitude, safety_score) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+        [countryIds[city.countryIdx], city.name, city.lat, city.lng, Math.random() * 30 + 60]
       );
       cityIds.push(result.rows[0].id);
     }

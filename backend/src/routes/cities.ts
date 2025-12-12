@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     }
 
     const result = await query(
-      'SELECT id, name, latitude, longitude, safety_score, places_count, reports_count FROM cities ORDER BY name'
+      'SELECT id, country_id, name, latitude, longitude, safety_score, places_count, reports_count FROM cities ORDER BY name'
     );
 
     // Cache for 1 hour
@@ -39,7 +39,7 @@ router.get('/:id', async (req, res) => {
     }
 
     const cityResult = await query(
-      'SELECT id, name, latitude, longitude, safety_score, places_count, reports_count FROM cities WHERE id = $1',
+      'SELECT id, country_id, name, latitude, longitude, safety_score, places_count, reports_count FROM cities WHERE id = $1',
       [id]
     );
 
