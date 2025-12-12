@@ -1,26 +1,19 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Shield, TrendingUp, TrendingDown, Search, ChevronDown, MapPin, AlertCircle, Calendar, Loader2 } from "lucide-react";
+import { Shield, TrendingUp, TrendingDown, Search, ChevronDown, MapPin, AlertCircle, Calendar } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useToast } from "@/hooks/use-toast";
 import { cities, places, getSafetyStatus } from "@/data/mockData";
 import DashboardLayout from "@/components/DashboardLayout";
 
 const Dashboard = () => {
-  const { toast } = useToast();
+  const [selectedCity, setSelectedCity] = useState<number | null>(null);
   const [safetyFilter, setSafetyFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [showOtherCountries, setShowOtherCountries] = useState(false);
-  const [locationStatus, setLocationStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const [selectedCity, setSelectedCity] = useState<string>("");
-  const [locationCoords, setLocationCoords] = useState<{ latitude: number; longitude: number } | null>(null);
 
   const userCountry = useMemo(() => {
     return localStorage.getItem('userCountry') || 'India';
@@ -33,100 +26,16 @@ const Dashboard = () => {
   const otherCountriesCities = useMemo(() => {
     return cities.filter(city => city.country !== userCountry);
   }, [userCountry]);
-  const countries = useMemo(() => {
-    const unique = Array.from(new Set(cities.map((city) => city.country)));
-    return unique.sort();
-  }, []);
-  const citiesInCountry = useMemo(() => {
-    if (!selectedCountry) return [];
-    return cities.filter((city) => city.country === selectedCountry);
-  }, [selectedCountry]);
-  const placesInCity = useMemo(() => {
-    if (!selectedCity) return [];
-    return places.filter((place) => place.cityId === Number(selectedCity));
-  }, [selectedCity]);
-  const filteredPlaces = useMemo(() => {
-    let filtered = selectedCity ? placesInCity : (selectedCountry ? places.filter(p => {
-      const city = cities.find(c => c.id === p.cityId);
-      return city?.country === selectedCountry;
-    }) : places);
-    filtered = filtered.filter(p => {
+
+  const currentCity = selectedCity ? cities.find(c => c.id === selectedCity) : null;
+  
+  const filteredPlaces = places
+    .filter(p => !selectedCity || p.cityId === selectedCity)
+    .filter(p => {
       if (safetyFilter === "all") return true;
       return getSafetyStatus(p.safetyScore) === safetyFilter;
-    });
-    filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
-    if (locationCoords) {
-      const MAX_DISTANCE_KM = 5;
-      filtered = filtered.filter(p => {
-        let lat: number | undefined;
-        let lng: number | undefined;
-        if (Array.isArray(p.coordinates)) {
-          lat = p.coordinates[0];
-          lng = p.coordinates[1];
-        } else if (p.coordinates && typeof p.coordinates === 'object') {
-          lat = (p.coordinates as any).lat || (p.coordinates as any).latitude;
-          lng = (p.coordinates as any).lng || (p.coordinates as any).longitude;
-        } else {
-          lat = (p as any).latitude;
-          lng = (p as any).longitude;
-        }
-
-        if (lat === undefined || lng === undefined) {
-          console.warn(`Place ${p.name} missing coordinates`);
-          return false;
-        }
-
-        const distance = calculateDistance(
-          locationCoords.latitude,
-          locationCoords.longitude,
-          lat,
-          lng
-        );
-        return distance <= MAX_DISTANCE_KM;
-      });
-    }
-
-    return filtered;
-  }, [selectedCity, selectedCountry, placesInCity, safetyFilter, searchQuery, locationCoords]);
-
-  const handleGetLocation = () => {
-    setLocationStatus('loading');
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocationCoords({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          setLocationStatus('success');
-          toast({
-            title: "Location Captured",
-            description: `Showing places within 5km of your location.`,
-          });
-        },
-        () => {
-          setLocationStatus('error');
-          toast({
-            title: "Location Error",
-            description: "Unable to get your location.",
-            variant: "destructive",
-          });
-        }
-      );
-    } else {
-      setLocationStatus('error');
-      toast({
-        title: "Not Supported",
-        description: "Geolocation is not supported by your browser.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const clearLocationFilter = () => {
-    setLocationCoords(null);
-    setLocationStatus('idle');
-  };
+    })
+    .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
   const getStatusBadgeClass = (status: string) => {
     if (status === 'safe') return 'bg-safe text-safe-foreground';
@@ -218,107 +127,34 @@ const Dashboard = () => {
 
         {/* Main Content */}
         <div className="p-6">
-          {/* Location Selection */}
+          {/* City Stats */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">Filter by Location</h2>
-            <Card>
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  {/* Primary filters */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Country */}
-                    <div className="space-y-2">
-                      <Label className="font-semibold">Country</Label>
-                      <Select value={selectedCountry} onValueChange={(v) => {
-                        setSelectedCountry(v);
-                        setSelectedCity("");
-                      }}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select country" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {countries.map((country) => (
-                            <SelectItem key={country} value={country}>
-                              {country}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    {/* City */}
-                    <div className="space-y-2">
-                      <Label className="font-semibold">City</Label>
-                      <Select 
-                        value={selectedCity} 
-                        onValueChange={setSelectedCity}
-                        disabled={!selectedCountry}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder={selectedCountry ? "Select city" : "Select country first"} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {citiesInCountry.map((city) => (
-                            <SelectItem key={city.id} value={String(city.id)}>
-                              {city.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
-                  {/* Location-based filter */}
-                  <div className="border-t pt-4">
-                    <div className="flex flex-col sm:flex-row gap-2">
-                      <Button 
-                        onClick={handleGetLocation}
-                        disabled={locationStatus === 'loading'}
-                        variant="outline"
-                        className="flex-1"
-                      >
-                        {locationStatus === 'loading' ? (
-                          <>
-                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                            Getting location...
-                          </>
-                        ) : (
-                          <>
-                            <MapPin className="w-4 h-4 mr-2" />
-                            Use My Location
-                          </>
-                        )}
-                      </Button>
-                      {locationCoords && (
-                        <Button 
-                          onClick={clearLocationFilter}
-                          variant="ghost"
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        >
-                          Clear Location
-                        </Button>
-                      )}
-                    </div>
-                    {locationStatus === 'success' && locationCoords && (
-                      <Alert className="mt-3 bg-green-50 border-green-200">
-                        <MapPin className="h-4 w-4 text-green-600" />
-                        <AlertDescription className="text-green-800">
-                          Showing places within 5km of your location
-                        </AlertDescription>
-                      </Alert>
-                    )}
-                    {locationStatus === 'error' && (
-                      <Alert className="mt-3 bg-red-50 border-red-200">
-                        <AlertCircle className="h-4 w-4 text-red-600" />
-                        <AlertDescription className="text-red-800">
-                          Unable to get your location. Please enable location access.
-                        </AlertDescription>
-                      </Alert>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <h2 className="text-2xl font-bold mb-4">Cities in {userCountry}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {countryCities.map(city => {
+                const status = getSafetyStatus(city.safetyScore);
+                return (
+                  <Card 
+                    key={city.id}
+                    className={`cursor-pointer transition-all hover:shadow-lg ${selectedCity === city.id ? 'ring-2 ring-primary' : ''}`}
+                    onClick={() => setSelectedCity(selectedCity === city.id ? null : city.id)}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <h3 className="font-semibold">{city.name}</h3>
+                        <Badge className={getStatusBadgeClass(status)}>
+                          {city.safetyScore}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <span>{city.placesCount} places</span>
+                        <span>{city.reportsCount} reports</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
           </div>
 
           {/* Filters */}
@@ -354,7 +190,7 @@ const Dashboard = () => {
           {/* Places Grid */}
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-semibold">
-              {selectedCity ? `Places in ${citiesInCountry.find(c => c.id === Number(selectedCity))?.name}` : selectedCountry ? `Places in ${selectedCountry}` : 'All Places'}
+              {currentCity ? `Places in ${currentCity.name}` : 'All Places'}
             </h2>
             <span className="text-sm text-muted-foreground">{filteredPlaces.length} places</span>
           </div>
@@ -441,10 +277,7 @@ const Dashboard = () => {
                             <Card 
                               key={city.id}
                               className="cursor-pointer transition-all hover:shadow-lg"
-                              onClick={() => {
-                                setSelectedCountry(city.country);
-                                setSelectedCity(String(city.id));
-                              }}
+                              onClick={() => setSelectedCity(selectedCity === city.id ? null : city.id)}
                             >
                               <CardContent className="p-4">
                                 <div className="flex items-start justify-between mb-3">
@@ -454,7 +287,8 @@ const Dashboard = () => {
                                   </Badge>
                                 </div>
                                 <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                  <span>Places here</span>
+                                  <span>{city.placesCount} places</span>
+                                  <span>{city.reportsCount} reports</span>
                                 </div>
                               </CardContent>
                             </Card>
@@ -472,16 +306,5 @@ const Dashboard = () => {
     </DashboardLayout>
   );
 };
-function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = 
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
 
 export default Dashboard;
