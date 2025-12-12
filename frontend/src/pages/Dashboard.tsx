@@ -110,6 +110,14 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
+      {isLoading ? (
+        <div className="h-full flex items-center justify-center">
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-muted-foreground">Loading dashboard...</p>
+          </div>
+        </div>
+      ) : (
       <div>
         {/* Hero Section */}
         <div className="bg-gradient-to-br from-slate-50 to-slate-100 border-b border-slate-200 px-6 py-12 md:py-16">
@@ -195,6 +203,14 @@ const Dashboard = () => {
           {/* City Stats */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Cities in {userCountry}</h2>
+            {countryCities.length === 0 ? (
+              <Card className="p-8 text-center">
+                <p className="text-muted-foreground mb-4">No cities found for {userCountry}.</p>
+                <Button onClick={() => setShowOtherCountries(true)} variant="outline">
+                  View Other Countries
+                </Button>
+              </Card>
+            ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {countryCities.map(city => {
                 const status = getSafetyStatus(city.safetyScore);
@@ -220,6 +236,7 @@ const Dashboard = () => {
                 );
               })}
             </div>
+            )}
           </div>
 
           {/* Filters */}
@@ -368,6 +385,7 @@ const Dashboard = () => {
           )}
         </div>
       </div>
+      )}
     </DashboardLayout>
   );
 };

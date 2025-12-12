@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { query } from '../db/connection.js';
 import { redis } from '../lib/redis.js';
-import { updatePlaceSafetyScore, updateCitySafetyScore } from '../lib/safetyScore.js';
+import { updatePlaceSafetyScore, updateCitySafetyScore, updatePlaceReportCount, updateCityReportCount } from '../lib/safetyScore.js';
 import { authMiddleware, adminMiddleware, AuthRequest } from '../middleware/auth.js';
 import multer from 'multer';
 import path from 'path';
@@ -79,9 +79,22 @@ router.post('/', authMiddleware, upload.single('photo'), async (req: AuthRequest
       );
     }
 
+    // Update report counts
+    await updatePlaceReportCount(place_id);
+    
+    // Get city id and update city report count
+    const placeResult = await query('SELECT city_id FROM places WHERE id = $1', [place_id]);
+    if (placeResult.rows.length > 0) {
+      await updateCityReportCount(placeResult.rows[0].city_id);
+    }
+
     // Invalidate caches
     await redis.delete(`place:${place_id}`);
     await redis.delete('places:all');
+    await redis.delete('cities:all');
+    if (placeResult.rows[0]?.city_id) {
+      await redis.delete(`city:${placeResult.rows[0].city_id}`);
+    }
 
     res.status(201).json(report);
   } catch (error) {
@@ -200,15 +213,17 @@ router.patch('/:id/verify', authMiddleware, adminMiddleware, async (req: AuthReq
     // Recalculate safety scores
     await updatePlaceSafetyScore(placeId);
 
-    // Get city id to update city score
+    // Get city id to update city score and counts
     const placeInfoResult = await query('SELECT city_id FROM places WHERE id = $1', [placeId]);
     if (placeInfoResult.rows.length > 0) {
       await updateCitySafetyScore(placeInfoResult.rows[0].city_id);
+      await updateCityReportCount(placeInfoResult.rows[0].city_id);
     }
 
     // Invalidate caches
     await redis.delete(`place:${placeId}`);
     await redis.delete('places:all');
+    await redis.delete('cities:all');
     await redis.delete(`city:${placeInfoResult.rows[0]?.city_id}`);
 
     res.json(result.rows[0]);

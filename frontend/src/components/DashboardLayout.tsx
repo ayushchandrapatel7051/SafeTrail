@@ -261,19 +261,19 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
                 {/* Account Info */}
                 <DropdownMenuItem 
                   onClick={() => navigate("/profile")} 
-                  className="cursor-pointer hover:bg-primary/10 transition-colors py-2"
+                  className="cursor-pointer focus:bg-primary/10 focus:text-foreground transition-colors py-2"
                 >
-                  <User className="w-4 h-4 mr-2 text-muted-foreground" />
-                  <span className="text-foreground">Account Info</span>
+                  <User className="w-4 h-4 mr-2" />
+                  <span>Account Info</span>
                 </DropdownMenuItem>
                 
                 {/* Settings */}
                 <DropdownMenuItem 
                   onClick={() => navigate("/profile")} 
-                  className="cursor-pointer hover:bg-primary/10 transition-colors py-2"
+                  className="cursor-pointer focus:bg-primary/10 focus:text-foreground transition-colors py-2"
                 >
-                  <Settings className="w-4 h-4 mr-2 text-muted-foreground" />
-                  <span className="text-foreground">Settings</span>
+                  <Settings className="w-4 h-4 mr-2" />
+                  <span>Settings</span>
                 </DropdownMenuItem>
                 
                 <DropdownMenuSeparator />
@@ -281,10 +281,10 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
                 {/* Logout */}
                 <DropdownMenuItem 
                   onClick={handleLogout} 
-                  className="cursor-pointer hover:bg-red-500/10 transition-colors py-2"
+                  className="cursor-pointer focus:bg-red-500/10 focus:text-red-600 transition-colors py-2 text-red-600"
                 >
-                  <LogOutIcon className="w-4 h-4 mr-2 text-red-600" />
-                  <span className="text-red-600 font-medium">Logout</span>
+                  <LogOutIcon className="w-4 h-4 mr-2" />
+                  <span className="font-medium">Logout</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

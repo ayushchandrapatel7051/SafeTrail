@@ -10,20 +10,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { places as apiPlaces, reports as apiReports, cities as apiCities } from "@/lib/api";
-import { reportTypes, cities, places } from "@/data/mockData";
+import { reportTypes } from "@/data/mockData";
 import DashboardLayout from "@/components/DashboardLayout";
 
 interface CityData {
   id: number;
   name: string;
   country: string;
+  country_name: string;
+  latitude: string;
+  longitude: string;
   safetyScore: number;
 }
 
 interface PlaceData {
   id: number;
   name: string;
-  cityId: number;
+  city_id: number;
+  latitude: string;
+  longitude: string;
   safetyScore: number;
   type: string;
 }
@@ -42,6 +47,11 @@ const ReportForm = () => {
   const [selectedCity, setSelectedCity] = useState<string>("");
   const [selectedPlace, setSelectedPlace] = useState<string>(preselectedPlace || "");
   
+  // API data
+  const [cities, setCities] = useState<CityData[]>([]);
+  const [places, setPlaces] = useState<PlaceData[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+  
   const [formData, setFormData] = useState({
     type: "",
     description: "",
@@ -50,34 +60,130 @@ const ReportForm = () => {
   });
   const [locationStatus, setLocationStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
+  // Load cities and places from API
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [citiesData, placesData] = await Promise.all([
+          apiCities.getAll(),
+          apiPlaces.getAll()
+        ]);
+        setCities(citiesData);
+        setPlaces(placesData);
+      } catch (error) {
+        console.error('Failed to load data:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load cities and places",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoadingData(false);
+      }
+    };
+    loadData();
+  }, [toast]);
+
   // Get unique countries
   const countries = useMemo(() => {
-    const unique = Array.from(new Set(cities.map((city) => city.country)));
+    const unique = Array.from(new Set(cities.map((city) => city.country_name || city.country)));
     return unique.sort();
-  }, []);
+  }, [cities]);
 
   // Filter cities by selected country
   const citiesInCountry = useMemo(() => {
     if (!selectedCountry) return [];
-    return cities.filter((city) => city.country === selectedCountry);
-  }, [selectedCountry]);
+    return cities.filter((city) => (city.country_name || city.country) === selectedCountry);
+  }, [selectedCountry, cities]);
 
   // Filter places by selected city
   const placesInCity = useMemo(() => {
     if (!selectedCity) return [];
-    return places.filter((place) => place.cityId === Number(selectedCity));
-  }, [selectedCity]);
+    return places.filter((place) => place.city_id === Number(selectedCity));
+  }, [selectedCity, places]);
+
+  // When place is selected, auto-fill coordinates
+  useEffect(() => {
+    if (selectedPlace) {
+      const place = places.find(p => p.id === Number(selectedPlace));
+      if (place) {
+        setFormData(prev => ({
+          ...prev,
+          latitude: place.latitude,
+          longitude: place.longitude,
+        }));
+      }
+    }
+  }, [selectedPlace, places]);
+
+  // Reverse geocoding function to find nearest city
+  const findNearestCity = async (lat: number, lng: number) => {
+    // Calculate distance between two coordinates
+    const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+      const R = 6371; // Earth's radius in km
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    };
+
+    // Find nearest city in database
+    let nearestCity: CityData | null = null;
+    let minDistance = Infinity;
+
+    cities.forEach(city => {
+      const distance = calculateDistance(
+        lat,
+        lng,
+        parseFloat(city.latitude),
+        parseFloat(city.longitude)
+      );
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearestCity = city;
+      }
+    });
+
+    return nearestCity;
+  };
 
   const handleGetLocation = () => {
     setLocationStatus('loading');
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          
           setFormData(prev => ({
             ...prev,
-            latitude: position.coords.latitude.toFixed(6),
-            longitude: position.coords.longitude.toFixed(6),
+            latitude: lat.toFixed(6),
+            longitude: lng.toFixed(6),
           }));
+
+          // Find nearest city in database
+          const nearestCity = await findNearestCity(lat, lng);
+          
+          if (nearestCity) {
+            // Auto-select country and city
+            const country = nearestCity.country_name || nearestCity.country;
+            setSelectedCountry(country);
+            setSelectedCity(String(nearestCity.id));
+            
+            toast({
+              title: "Location Detected",
+              description: `Nearest city: ${nearestCity.name}, ${country}`,
+            });
+          } else {
+            toast({
+              title: "Location Captured",
+              description: "No matching city found in database. Please select manually.",
+            });
+          }
+          
           setLocationStatus('success');
         },
         () => {
@@ -149,6 +255,14 @@ const ReportForm = () => {
 
   return (
     <DashboardLayout>
+      {isLoadingData ? (
+        <div className="h-full flex items-center justify-center">
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <p className="text-muted-foreground">Loading form...</p>
+          </div>
+        </div>
+      ) : (
       <div className="p-6 max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8 text-center">
@@ -470,6 +584,7 @@ const ReportForm = () => {
           </div>
         </div>
       </div>
+      )}
     </DashboardLayout>
   );
 };
