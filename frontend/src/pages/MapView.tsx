@@ -3,8 +3,8 @@ import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from "react-le
 import { Icon, LatLngBounds } from "leaflet";
 import { Link, useSearchParams } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
-import { cities as mockCities, places as mockPlaces } from "@/data/mockData";
 import { getSafetyStatus } from "@/data/mockData";
+import { cities as citiesApi, places as placesApi } from "@/lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -128,50 +128,64 @@ const MapView = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    // Load data from mockData - handle the coordinates array format
-    const transformedCities = mockCities.map(city => ({
-      id: city.id,
-      name: city.name,
-      country: city.country,
-      latitude: city.coordinates[0],
-      longitude: city.coordinates[1],
-      safetyScore: city.safetyScore,
-    }));
+    const loadData = async () => {
+      try {
+        setIsLoading(true);
+        // Fetch cities and places from API
+        const [citiesData, placesData] = await Promise.all([
+          citiesApi.getAll(),
+          placesApi.getAll()
+        ]);
 
-    const transformedPlaces = mockPlaces.map(place => ({
-      id: place.id,
-      name: place.name,
-      type: place.type,
-      latitude: place.coordinates[0],
-      longitude: place.coordinates[1],
-      safetyScore: place.safetyScore,
-      reportCount: place.reportCount,
-      cityId: place.cityId,
-    }));
+        const transformedCities = citiesData.map((city: Record<string, unknown>) => ({
+          id: city.id as number,
+          name: city.name as string,
+          country: (city.country_name || city.country) as string,
+          latitude: parseFloat(city.latitude as string),
+          longitude: parseFloat(city.longitude as string),
+          safetyScore: parseFloat(city.safety_score as string),
+        }));
 
-    console.log('Transformed cities:', transformedCities);
-    console.log('Transformed places:', transformedPlaces);
+        const transformedPlaces = placesData.map((place: Record<string, unknown>) => ({
+          id: place.id as number,
+          name: place.name as string,
+          type: (place.type || place.category) as string,
+          latitude: parseFloat(place.latitude as string),
+          longitude: parseFloat(place.longitude as string),
+          safetyScore: parseFloat(place.safety_score as string),
+          reportCount: (place.report_count || 0) as number,
+          cityId: place.city_id as number,
+        }));
 
-    setCities(transformedCities);
-    setPlaces(transformedPlaces);
+        console.log('Loaded cities:', transformedCities);
+        console.log('Loaded places:', transformedPlaces);
 
-    // Check for city parameter in URL
-    const cityParam = searchParams.get('city');
-    if (cityParam) {
-      const cityId = parseInt(cityParam, 10);
-      // Verify the city exists in the data
-      if (transformedCities.some(c => c.id === cityId)) {
-        setSelectedCity(cityId);
-      } else if (transformedCities.length > 0) {
-        // Fall back to first city if specified city not found
-        setSelectedCity(transformedCities[0].id);
+        setCities(transformedCities);
+        setPlaces(transformedPlaces);
+
+        // Check for city parameter in URL
+        const cityParam = searchParams.get('city');
+        if (cityParam) {
+          const cityId = parseInt(cityParam, 10);
+          // Verify the city exists in the data
+          if (transformedCities.some((c: City) => c.id === cityId)) {
+            setSelectedCity(cityId);
+          } else if (transformedCities.length > 0) {
+            // Fall back to first city if specified city not found
+            setSelectedCity(transformedCities[0].id);
+          }
+        } else if (transformedCities.length > 0) {
+          // Default to first city if no parameter specified
+          setSelectedCity(transformedCities[0].id);
+        }
+      } catch (error) {
+        console.error('Failed to load data:', error);
+      } finally {
+        setIsLoading(false);
       }
-    } else if (transformedCities.length > 0) {
-      // Default to first city if no parameter specified
-      setSelectedCity(transformedCities[0].id);
-    }
+    };
 
-    setIsLoading(false);
+    loadData();
   }, [searchParams]);
 
   // Separate effect to handle place parameter after data is loaded

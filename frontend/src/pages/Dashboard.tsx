@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Shield, TrendingUp, TrendingDown, Search, ChevronDown, MapPin, AlertCircle, Calendar } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,26 +6,91 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { cities, places, getSafetyStatus } from "@/data/mockData";
+import { getSafetyStatus } from "@/data/mockData";
+import { cities as citiesApi, places as placesApi } from "@/lib/api";
 import DashboardLayout from "@/components/DashboardLayout";
+
+interface City {
+  id: number;
+  name: string;
+  country: string;
+  coordinates: [number, number];
+  safetyScore: number;
+  placesCount: number;
+  reportsCount: number;
+}
+
+interface Place {
+  id: number;
+  name: string;
+  cityId: number;
+  coordinates: [number, number];
+  safetyScore: number;
+  reportCount: number;
+  type: string;
+}
 
 const Dashboard = () => {
   const [selectedCity, setSelectedCity] = useState<number | null>(null);
   const [safetyFilter, setSafetyFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [showOtherCountries, setShowOtherCountries] = useState(false);
+  const [cities, setCities] = useState<City[]>([]);
+  const [places, setPlaces] = useState<Place[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const userCountry = useMemo(() => {
     return localStorage.getItem('userCountry') || 'India';
   }, []);
 
+  // Load data from API
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [citiesData, placesData] = await Promise.all([
+          citiesApi.getAll(),
+          placesApi.getAll()
+        ]);
+        
+        const transformedCities = citiesData.map((city: Record<string, unknown>) => ({
+          id: city.id as number,
+          name: city.name as string,
+          country: (city.country_name || city.country) as string,
+          coordinates: [parseFloat(city.latitude as string), parseFloat(city.longitude as string)] as [number, number],
+          safetyScore: parseFloat(city.safety_score as string),
+          placesCount: (city.places_count || 0) as number,
+          reportsCount: (city.reports_count || 0) as number,
+        }));
+
+        const transformedPlaces = placesData.map((place: Record<string, unknown>) => ({
+          id: place.id as number,
+          name: place.name as string,
+          cityId: place.city_id as number,
+          coordinates: [parseFloat(place.latitude as string), parseFloat(place.longitude as string)] as [number, number],
+          safetyScore: parseFloat(place.safety_score as string),
+          reportCount: (place.report_count || 0) as number,
+          type: (place.type || place.category) as string,
+        }));
+
+        setCities(transformedCities);
+        setPlaces(transformedPlaces);
+      } catch (error) {
+        console.error('Failed to load data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
   const countryCities = useMemo(() => {
     return cities.filter(city => city.country === userCountry);
-  }, [userCountry]);
+  }, [cities, userCountry]);
 
   const otherCountriesCities = useMemo(() => {
     return cities.filter(city => city.country !== userCountry);
-  }, [userCountry]);
+  }, [cities, userCountry]);
 
   const currentCity = selectedCity ? cities.find(c => c.id === selectedCity) : null;
   
