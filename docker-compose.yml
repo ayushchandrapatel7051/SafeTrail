@@ -55,6 +55,12 @@ services:
       CORS_ORIGIN: "*"
       MAX_FILE_SIZE: 5242880
       UPLOAD_DIR: ./uploads
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: 587
+      SMTP_USER: getcourseofudemy@gmail.com
+      SMTP_PASS: ahpf wrrr buur murj
+      SMTP_FROM: SafeTrail <getcourseofudemy@gmail.com>
+      FRONTEND_URL: http://localhost:5173
       CHOKIDAR_USEPOLLING: "true"
       CHOKIDAR_INTERVAL: "100"
     ports:
