@@ -206,7 +206,7 @@ export default function TripPlan() {
 
   const handleSavePlan = () => {
     // Here you would typically save the plan to the backend
-    console.log("Plan saved:", { tripGuide, itinerary, tripDuration, travelers, budget });
+    console.log("Plan saved:", { tripGuide, itinerary, tripDuration, travelers, totalBudget });
     setShowConfirmation(false);
     // Show success message
     alert("Trip plan saved successfully!");

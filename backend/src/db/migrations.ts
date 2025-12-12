@@ -20,10 +20,25 @@ const migrations = [
     down: `DROP TABLE IF EXISTS users;`
   },
   {
+    name: '001b_create_countries_table',
+    up: `
+      CREATE TABLE IF NOT EXISTS countries (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) UNIQUE NOT NULL,
+        code VARCHAR(2) UNIQUE NOT NULL,
+        timezone VARCHAR(50),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+      CREATE INDEX IF NOT EXISTS idx_countries_code ON countries(code);
+    `,
+    down: `DROP TABLE IF EXISTS countries;`
+  },
+  {
     name: '002_create_cities_table',
     up: `
       CREATE TABLE cities (
         id SERIAL PRIMARY KEY,
+        country_id INTEGER REFERENCES countries(id) ON DELETE CASCADE,
         name VARCHAR(255) UNIQUE NOT NULL,
         latitude DECIMAL(10, 8) NOT NULL,
         longitude DECIMAL(11, 8) NOT NULL,
@@ -33,6 +48,7 @@ const migrations = [
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
+      CREATE INDEX idx_cities_country_id ON cities(country_id);
       CREATE INDEX idx_cities_name ON cities(name);
     `,
     down: `DROP TABLE IF EXISTS cities;`
@@ -117,7 +133,7 @@ const migrations = [
   {
     name: '007_create_email_verification_otp_table',
     up: `
-      CREATE TABLE email_verification_otp (
+      CREATE TABLE IF NOT EXISTS email_verification_otp (
         id SERIAL PRIMARY KEY,
         user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
         otp VARCHAR(6) NOT NULL,
@@ -126,7 +142,7 @@ const migrations = [
         expires_at TIMESTAMP NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
-      CREATE INDEX idx_verification_otp_user_id ON email_verification_otp(user_id);
+      CREATE INDEX IF NOT EXISTS idx_verification_otp_user_id ON email_verification_otp(user_id);
     `,
     down: `DROP TABLE IF EXISTS email_verification_otp;`
   },

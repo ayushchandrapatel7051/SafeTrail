@@ -30,8 +30,8 @@ async function seed() {
     const countryIds: number[] = [];
     for (const country of countries) {
       const result = await query(
-        'INSERT INTO countries (name, code, safety_score) VALUES ($1, $2, $3) RETURNING id',
-        [country.name, country.code, Math.random() * 30 + 60]
+        'INSERT INTO countries (name, code) VALUES ($1, $2) RETURNING id',
+        [country.name, country.code]
       );
       countryIds.push(result.rows[0].id);
     }

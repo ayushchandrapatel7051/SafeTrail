@@ -4,6 +4,51 @@ export async function manualMigration() {
   try {
     console.log('🔄 Running manual migration...');
 
+    // Check if countries table exists
+    const countriesTableCheck = await query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'countries'
+      );
+    `);
+
+    if (!countriesTableCheck.rows[0].exists) {
+      console.log('Creating countries table...');
+      await query(`
+        CREATE TABLE countries (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(255) UNIQUE NOT NULL,
+          code VARCHAR(2) UNIQUE NOT NULL,
+          timezone VARCHAR(50),
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE INDEX idx_countries_code ON countries(code);
+      `);
+      console.log('✅ Created countries table');
+    } else {
+      console.log('✅ countries table already exists');
+    }
+
+    // Check if country_id column exists in cities
+    const countryIdCheck = await query(`
+      SELECT column_name FROM information_schema.columns 
+      WHERE table_name = 'cities' AND column_name = 'country_id'
+    `);
+
+    if (countryIdCheck.rows.length === 0) {
+      console.log('Adding country_id column to cities table...');
+      await query(`
+        ALTER TABLE cities 
+        ADD COLUMN country_id INTEGER REFERENCES countries(id) ON DELETE CASCADE
+      `);
+      await query(`
+        CREATE INDEX idx_cities_country_id ON cities(country_id)
+      `);
+      console.log('✅ Added country_id column to cities');
+    } else {
+      console.log('✅ country_id column already exists in cities');
+    }
+
     // Check if email_verified column exists
     const columnCheck = await query(`
       SELECT column_name FROM information_schema.columns 

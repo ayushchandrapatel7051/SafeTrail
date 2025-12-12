@@ -14,7 +14,11 @@ router.get('/', async (req, res) => {
     }
 
     const result = await query(
-      'SELECT id, country_id, name, latitude, longitude, safety_score, places_count, reports_count FROM cities ORDER BY name'
+      `SELECT c.id, c.country_id, c.name, c.latitude, c.longitude, c.safety_score, 
+              c.places_count, c.reports_count, co.name as country_name, co.code as country_code
+       FROM cities c
+       LEFT JOIN countries co ON c.country_id = co.id
+       ORDER BY c.name`
     );
 
     // Cache for 1 hour
@@ -39,7 +43,11 @@ router.get('/:id', async (req, res) => {
     }
 
     const cityResult = await query(
-      'SELECT id, country_id, name, latitude, longitude, safety_score, places_count, reports_count FROM cities WHERE id = $1',
+      `SELECT c.id, c.country_id, c.name, c.latitude, c.longitude, c.safety_score, 
+              c.places_count, c.reports_count, co.name as country_name, co.code as country_code
+       FROM cities c
+       LEFT JOIN countries co ON c.country_id = co.id
+       WHERE c.id = $1`,
       [id]
     );
 
