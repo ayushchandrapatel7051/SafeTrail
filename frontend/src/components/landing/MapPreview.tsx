@@ -11,7 +11,7 @@ const mockLocations = [
   { id: 5, name: "Tourist Area", score: 75, status: "caution", x: 50, y: 55 },
 ];
 
-const getStatusColor = (status: string) => {
+const getStatusColor = (status: string) => {  
   switch (status) {
     case "safe": return "bg-safe text-safe-foreground";
     case "caution": return "bg-caution text-caution-foreground";
