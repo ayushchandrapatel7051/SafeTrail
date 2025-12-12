@@ -1,7 +1,12 @@
 import { Router, Request, Response } from 'express';
 import { query } from '../db/connection.js';
 import { redis } from '../lib/redis.js';
-import { updatePlaceSafetyScore, updateCitySafetyScore, updatePlaceReportCount, updateCityReportCount } from '../lib/safetyScore.js';
+import {
+  updatePlaceSafetyScore,
+  updateCitySafetyScore,
+  updatePlaceReportCount,
+  updateCityReportCount,
+} from '../lib/safetyScore.js';
 import { authMiddleware, adminMiddleware, AuthRequest } from '../middleware/auth.js';
 import multer from 'multer';
 import path from 'path';
@@ -46,62 +51,77 @@ interface CreateReportBody {
 }
 
 // Create report
-router.post('/', authMiddleware, upload.single('photo'), async (req: AuthRequest, res: Response) => {
-  try {
-    const { place_id, type, description, latitude, longitude, severity } = req.body as CreateReportBody;
+router.post(
+  '/',
+  authMiddleware,
+  upload.single('photo'),
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const { place_id, type, description, latitude, longitude, severity } =
+        req.body as CreateReportBody;
 
-    // Validate input
-    if (!place_id || !type || !description || latitude === undefined || longitude === undefined) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
+      // Validate input
+      if (!place_id || !type || !description || latitude === undefined || longitude === undefined) {
+        return res.status(400).json({ error: 'Missing required fields' });
+      }
 
-    // Check if place exists
-    const placeCheck = await query('SELECT id FROM places WHERE id = $1', [place_id]);
-    if (placeCheck.rows.length === 0) {
-      return res.status(400).json({ error: 'Place not found' });
-    }
+      // Check if place exists
+      const placeCheck = await query('SELECT id FROM places WHERE id = $1', [place_id]);
+      if (placeCheck.rows.length === 0) {
+        return res.status(400).json({ error: 'Place not found' });
+      }
 
-    // Create report
-    const result = await query(
-      `INSERT INTO reports (user_id, place_id, type, description, latitude, longitude, severity, status)
+      // Create report
+      const result = await query(
+        `INSERT INTO reports (user_id, place_id, type, description, latitude, longitude, severity, status)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
        RETURNING id, user_id, place_id, type, description, latitude, longitude, status, severity, created_at`,
-      [req.user?.id || null, place_id, type, description, latitude, longitude, severity || 1, 'pending']
-    );
-
-    const report = result.rows[0];
-
-    // Upload photo if provided
-    if (req.file) {
-      await query(
-        'INSERT INTO report_photos (report_id, file_path, file_name) VALUES ($1, $2, $3)',
-        [report.id, req.file.path, req.file.originalname]
+        [
+          req.user?.id || null,
+          place_id,
+          type,
+          description,
+          latitude,
+          longitude,
+          severity || 1,
+          'pending',
+        ]
       );
-    }
 
-    // Update report counts
-    await updatePlaceReportCount(place_id);
-    
-    // Get city id and update city report count
-    const placeResult = await query('SELECT city_id FROM places WHERE id = $1', [place_id]);
-    if (placeResult.rows.length > 0) {
-      await updateCityReportCount(placeResult.rows[0].city_id);
-    }
+      const report = result.rows[0];
 
-    // Invalidate caches
-    await redis.delete(`place:${place_id}`);
-    await redis.delete('places:all');
-    await redis.delete('cities:all');
-    if (placeResult.rows[0]?.city_id) {
-      await redis.delete(`city:${placeResult.rows[0].city_id}`);
-    }
+      // Upload photo if provided
+      if (req.file) {
+        await query(
+          'INSERT INTO report_photos (report_id, file_path, file_name) VALUES ($1, $2, $3)',
+          [report.id, req.file.path, req.file.originalname]
+        );
+      }
 
-    res.status(201).json(report);
-  } catch (error) {
-    console.error('Error creating report:', error);
-    res.status(500).json({ error: 'Failed to create report' });
+      // Update report counts
+      await updatePlaceReportCount(place_id);
+
+      // Get city id and update city report count
+      const placeResult = await query('SELECT city_id FROM places WHERE id = $1', [place_id]);
+      if (placeResult.rows.length > 0) {
+        await updateCityReportCount(placeResult.rows[0].city_id);
+      }
+
+      // Invalidate caches
+      await redis.delete(`place:${place_id}`);
+      await redis.delete('places:all');
+      await redis.delete('cities:all');
+      if (placeResult.rows[0]?.city_id) {
+        await redis.delete(`city:${placeResult.rows[0].city_id}`);
+      }
+
+      res.status(201).json(report);
+    } catch (error) {
+      console.error('Error creating report:', error);
+      res.status(500).json({ error: 'Failed to create report' });
+    }
   }
-});
+);
 
 // Get reports (with filtering)
 router.get('/', async (req: Request, res: Response) => {
@@ -141,7 +161,8 @@ router.get('/', async (req: Request, res: Response) => {
               u.full_name as reporter_name,
               u.email as reporter_email,
               r.type, r.description, r.latitude, r.longitude, 
-              r.status, r.severity, r.created_at, r.updated_at, r.verified_at, r.verified_by
+              r.status, r.severity, r.created_at, r.updated_at, r.verified_at, r.verified_by,
+              (SELECT rp.file_path FROM report_photos rp WHERE rp.report_id = r.id LIMIT 1) as photo_path
        FROM reports r
        JOIN places p ON r.place_id = p.id
        JOIN cities c ON p.city_id = c.id
@@ -158,7 +179,7 @@ router.get('/', async (req: Request, res: Response) => {
        JOIN places p ON r.place_id = p.id
        JOIN cities c ON p.city_id = c.id
        LEFT JOIN users u ON r.user_id = u.id
-       ${whereClause}`, 
+       ${whereClause}`,
       params.slice(0, -2)
     );
     const total = parseInt(countResult.rows[0].total);
@@ -201,7 +222,10 @@ router.get('/:id', async (req: Request, res: Response) => {
     }
 
     // Get photos
-    const photosResult = await query('SELECT id, file_path, file_name FROM report_photos WHERE report_id = $1', [id]);
+    const photosResult = await query(
+      'SELECT id, file_path, file_name FROM report_photos WHERE report_id = $1',
+      [id]
+    );
 
     const report = {
       ...reportResult.rows[0],
@@ -216,83 +240,93 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 // Verify report (admin only)
-router.patch('/:id/verify', authMiddleware, adminMiddleware, async (req: AuthRequest, res: Response) => {
-  try {
-    const { id } = req.params;
+router.patch(
+  '/:id/verify',
+  authMiddleware,
+  adminMiddleware,
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const { id } = req.params;
 
-    if (!req.user?.id) {
-      return res.status(401).json({ error: 'User not authenticated' });
-    }
+      if (!req.user?.id) {
+        return res.status(401).json({ error: 'User not authenticated' });
+      }
 
-    // Get report and place
-    const reportResult = await query('SELECT place_id FROM reports WHERE id = $1', [id]);
-    if (reportResult.rows.length === 0) {
-      return res.status(404).json({ error: 'Report not found' });
-    }
+      // Get report and place
+      const reportResult = await query('SELECT place_id FROM reports WHERE id = $1', [id]);
+      if (reportResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Report not found' });
+      }
 
-    const placeId = reportResult.rows[0].place_id;
+      const placeId = reportResult.rows[0].place_id;
 
-    // Update report
-    const result = await query(
-      `UPDATE reports 
+      // Update report
+      const result = await query(
+        `UPDATE reports 
        SET status = $1, verified_at = CURRENT_TIMESTAMP, verified_by = $2, updated_at = CURRENT_TIMESTAMP
        WHERE id = $3
        RETURNING *`,
-      ['verified', req.user.id, id]
-    );
+        ['verified', req.user.id, id]
+      );
 
-    // Recalculate safety scores
-    await updatePlaceSafetyScore(placeId);
+      // Recalculate safety scores
+      await updatePlaceSafetyScore(placeId);
 
-    // Get city id to update city score and counts
-    const placeInfoResult = await query('SELECT city_id FROM places WHERE id = $1', [placeId]);
-    if (placeInfoResult.rows.length > 0) {
-      await updateCitySafetyScore(placeInfoResult.rows[0].city_id);
-      await updateCityReportCount(placeInfoResult.rows[0].city_id);
+      // Get city id to update city score and counts
+      const placeInfoResult = await query('SELECT city_id FROM places WHERE id = $1', [placeId]);
+      if (placeInfoResult.rows.length > 0) {
+        await updateCitySafetyScore(placeInfoResult.rows[0].city_id);
+        await updateCityReportCount(placeInfoResult.rows[0].city_id);
+      }
+
+      // Invalidate caches
+      await redis.delete(`place:${placeId}`);
+      await redis.delete('places:all');
+      await redis.delete('cities:all');
+      await redis.delete(`city:${placeInfoResult.rows[0]?.city_id}`);
+
+      res.json(result.rows[0]);
+    } catch (error) {
+      console.error('Error verifying report:', error);
+      res.status(500).json({ error: 'Failed to verify report' });
     }
-
-    // Invalidate caches
-    await redis.delete(`place:${placeId}`);
-    await redis.delete('places:all');
-    await redis.delete('cities:all');
-    await redis.delete(`city:${placeInfoResult.rows[0]?.city_id}`);
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error('Error verifying report:', error);
-    res.status(500).json({ error: 'Failed to verify report' });
   }
-});
+);
 
 // Reject report (admin only)
-router.patch('/:id/reject', authMiddleware, adminMiddleware, async (req: AuthRequest, res: Response) => {
-  try {
-    const { id } = req.params;
+router.patch(
+  '/:id/reject',
+  authMiddleware,
+  adminMiddleware,
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const { id } = req.params;
 
-    if (!req.user?.id) {
-      return res.status(401).json({ error: 'User not authenticated' });
-    }
+      if (!req.user?.id) {
+        return res.status(401).json({ error: 'User not authenticated' });
+      }
 
-    const result = await query(
-      `UPDATE reports 
+      const result = await query(
+        `UPDATE reports 
        SET status = $1, verified_at = CURRENT_TIMESTAMP, verified_by = $2, updated_at = CURRENT_TIMESTAMP
        WHERE id = $3
        RETURNING *`,
-      ['rejected', req.user.id, id]
-    );
+        ['rejected', req.user.id, id]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Report not found' });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Report not found' });
+      }
+
+      // Invalidate cache
+      await redis.delete('places:all');
+
+      res.json(result.rows[0]);
+    } catch (error) {
+      console.error('Error rejecting report:', error);
+      res.status(500).json({ error: 'Failed to reject report' });
     }
-
-    // Invalidate cache
-    await redis.delete('places:all');
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error('Error rejecting report:', error);
-    res.status(500).json({ error: 'Failed to reject report' });
   }
-});
+);
 
 export default router;

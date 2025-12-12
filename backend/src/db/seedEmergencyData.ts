@@ -7,19 +7,19 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function seedEmergencyData() {
   const client = await pool.connect();
-  
+
   try {
     // Read data.json from app directory
     const dataPath = path.join(__dirname, '../../data.json');
     console.log(`Reading from: ${dataPath}`);
     const rawData = fs.readFileSync(dataPath, 'utf-8');
     const data = JSON.parse(rawData);
-    
+
     console.log(`📊 Found ${data.length} places with emergency data\n`);
-    
+
     let emergencyCount = 0;
     let hospitalCount = 0;
-    
+
     for (const place of data) {
       // Insert emergency services
       if (place.emergency) {
@@ -42,12 +42,12 @@ async function seedEmergencyData() {
             place.nearest_police?.lat || null,
             place.nearest_police?.lon || null,
             place.nearest_police?.osm_type || null,
-            place.nearest_police?.osm_id || null
+            place.nearest_police?.osm_id || null,
           ]
         );
         emergencyCount++;
       }
-      
+
       // Insert hospitals
       if (place.nearest_hospitals && Array.isArray(place.nearest_hospitals)) {
         for (const hospital of place.nearest_hospitals) {
@@ -66,17 +66,16 @@ async function seedEmergencyData() {
               hospital.osm_id || null,
               hospital.tags?.['addr:full'] || hospital.tags?.['addr:street'] || null,
               hospital.tags?.['contact:phone'] || null,
-              hospital.tags?.description || null
+              hospital.tags?.description || null,
             ]
           );
           hospitalCount++;
         }
       }
     }
-    
+
     console.log(`✅ Seeded ${emergencyCount} emergency service records`);
     console.log(`✅ Seeded ${hospitalCount} hospital records\n`);
-    
   } catch (error) {
     console.error('❌ Error seeding data:', error);
     throw error;

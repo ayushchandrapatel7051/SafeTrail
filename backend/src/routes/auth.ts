@@ -42,7 +42,8 @@ router.post('/admin/login', async (req, res) => {
 
     // For simplicity, also accept hardcoded credentials
     const ADMIN_PASSWORD = 'admin';
-    const isPasswordValid = password === ADMIN_PASSWORD || await bcrypt.compare(password, adminUser.password_hash);
+    const isPasswordValid =
+      password === ADMIN_PASSWORD || (await bcrypt.compare(password, adminUser.password_hash));
 
     if (!isPasswordValid || username !== 'admin') {
       return res.status(401).json({ error: 'Invalid admin credentials' });
@@ -141,10 +142,9 @@ router.post('/verify-otp', async (req, res) => {
     }
 
     // Find user
-    const userResult = await query(
-      'SELECT id, email, full_name FROM users WHERE email = $1',
-      [email]
-    );
+    const userResult = await query('SELECT id, email, full_name FROM users WHERE email = $1', [
+      email,
+    ]);
 
     if (userResult.rows.length === 0) {
       return res.status(400).json({ error: 'User not found' });
@@ -179,18 +179,16 @@ router.post('/verify-otp', async (req, res) => {
     // Verify OTP
     if (otpRecord.otp !== otp) {
       // Increment attempts
-      await query(
-        'UPDATE email_verification_otp SET attempts = attempts + 1 WHERE id = $1',
-        [otpRecord.id]
-      );
+      await query('UPDATE email_verification_otp SET attempts = attempts + 1 WHERE id = $1', [
+        otpRecord.id,
+      ]);
       return res.status(400).json({ error: 'Invalid OTP. Please try again.' });
     }
 
     // Mark email as verified
-    await query(
-      'UPDATE users SET email_verified = true, email_verified_at = NOW() WHERE id = $1',
-      [user.id]
-    );
+    await query('UPDATE users SET email_verified = true, email_verified_at = NOW() WHERE id = $1', [
+      user.id,
+    ]);
 
     // Delete the OTP record
     await query('DELETE FROM email_verification_otp WHERE id = $1', [otpRecord.id]);
@@ -259,9 +257,10 @@ router.post('/login', async (req, res) => {
     }
 
     // Find user
-    const result = await query('SELECT id, email, password_hash, full_name, role, email_verified FROM users WHERE email = $1', [
-      email,
-    ]);
+    const result = await query(
+      'SELECT id, email, password_hash, full_name, role, email_verified FROM users WHERE email = $1',
+      [email]
+    );
 
     if (result.rows.length === 0) {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -271,10 +270,10 @@ router.post('/login', async (req, res) => {
 
     // Check if email is verified
     if (!user.email_verified) {
-      return res.status(403).json({ 
+      return res.status(403).json({
         error: 'Please verify your email before logging in',
         code: 'EMAIL_NOT_VERIFIED',
-        email: user.email
+        email: user.email,
       });
     }
 
@@ -364,13 +363,12 @@ router.post('/verify-login-otp', async (req, res) => {
     // Verify OTP
     if (otpRecord.otp !== otp) {
       // Increment attempts
-      await query(
-        'UPDATE email_verification_otp SET attempts = attempts + 1 WHERE id = $1',
-        [otpRecord.id]
-      );
+      await query('UPDATE email_verification_otp SET attempts = attempts + 1 WHERE id = $1', [
+        otpRecord.id,
+      ]);
       const remainingAttempts = 5 - (otpRecord.attempts + 1);
-      return res.status(400).json({ 
-        error: `Invalid OTP. ${remainingAttempts} attempts remaining.` 
+      return res.status(400).json({
+        error: `Invalid OTP. ${remainingAttempts} attempts remaining.`,
       });
     }
 

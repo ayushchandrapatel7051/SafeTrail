@@ -1,21 +1,39 @@
-import { ReactNode, useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { LogOut, Menu, X, Shield, MapPin, FileText, Home, Compass, User, ChevronDown, Settings, LogOut as LogOutIcon, ChevronLeft, ChevronRight, Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { clearAuthToken } from "@/lib/api";
+import { ReactNode, useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  LogOut,
+  Menu,
+  X,
+  Shield,
+  MapPin,
+  FileText,
+  Home,
+  Compass,
+  User,
+  ChevronDown,
+  Settings,
+  LogOut as LogOutIcon,
+  ChevronLeft,
+  ChevronRight,
+  Phone,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { clearAuthToken } from '@/lib/api';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 // Check if mobile based on window width
 const useMobile = () => {
-  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
-  
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
+
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
@@ -36,12 +54,12 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
   const isMobile = useMobile();
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [userName, setUserName] = useState<string>("");
-  const [userEmail, setUserEmail] = useState<string>("");
+  const [userName, setUserName] = useState<string>('');
+  const [userEmail, setUserEmail] = useState<string>('');
 
   useEffect(() => {
-    const name = localStorage.getItem("userName") || "User";
-    const email = localStorage.getItem("userEmail") || "";
+    const name = localStorage.getItem('userName') || 'User';
+    const email = localStorage.getItem('userEmail') || '';
     setUserName(name);
     setUserEmail(email);
   }, []);
@@ -52,7 +70,7 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
     } else {
       clearAuthToken();
     }
-    navigate("/");
+    navigate('/');
   };
 
   const getUserInitials = () => {
@@ -64,23 +82,23 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
   };
 
   const navigationItems = isAdmin
-    ? [
-        { icon: Home, label: "Dashboard", href: "/admin" },
-      ]
+    ? [{ icon: Home, label: 'Dashboard', href: '/admin' }]
     : [
-        { icon: Home, label: "Dashboard", href: "/dashboard" },
-        { icon: MapPin, label: "Safety Map", href: "/map" },
-        { icon: FileText, label: "Report Issue", href: "/report" },
-        { icon: Compass, label: "Trip Planner", href: "/trip-plan" },
-        { icon: Phone, label: "Emergency", href: "/emergency" },
-        { icon: User, label: "Profile", href: "/profile" },
+        { icon: Home, label: 'Dashboard', href: '/dashboard' },
+        { icon: MapPin, label: 'Safety Map', href: '/map' },
+        { icon: FileText, label: 'Report Issue', href: '/report' },
+        { icon: Compass, label: 'Trip Planner', href: '/trip-plan' },
+        { icon: Phone, label: 'Emergency', href: '/emergency' },
+        { icon: User, label: 'Profile', href: '/profile' },
       ];
 
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar - Desktop */}
       {!isMobile && (
-        <aside className={`border-r border-border bg-card flex flex-col transition-all duration-300 ease-out ${sidebarCollapsed ? "w-20" : "w-64"} shadow-sm`}>
+        <aside
+          className={`border-r border-border bg-card flex flex-col transition-all duration-300 ease-out ${sidebarCollapsed ? 'w-20' : 'w-64'} shadow-sm`}
+        >
           {/* Header with Logo and Collapse Button */}
           <div className="h-16 border-b border-border/50 flex items-center px-4 flex-shrink-0 bg-gradient-to-r from-card to-background/50">
             <div className="flex items-center justify-between w-full">
@@ -119,15 +137,13 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
                   key={item.href}
                   onClick={() => navigate(item.href)}
                   className={`w-full flex items-center rounded-lg transition-all duration-200 text-sm font-medium ${
-                    sidebarCollapsed
-                      ? "justify-center p-3 h-12 gap-0"
-                      : "gap-3 px-3 py-2.5 h-auto"
+                    sidebarCollapsed ? 'justify-center p-3 h-12 gap-0' : 'gap-3 px-3 py-2.5 h-auto'
                   } ${
                     active
-                      ? "bg-primary/20 text-primary shadow-sm"
-                      : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+                      ? 'bg-primary/20 text-primary shadow-sm'
+                      : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'
                   }`}
-                  title={sidebarCollapsed ? item.label : ""}
+                  title={sidebarCollapsed ? item.label : ''}
                 >
                   <item.icon className="w-5 h-5 flex-shrink-0" />
                   {!sidebarCollapsed && <span className="truncate">{item.label}</span>}
@@ -142,11 +158,11 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
               onClick={handleLogout}
               className={`w-full transition-all duration-200 font-medium ${
                 sidebarCollapsed
-                  ? "justify-center p-3 h-12"
-                  : "justify-start gap-2 px-3 py-2 h-auto"
+                  ? 'justify-center p-3 h-12'
+                  : 'justify-start gap-2 px-3 py-2 h-auto'
               } bg-red-500/10 text-red-600 hover:bg-red-500/20`}
               variant="ghost"
-              title={sidebarCollapsed ? "Logout" : ""}
+              title={sidebarCollapsed ? 'Logout' : ''}
             >
               <LogOut className="w-4 h-4 flex-shrink-0" />
               {!sidebarCollapsed && <span>Logout</span>}
@@ -200,10 +216,7 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
               </Button>
             </div>
           </aside>
-          <div
-            className="flex-1 bg-black/50"
-            onClick={() => setSidebarOpen(false)}
-          />
+          <div className="flex-1 bg-black/50" onClick={() => setSidebarOpen(false)} />
         </div>
       )}
 
@@ -236,7 +249,9 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-2 px-2 cursor-pointer select-none
+                <Button
+                  variant="ghost"
+                  className="flex items-center gap-2 px-2 cursor-pointer select-none
 
 hover:bg-transparent
     hover:text-current
@@ -246,7 +261,8 @@ hover:bg-transparent
     focus:ring-0
     focus:outline-none
 
-    data-[state=open]:bg-transparent">
+    data-[state=open]:bg-transparent"
+                >
                   <Avatar className="w-8 h-8 border-2 border-primary/20">
                     <AvatarFallback className="text-xs font-bold bg-primary/20 text-primary">
                       {getUserInitials()}
@@ -266,32 +282,32 @@ hover:bg-transparent
                   <p className="text-sm font-semibold text-foreground">{userName}</p>
                   <p className="text-xs text-muted-foreground">{userEmail}</p>
                 </div>
-                
+
                 <DropdownMenuSeparator />
-                
+
                 {/* Account Info */}
-                <DropdownMenuItem 
-                  onClick={() => navigate("/profile")} 
+                <DropdownMenuItem
+                  onClick={() => navigate('/profile')}
                   className="cursor-pointer focus:bg-primary/10 focus:text-foreground transition-colors py-2"
                 >
                   <User className="w-4 h-4 mr-2" />
                   <span>Account Info</span>
                 </DropdownMenuItem>
-                
+
                 {/* Settings */}
-                <DropdownMenuItem 
-                  onClick={() => navigate("/profile")} 
+                <DropdownMenuItem
+                  onClick={() => navigate('/profile')}
                   className="cursor-pointer focus:bg-primary/10 focus:text-foreground transition-colors py-2"
                 >
                   <Settings className="w-4 h-4 mr-2" />
                   <span>Settings</span>
                 </DropdownMenuItem>
-                
+
                 <DropdownMenuSeparator />
-                
+
                 {/* Logout */}
-                <DropdownMenuItem 
-                  onClick={handleLogout} 
+                <DropdownMenuItem
+                  onClick={handleLogout}
                   className="cursor-pointer focus:bg-red-500/10 focus:text-red-600 transition-colors py-2 text-red-600"
                 >
                   <LogOutIcon className="w-4 h-4 mr-2" />
@@ -303,9 +319,7 @@ hover:bg-transparent
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-auto">
-          {children}
-        </main>
+        <main className="flex-1 overflow-auto">{children}</main>
       </div>
     </div>
   );

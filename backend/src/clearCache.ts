@@ -5,7 +5,7 @@ import { redis } from './lib/redis.js';
     // Clear emergency cache by deleting specific pattern keys
     const patterns = ['emergency:city:', 'emergency:place:', 'emergency:search:'];
     let cleared = 0;
-    
+
     for (const pattern of patterns) {
       // Delete known city IDs (1-4 for our cities)
       for (let i = 1; i <= 10; i++) {
@@ -13,7 +13,7 @@ import { redis } from './lib/redis.js';
         cleared++;
       }
     }
-    
+
     console.log(`✅ Cleared ${cleared} potential emergency cache keys`);
     process.exit(0);
   } catch (error) {

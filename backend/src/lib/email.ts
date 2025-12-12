@@ -83,7 +83,9 @@ export const sendVerificationOTP = async (email: string, otp: string, fullName: 
     return info;
   } catch (error) {
     console.error('❌ Error sending OTP email:', error);
-    throw new Error(`Failed to send verification OTP: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to send verification OTP: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 };
 
@@ -139,6 +141,8 @@ export const sendPasswordResetEmail = async (email: string, token: string, fullN
     return info;
   } catch (error) {
     console.error('❌ Error sending password reset email:', error);
-    throw new Error(`Failed to send password reset email: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Failed to send password reset email: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 };

@@ -1,11 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { WebSocketServer, WebSocket } from 'ws';
 import { createServer } from 'http';
 import { runMigrations } from './db/migrations.js';
 import { manualMigration } from './db/manualMigration.js';
 import { query } from './db/connection.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Routes
 import authRoutes from './routes/auth.js';
@@ -16,6 +20,7 @@ import alertsRoutes from './routes/alerts.js';
 import adminRoutes from './routes/admin.js';
 import attractionsRoutes from './routes/attractions.js';
 import emergencyRoutes from './routes/emergency.js';
+import tripPlansRoutes from './routes/tripPlans.js';
 
 dotenv.config();
 
@@ -24,12 +29,17 @@ const server = createServer(app);
 const wss = new WebSocketServer({ server });
 
 // Middleware
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || '*',
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.static('public'));
+
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -40,6 +50,7 @@ app.use('/api/alerts', alertsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/attractions', attractionsRoutes);
 app.use('/api/emergency', emergencyRoutes);
+app.use('/api/trip-plans', tripPlansRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
@@ -57,7 +68,7 @@ wss.on('connection', (ws: WebSocket) => {
     try {
       const message = JSON.parse(data.toString());
       console.log('Received message:', message);
-      
+
       // Handle different message types
       switch (message.type) {
         case 'subscribe':
@@ -88,9 +99,10 @@ export function broadcastAlert(alert: Record<string, any>) {
     type: 'alert:new',
     data: alert,
   });
-  
+
   connectedClients.forEach((client) => {
-    if (client.readyState === 1) { // WebSocket.OPEN
+    if (client.readyState === 1) {
+      // WebSocket.OPEN
       client.send(message);
     }
   });
@@ -102,7 +114,7 @@ export function broadcastReportUpdate(report: Record<string, any>) {
     type: 'report:updated',
     data: report,
   });
-  
+
   connectedClients.forEach((client) => {
     if (client.readyState === 1) {
       client.send(message);
@@ -123,10 +135,10 @@ async function start() {
   try {
     console.log('🔄 Initializing database...');
     await runMigrations();
-    
+
     console.log('🔄 Running manual migrations...');
     await manualMigration();
-    
+
     const PORT = parseInt(process.env.PORT || '3000');
     server.listen(PORT, () => {
       console.log(`✅ Server running on http://localhost:${PORT}`);

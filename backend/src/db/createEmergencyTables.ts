@@ -2,10 +2,10 @@ import pool from './connection';
 
 async function createEmergencyServicesTable() {
   const client = await pool.connect();
-  
+
   try {
     console.log('🏥 Creating emergency_services table...\n');
-    
+
     // Create table
     await client.query(`
       CREATE TABLE IF NOT EXISTS emergency_services (
@@ -26,17 +26,17 @@ async function createEmergencyServicesTable() {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    
+
     console.log('✅ Created emergency_services table');
-    
+
     // Create indexes
     await client.query(`
       CREATE INDEX IF NOT EXISTS idx_emergency_services_place_id 
       ON emergency_services(place_id)
     `);
-    
+
     console.log('✅ Created indexes');
-    
+
     // Create hospitals table
     await client.query(`
       CREATE TABLE IF NOT EXISTS hospitals (
@@ -54,22 +54,21 @@ async function createEmergencyServicesTable() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    
+
     console.log('✅ Created hospitals table');
-    
+
     // Create index on hospitals
     await client.query(`
       CREATE INDEX IF NOT EXISTS idx_hospitals_place_id 
       ON hospitals(place_id)
     `);
-    
+
     await client.query(`
       CREATE INDEX IF NOT EXISTS idx_hospitals_location 
       ON hospitals(latitude, longitude)
     `);
-    
+
     console.log('✅ Created hospital indexes\n');
-    
   } catch (error) {
     console.error('❌ Error creating tables:', error);
     throw error;

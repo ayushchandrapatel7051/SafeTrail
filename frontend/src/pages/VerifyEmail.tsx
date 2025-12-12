@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { Shield, Mail, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
+import { Shield, Mail, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
@@ -15,11 +15,12 @@ export default function VerifyEmail() {
   const [otp, setOtp] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
-  const [verificationStatus, setVerificationStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [verificationStatus, setVerificationStatus] = useState<'idle' | 'success' | 'error'>(
+    'idle'
+  );
   const [errorMessage, setErrorMessage] = useState('');
-  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(600);
 
-  // Countdown timer for OTP expiration
   useEffect(() => {
     if (timeLeft <= 0) return;
     const timer = setInterval(() => {
@@ -132,7 +133,9 @@ export default function VerifyEmail() {
                 <CheckCircle className="w-12 h-12 text-green-500 mx-auto" />
                 <div>
                   <h2 className="text-lg font-semibold text-green-600 mb-2">Email Verified!</h2>
-                  <p className="text-gray-600">Your email has been successfully verified. Redirecting to login...</p>
+                  <p className="text-gray-600">
+                    Your email has been successfully verified. Redirecting to login...
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -158,7 +161,9 @@ export default function VerifyEmail() {
 
               <form onSubmit={handleVerifyOTP} className="space-y-4">
                 <div>
-                  <label className="text-xs font-medium text-gray-300 mb-2 block">Email Address</label>
+                  <label className="text-xs font-medium text-gray-300 mb-2 block">
+                    Email Address
+                  </label>
                   <Input
                     type="email"
                     placeholder="Enter your email"
@@ -172,7 +177,9 @@ export default function VerifyEmail() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-xs font-medium text-gray-300">Verification Code</label>
-                    <span className={`text-xs font-semibold ${timeLeft < 60 ? 'text-red-400' : 'text-gray-400'}`}>
+                    <span
+                      className={`text-xs font-semibold ${timeLeft < 60 ? 'text-red-400' : 'text-gray-400'}`}
+                    >
                       {formatTime(timeLeft)}
                     </span>
                   </div>
@@ -234,7 +241,8 @@ export default function VerifyEmail() {
         {/* Back to Login */}
         {verificationStatus !== 'success' && (
           <div className="mt-6 text-center">
-            <p className="text-gray-400">Already have an account? {' '}
+            <p className="text-gray-400">
+              Already have an account?{' '}
               <Link to="/login" className="text-green-500 hover:text-green-400 font-semibold">
                 Login here
               </Link>

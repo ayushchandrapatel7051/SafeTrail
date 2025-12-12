@@ -122,8 +122,16 @@ export const reports = {
     });
   },
 
-  getAll: (params?: { status?: string; place_id?: number; type?: string; limit?: number; offset?: number }) =>
-    apiCall(`/reports${params ? `?${new URLSearchParams(params as unknown as Record<string, string>).toString()}` : ''}`),
+  getAll: (params?: {
+    status?: string;
+    place_id?: number;
+    type?: string;
+    limit?: number;
+    offset?: number;
+  }) =>
+    apiCall(
+      `/reports${params ? `?${new URLSearchParams(params as unknown as Record<string, string>).toString()}` : ''}`
+    ),
 
   getById: (id: number) => apiCall(`/reports/${id}`),
 
@@ -141,7 +149,9 @@ export const reports = {
 // Alerts endpoints
 export const alerts = {
   getAll: (params?: { limit?: number; offset?: number }) =>
-    apiCall(`/alerts${params ? `?${new URLSearchParams(params as unknown as Record<string, string>).toString()}` : ''}`),
+    apiCall(
+      `/alerts${params ? `?${new URLSearchParams(params as unknown as Record<string, string>).toString()}` : ''}`
+    ),
 
   create: (title: string, body: string, severity: number) =>
     apiCall('/alerts', {

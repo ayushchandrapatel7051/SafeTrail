@@ -1,4 +1,4 @@
-import { Shield } from "lucide-react";
+import { Shield } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -15,15 +15,19 @@ const Footer = () => {
 
           {/* Links */}
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
-            <a href="#" className="hover:text-foreground transition-colors">Terms</a>
-            <a href="#" className="hover:text-foreground transition-colors">Contact</a>
+            <a href="#" className="hover:text-foreground transition-colors">
+              Privacy
+            </a>
+            <a href="#" className="hover:text-foreground transition-colors">
+              Terms
+            </a>
+            <a href="#" className="hover:text-foreground transition-colors">
+              Contact
+            </a>
           </div>
 
           {/* Copyright */}
-          <p className="text-sm text-muted-foreground">
-            © 2024 SafeTrail. All rights reserved.
-          </p>
+          <p className="text-sm text-muted-foreground">© 2024 SafeTrail. All rights reserved.</p>
         </div>
       </div>
     </footer>

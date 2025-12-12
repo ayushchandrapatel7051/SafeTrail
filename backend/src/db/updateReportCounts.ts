@@ -44,23 +44,22 @@ const reportData = [
 
 async function updateReportCounts() {
   const client = await pool.connect();
-  
+
   try {
     console.log('🔄 Updating report counts from crime data...\n');
-    
+
     let updated = 0;
     for (const place of reportData) {
-      await client.query(
-        'UPDATE places SET report_count = $1 WHERE id = $2',
-        [place.report_count, place.id]
-      );
-      
+      await client.query('UPDATE places SET report_count = $1 WHERE id = $2', [
+        place.report_count,
+        place.id,
+      ]);
+
       console.log(`✓ ${place.name.padEnd(35)} | Reports: ${place.report_count}`);
       updated++;
     }
-    
+
     console.log(`\n✅ Updated ${updated} places with crime report counts`);
-    
   } catch (error) {
     console.error('❌ Error updating report counts:', error);
     throw error;

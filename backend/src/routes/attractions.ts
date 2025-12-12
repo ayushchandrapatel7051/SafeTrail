@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
 router.get('/city/:cityId', async (req, res) => {
   try {
     const { cityId } = req.params;
-    
+
     const cacheKey = `attractions:city:${cityId}`;
     const cached = await redis.get(cacheKey);
     if (cached) {

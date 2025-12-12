@@ -1,16 +1,42 @@
-import { useState, useMemo, useEffect } from "react";
-import DashboardLayout from "@/components/DashboardLayout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Checkbox } from "@/components/ui/checkbox";
-import { MapPin, Wallet, AlertCircle, Star, MapPinIcon, Calendar, Users, Trash2, Plus, CheckCircle, AlertTriangle, ArrowLeft } from "lucide-react";
-import { cities, places } from "@/data/mockData";
-import { citiesApi, attractionsApi } from "@/lib/api";
+import { useState, useMemo, useEffect } from 'react';
+import DashboardLayout from '@/components/DashboardLayout';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  MapPin,
+  Wallet,
+  AlertCircle,
+  Star,
+  MapPinIcon,
+  Calendar,
+  Users,
+  Trash2,
+  Plus,
+  CheckCircle,
+  AlertTriangle,
+  ArrowLeft,
+} from 'lucide-react';
+import { cities, places } from '@/data/mockData';
+import { citiesApi, attractionsApi } from '@/lib/api';
 
 interface TripGuide {
   city: string;
@@ -46,11 +72,11 @@ interface Traveler {
 }
 
 export default function TripPlan() {
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('');
   const [tripDuration, setTripDuration] = useState<number>(3);
   const [travelers, setTravelers] = useState<Traveler[]>([
-    { id: "1", name: "Traveler 1", ageGroup: "", budget: 0, priorities: [] },
+    { id: '1', name: 'Traveler 1', ageGroup: '', budget: 0, priorities: [] },
   ]);
   const [tripGuide, setTripGuide] = useState<TripGuide | null>(null);
   const [itinerary, setItinerary] = useState<ItineraryItem[]>([]);
@@ -68,13 +94,13 @@ export default function TripPlan() {
         setAttractions([]);
         return;
       }
-      
+
       setIsLoadingAttractions(true);
       try {
         const data = await attractionsApi.getByCityId(Number(selectedCity));
         setAttractions(data);
       } catch (error) {
-        console.error("Failed to fetch attractions:", error);
+        console.error('Failed to fetch attractions:', error);
         setAttractions([]);
       } finally {
         setIsLoadingAttractions(false);
@@ -117,7 +143,7 @@ export default function TripPlan() {
     const greatPlaces = attractions
       .sort((a, b) => (b.rating || 0) - (a.rating || 0))
       .slice(0, 8)
-      .map(attraction => ({
+      .map((attraction) => ({
         id: attraction.id,
         name: attraction.name,
         type: attraction.category?.toLowerCase() || 'tourist_spot',
@@ -133,31 +159,33 @@ export default function TripPlan() {
 
     // Generate safety tips based on city's safety score and traveler preferences
     const tips: string[] = [];
-    const allPriorities = travelers.flatMap(t => t.priorities || []);
-    
+    const allPriorities = travelers.flatMap((t) => t.priorities || []);
+
     if (cityDetails.safetyScore >= 75) {
-      tips.push("This city is relatively safe. Still, avoid walking alone at night in unfamiliar areas.");
-      tips.push("Use registered taxis or ride-sharing apps for transportation.");
+      tips.push(
+        'This city is relatively safe. Still, avoid walking alone at night in unfamiliar areas.'
+      );
+      tips.push('Use registered taxis or ride-sharing apps for transportation.');
     } else if (cityDetails.safetyScore >= 50) {
-      tips.push("Exercise caution, especially in certain neighborhoods.");
-      tips.push("Avoid carrying large amounts of cash or valuable items.");
-      tips.push("Stay aware of your surroundings, especially at night.");
+      tips.push('Exercise caution, especially in certain neighborhoods.');
+      tips.push('Avoid carrying large amounts of cash or valuable items.');
+      tips.push('Stay aware of your surroundings, especially at night.');
     } else {
-      tips.push("This area has some safety concerns. Stay with trusted locals when possible.");
-      tips.push("Use official transportation and registered guides for tours.");
-      tips.push("Avoid isolated areas, particularly after dark.");
+      tips.push('This area has some safety concerns. Stay with trusted locals when possible.');
+      tips.push('Use official transportation and registered guides for tours.');
+      tips.push('Avoid isolated areas, particularly after dark.');
     }
-    
+
     // Add preference-based tips
-    if (allPriorities.includes("Nightlife")) {
-      tips.push("Research safe nightlife areas and avoid wandering alone at night.");
+    if (allPriorities.includes('Nightlife')) {
+      tips.push('Research safe nightlife areas and avoid wandering alone at night.');
     }
-    if (allPriorities.includes("Culture & History")) {
-      tips.push("Visit museums and cultural sites during daytime for better experience.");
+    if (allPriorities.includes('Culture & History')) {
+      tips.push('Visit museums and cultural sites during daytime for better experience.');
     }
-    
-    tips.push("Keep emergency numbers saved in your phone.");
-    tips.push("Share your itinerary with friends or family.");
+
+    tips.push('Keep emergency numbers saved in your phone.');
+    tips.push('Share your itinerary with friends or family.');
 
     const guide: TripGuide = {
       city: cityDetails.name,
@@ -179,7 +207,7 @@ export default function TripPlan() {
     const newTraveler: Traveler = {
       id: Date.now().toString(),
       name: `Traveler ${travelers.length + 1}`,
-      ageGroup: "",
+      ageGroup: '',
       budget: 0,
       priorities: [],
     };
@@ -193,9 +221,7 @@ export default function TripPlan() {
   };
 
   const updateTraveler = (id: string, updates: Partial<Traveler>) => {
-    setTravelers(
-      travelers.map((t) => (t.id === id ? { ...t, ...updates } : t))
-    );
+    setTravelers(travelers.map((t) => (t.id === id ? { ...t, ...updates } : t)));
   };
 
   const togglePriority = (travelerId: string, priority: string) => {
@@ -225,8 +251,8 @@ export default function TripPlan() {
     const newItem: ItineraryItem = {
       id: `${place.id}-${Date.now()}`,
       place,
-      timeSlot: "Morning",
-      notes: "",
+      timeSlot: 'Morning',
+      notes: '',
     };
     setItinerary([...itinerary, { ...newItem }]);
   };
@@ -245,22 +271,22 @@ export default function TripPlan() {
 
   const handleSavePlan = () => {
     // Here you would typically save the plan to the backend
-    console.log("Plan saved:", { tripGuide, itinerary, tripDuration, travelers, totalBudget });
+    console.log('Plan saved:', { tripGuide, itinerary, tripDuration, travelers, totalBudget });
     setShowConfirmation(false);
     // Show success message
-    alert("Trip plan saved successfully!");
+    alert('Trip plan saved successfully!');
   };
 
   const getSafetyColor = (score: number) => {
-    if (score >= 75) return "text-green-600";
-    if (score >= 50) return "text-yellow-600";
-    return "text-red-600";
+    if (score >= 75) return 'text-green-600';
+    if (score >= 50) return 'text-yellow-600';
+    return 'text-red-600';
   };
 
   const getSafetyBadge = (score: number) => {
-    if (score >= 75) return "Safe";
-    if (score >= 50) return "Moderate";
-    return "Caution";
+    if (score >= 75) return 'Safe';
+    if (score >= 50) return 'Moderate';
+    return 'Caution';
   };
 
   return (
@@ -269,7 +295,9 @@ export default function TripPlan() {
         {/* Header */}
         <div className="text-center py-8">
           <h1 className="text-4xl font-bold mb-2">Trip Planner</h1>
-          <p className="text-muted-foreground text-lg">Create a personalized and safe travel itinerary</p>
+          <p className="text-muted-foreground text-lg">
+            Create a personalized and safe travel itinerary
+          </p>
         </div>
 
         {!tripGuide ? (
@@ -277,7 +305,9 @@ export default function TripPlan() {
           <Card className="border-2 shadow-lg">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50">
               <CardTitle className="text-2xl">Plan Your Adventure</CardTitle>
-              <CardDescription>Provide your trip details to get personalized recommendations</CardDescription>
+              <CardDescription>
+                Provide your trip details to get personalized recommendations
+              </CardDescription>
             </CardHeader>
             <CardContent className="pt-8">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -309,7 +339,9 @@ export default function TripPlan() {
                     </Label>
                     <Select value={selectedCity} onValueChange={setSelectedCity}>
                       <SelectTrigger id="city" disabled={!selectedCountry} className="h-11">
-                        <SelectValue placeholder={selectedCountry ? "Select a city" : "Select a country first"} />
+                        <SelectValue
+                          placeholder={selectedCountry ? 'Select a city' : 'Select a country first'}
+                        />
                       </SelectTrigger>
                       <SelectContent>
                         {citiesInCountry.map((city) => (
@@ -323,7 +355,10 @@ export default function TripPlan() {
 
                   {/* Trip Duration */}
                   <div className="space-y-3">
-                    <Label htmlFor="duration" className="text-base font-semibold flex items-center gap-2">
+                    <Label
+                      htmlFor="duration"
+                      className="text-base font-semibold flex items-center gap-2"
+                    >
                       <Calendar className="w-4 h-4" />
                       Trip Duration (Days)
                     </Label>
@@ -350,12 +385,7 @@ export default function TripPlan() {
                         <Users className="w-4 h-4" />
                         Trip Companions
                       </Label>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={addTraveler}
-                        className="h-8"
-                      >
+                      <Button size="sm" variant="outline" onClick={addTraveler} className="h-8">
                         <Plus className="w-3 h-3 mr-1" />
                         Add Traveler
                       </Button>
@@ -369,7 +399,9 @@ export default function TripPlan() {
                               <Input
                                 placeholder="Traveler name"
                                 value={traveler.name}
-                                onChange={(e) => updateTraveler(traveler.id, { name: e.target.value })}
+                                onChange={(e) =>
+                                  updateTraveler(traveler.id, { name: e.target.value })
+                                }
                                 className="text-sm h-9"
                               />
                               {travelers.length > 1 && (
@@ -386,7 +418,9 @@ export default function TripPlan() {
 
                             {/* Age Group */}
                             <div className="space-y-2">
-                              <Label className="text-xs font-semibold text-gray-700">Age Group</Label>
+                              <Label className="text-xs font-semibold text-gray-700">
+                                Age Group
+                              </Label>
                               <Select
                                 value={traveler.ageGroup}
                                 onValueChange={(value) =>
@@ -408,11 +442,13 @@ export default function TripPlan() {
 
                             {/* Budget */}
                             <div className="space-y-2">
-                              <Label className="text-xs font-semibold text-gray-700">Personal Budget (USD)</Label>
+                              <Label className="text-xs font-semibold text-gray-700">
+                                Personal Budget (USD)
+                              </Label>
                               <Input
                                 type="number"
                                 placeholder="e.g., 500"
-                                value={traveler.budget || ""}
+                                value={traveler.budget || ''}
                                 onChange={(e) =>
                                   updateTraveler(traveler.id, { budget: Number(e.target.value) })
                                 }
@@ -423,23 +459,29 @@ export default function TripPlan() {
 
                             {/* Priorities */}
                             <div className="space-y-2">
-                              <Label className="text-xs font-semibold text-gray-700">Preferences</Label>
+                              <Label className="text-xs font-semibold text-gray-700">
+                                Preferences
+                              </Label>
                               <div className="space-y-2">
-                                {["Safety", "Tourist Places", "Nightlife", "Culture & History"].map((priority) => (
-                                  <div key={priority} className="flex items-center gap-2">
-                                    <Checkbox
-                                      id={`${traveler.id}-${priority}`}
-                                      checked={traveler.priorities?.includes(priority) || false}
-                                      onCheckedChange={() => togglePriority(traveler.id, priority)}
-                                    />
-                                    <label
-                                      htmlFor={`${traveler.id}-${priority}`}
-                                      className="text-xs cursor-pointer text-gray-700"
-                                    >
-                                      {priority}
-                                    </label>
-                                  </div>
-                                ))}
+                                {['Safety', 'Tourist Places', 'Nightlife', 'Culture & History'].map(
+                                  (priority) => (
+                                    <div key={priority} className="flex items-center gap-2">
+                                      <Checkbox
+                                        id={`${traveler.id}-${priority}`}
+                                        checked={traveler.priorities?.includes(priority) || false}
+                                        onCheckedChange={() =>
+                                          togglePriority(traveler.id, priority)
+                                        }
+                                      />
+                                      <label
+                                        htmlFor={`${traveler.id}-${priority}`}
+                                        className="text-xs cursor-pointer text-gray-700"
+                                      >
+                                        {priority}
+                                      </label>
+                                    </div>
+                                  )
+                                )}
                               </div>
                             </div>
                           </CardContent>
@@ -461,11 +503,15 @@ export default function TripPlan() {
                       <div className="border-t border-green-200 pt-4 space-y-3">
                         <div>
                           <p className="text-xs text-gray-600 mb-1">Per Person (Average)</p>
-                          <p className="text-xl font-bold text-green-600">${averageBudgetPerPerson}</p>
+                          <p className="text-xl font-bold text-green-600">
+                            ${averageBudgetPerPerson}
+                          </p>
                         </div>
                         <div>
                           <p className="text-xs text-gray-600 mb-1">Per Day (Total)</p>
-                          <p className="text-xl font-bold text-green-600">${Math.ceil(totalBudget / tripDuration)}</p>
+                          <p className="text-xl font-bold text-green-600">
+                            ${Math.ceil(totalBudget / tripDuration)}
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -485,12 +531,8 @@ export default function TripPlan() {
                         <p className="text-muted-foreground mb-2">Age Distribution:</p>
                         <div className="flex flex-wrap gap-1">
                           {travelers.map((t) => (
-                            <Badge
-                              key={t.id}
-                              variant="secondary"
-                              className="text-xs"
-                            >
-                              {t.ageGroup || "Not set"}
+                            <Badge key={t.id} variant="secondary" className="text-xs">
+                              {t.ageGroup || 'Not set'}
                             </Badge>
                           ))}
                         </div>
@@ -513,11 +555,7 @@ export default function TripPlan() {
           /* Trip Planning Interface */
           <div className="space-y-6">
             {/* Back Button */}
-            <Button
-              onClick={() => setTripGuide(null)}
-              variant="outline"
-              className="mb-4"
-            >
+            <Button onClick={() => setTripGuide(null)} variant="outline" className="mb-4">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Trip Planning
             </Button>
@@ -576,9 +614,13 @@ export default function TripPlan() {
                         className="p-3 bg-white border border-green-200 rounded-lg cursor-move hover:shadow-md transition hover:border-green-400"
                       >
                         <p className="font-semibold text-sm text-gray-900">{place.name}</p>
-                        <p className="text-xs text-gray-500 capitalize mb-2">{place.type.replace("_", " ")}</p>
+                        <p className="text-xs text-gray-500 capitalize mb-2">
+                          {place.type.replace('_', ' ')}
+                        </p>
                         <div className="flex items-center justify-between">
-                          <Badge className="bg-green-100 text-green-800 text-xs">{place.safetyScore}</Badge>
+                          <Badge className="bg-green-100 text-green-800 text-xs">
+                            {place.safetyScore}
+                          </Badge>
                           <Button
                             size="sm"
                             variant="ghost"
@@ -614,7 +656,9 @@ export default function TripPlan() {
                           className="p-3 bg-white border border-yellow-200 rounded-lg cursor-move hover:shadow-md transition hover:border-yellow-400"
                         >
                           <p className="font-semibold text-sm text-gray-900">{place.name}</p>
-                          <p className="text-xs text-gray-500 capitalize mb-2">{place.type.replace("_", " ")}</p>
+                          <p className="text-xs text-gray-500 capitalize mb-2">
+                            {place.type.replace('_', ' ')}
+                          </p>
                           <div className="flex items-center justify-between">
                             <Badge className="bg-yellow-100 text-yellow-800 text-xs">
                               {place.safetyScore}
@@ -660,14 +704,18 @@ export default function TripPlan() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Build Your Itinerary</CardTitle>
-                    <CardDescription>Drag places from the left or click + to add. Remove items as needed.</CardDescription>
+                    <CardDescription>
+                      Drag places from the left or click + to add. Remove items as needed.
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {itinerary.length === 0 ? (
                       <div className="text-center py-12 border-2 border-dashed border-muted rounded-lg">
                         <MapPin className="w-12 h-12 mx-auto text-muted-foreground mb-2" />
                         <p className="text-muted-foreground">No activities added yet</p>
-                        <p className="text-sm text-muted-foreground">Add places to build your itinerary</p>
+                        <p className="text-sm text-muted-foreground">
+                          Add places to build your itinerary
+                        </p>
                       </div>
                     ) : (
                       <div className="space-y-3 max-h-96 overflow-y-auto">
@@ -679,7 +727,9 @@ export default function TripPlan() {
                             <div className="flex items-start justify-between mb-3">
                               <div className="flex-1">
                                 <p className="font-semibold text-gray-900">{item.place.name}</p>
-                                <p className="text-xs text-muted-foreground capitalize">{item.place.type.replace("_", " ")}</p>
+                                <p className="text-xs text-muted-foreground capitalize">
+                                  {item.place.type.replace('_', ' ')}
+                                </p>
                               </div>
                               <Button
                                 size="sm"
@@ -726,11 +776,7 @@ export default function TripPlan() {
                 {/* Action Buttons */}
                 {itinerary.length > 0 && (
                   <div className="flex gap-3">
-                    <Button
-                      onClick={() => setTripGuide(null)}
-                      variant="outline"
-                      className="flex-1"
-                    >
+                    <Button onClick={() => setTripGuide(null)} variant="outline" className="flex-1">
                       Back to Planning
                     </Button>
                     <Button
@@ -767,7 +813,9 @@ export default function TripPlan() {
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-blue-700">Destination:</p>
-                    <p className="font-semibold">{tripGuide?.city}, {tripGuide?.country}</p>
+                    <p className="font-semibold">
+                      {tripGuide?.city}, {tripGuide?.country}
+                    </p>
                   </div>
                   <div>
                     <p className="text-blue-700">Duration:</p>
@@ -792,18 +840,29 @@ export default function TripPlan() {
                 </h3>
                 <div className="space-y-3">
                   {travelers.map((traveler) => (
-                    <div key={traveler.id} className="bg-gray-50 p-3 rounded border border-gray-200 text-sm">
+                    <div
+                      key={traveler.id}
+                      className="bg-gray-50 p-3 rounded border border-gray-200 text-sm"
+                    >
                       <div className="flex justify-between items-start mb-2">
                         <p className="font-semibold">{traveler.name}</p>
-                        <Badge className="bg-blue-100 text-blue-800 text-xs">{traveler.ageGroup}</Badge>
+                        <Badge className="bg-blue-100 text-blue-800 text-xs">
+                          {traveler.ageGroup}
+                        </Badge>
                       </div>
                       <div className="mb-2">
-                        <p className="text-xs text-gray-600">Budget: <span className="font-semibold">${traveler.budget}</span></p>
+                        <p className="text-xs text-gray-600">
+                          Budget: <span className="font-semibold">${traveler.budget}</span>
+                        </p>
                       </div>
                       {traveler.priorities && traveler.priorities.length > 0 && (
                         <div className="flex flex-wrap gap-1">
                           {traveler.priorities.map((priority) => (
-                            <Badge key={priority} variant="secondary" className="text-xs bg-green-100 text-green-800">
+                            <Badge
+                              key={priority}
+                              variant="secondary"
+                              className="text-xs bg-green-100 text-green-800"
+                            >
                               {priority}
                             </Badge>
                           ))}
@@ -848,16 +907,10 @@ export default function TripPlan() {
             </div>
 
             <DialogFooter className="gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setShowConfirmation(false)}
-              >
+              <Button variant="outline" onClick={() => setShowConfirmation(false)}>
                 Edit Plan
               </Button>
-              <Button
-                onClick={handleSavePlan}
-                className="bg-green-600 hover:bg-green-700"
-              >
+              <Button onClick={handleSavePlan} className="bg-green-600 hover:bg-green-700">
                 <CheckCircle className="w-4 h-4 mr-2" />
                 Save Trip Plan
               </Button>

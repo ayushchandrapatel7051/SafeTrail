@@ -8,7 +8,7 @@ const router = Router();
 router.get('/city/:cityId', async (req, res) => {
   try {
     const { cityId } = req.params;
-    
+
     // Check cache
     const cacheKey = `emergency:city:${cityId}`;
     const cached = await redis.get(cacheKey);
@@ -54,7 +54,7 @@ router.get('/city/:cityId', async (req, res) => {
 router.get('/place/:placeId', async (req, res) => {
   try {
     const { placeId } = req.params;
-    
+
     // Check cache
     const cacheKey = `emergency:place:${placeId}`;
     const cached = await redis.get(cacheKey);
@@ -93,7 +93,7 @@ router.get('/place/:placeId', async (req, res) => {
 
     const response = {
       ...emergency,
-      hospitals: hospitalsResult.rows
+      hospitals: hospitalsResult.rows,
     };
 
     // Cache for 1 hour

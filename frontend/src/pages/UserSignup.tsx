@@ -1,36 +1,42 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "sonner";
-import { auth, setAuthToken, getAuthToken } from "@/lib/api";
-import { Shield, Lock, Mail, User, Globe, MapPin } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { toast } from 'sonner';
+import { auth, setAuthToken, getAuthToken } from '@/lib/api';
+import { Shield, Lock, Mail, User, Globe, MapPin } from 'lucide-react';
 
-const COUNTRIES = ["India", "USA", "UK", "Canada", "Australia"];
+const COUNTRIES = ['India', 'USA', 'UK', 'Canada', 'Australia'];
 const CITIES: Record<string, string[]> = {
-  "India": ["Bangalore", "Mumbai", "Delhi", "Hyderabad", "Chennai"],
-  "USA": ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"],
-  "UK": ["London", "Manchester", "Birmingham", "Liverpool", "Leeds"],
-  "Canada": ["Toronto", "Vancouver", "Montreal", "Calgary", "Ottawa"],
-  "Australia": ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"],
+  India: ['Bangalore', 'Mumbai', 'Delhi', 'Hyderabad', 'Chennai'],
+  USA: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'],
+  UK: ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Leeds'],
+  Canada: ['Toronto', 'Vancouver', 'Montreal', 'Calgary', 'Ottawa'],
+  Australia: ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide'],
 };
 
 export default function UserSignup() {
   const navigate = useNavigate();
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [country, setCountry] = useState('');
+  const [city, setCity] = useState('');
   const [loading, setLoading] = useState(false);
 
   // Check if user is already logged in
   useEffect(() => {
     const token = getAuthToken();
     if (token) {
-      navigate("/dashboard", { replace: true });
+      navigate('/dashboard', { replace: true });
     }
   }, [navigate]);
 
@@ -40,7 +46,7 @@ export default function UserSignup() {
     e.preventDefault();
 
     if (!fullName || !email || !password || !country || !city) {
-      toast.error("Please fill in all fields");
+      toast.error('Please fill in all fields');
       return;
     }
 
@@ -50,7 +56,7 @@ export default function UserSignup() {
     }
 
     if (password.length < 6) {
-      toast.error("Password must be at least 6 characters");
+      toast.error('Password must be at least 6 characters');
       return;
     }
 
@@ -58,22 +64,22 @@ export default function UserSignup() {
 
     try {
       const response = await auth.register(email, password, fullName);
-      
+
       // Store email for verification page
       localStorage.setItem('verificationEmail', email);
       localStorage.setItem('userName', fullName);
       localStorage.setItem('userEmail', email);
       localStorage.setItem('userCountry', country);
       localStorage.setItem('userCity', city);
-      
-      toast.success("Account created! Please check your email to verify your account.");
-      
+
+      toast.success('Account created! Please check your email to verify your account.');
+
       // Redirect to verification page instead of dashboard
-      navigate("/verify-email");
+      navigate('/verify-email');
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Failed to create account";
-      if (errorMessage.includes("already exists") || errorMessage.includes("already in use")) {
-        toast.error("This email is already in use. Please try another email or login.");
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create account';
+      if (errorMessage.includes('already exists') || errorMessage.includes('already in use')) {
+        toast.error('This email is already in use. Please try another email or login.');
       } else {
         toast.error(errorMessage);
       }
@@ -169,150 +175,155 @@ export default function UserSignup() {
           {/* Form Content */}
           <div className="p-8 space-y-5">
             <form onSubmit={handleSignup} className="space-y-5">
-            {/* Full Name */}
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700">Full Name *</label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <Input
-                  type="text"
-                  placeholder="John Doe"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  required
-                  className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500"
-                />
-              </div>
-            </div>
-
-            {/* Email */}
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700">Email *</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <Input
-                  type="email"
-                  placeholder="user@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500"
-                />
-              </div>
-            </div>
-
-            {/* Country and City in one row */}
-            <div className="grid grid-cols-2 gap-3">
-              {/* Country */}
+              {/* Full Name */}
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Country *</label>
+                <label className="text-sm font-semibold text-gray-700">Full Name *</label>
                 <div className="relative">
-                  <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 z-10 pointer-events-none" />
-                  <Select value={country} onValueChange={setCountry}>
-                    <SelectTrigger className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500">
-                      <SelectValue placeholder="Select country" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {COUNTRIES.map((c) => (
-                        <SelectItem key={c} value={c}>
-                          {c}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Input
+                    type="text"
+                    placeholder="John Doe"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                    className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500"
+                  />
                 </div>
               </div>
 
-              {/* City */}
+              {/* Email */}
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">City *</label>
+                <label className="text-sm font-semibold text-gray-700">Email *</label>
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 z-10 pointer-events-none" />
-                  <Select value={city} onValueChange={setCity} disabled={!country}>
-                    <SelectTrigger className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500 disabled:opacity-50">
-                      <SelectValue placeholder={!country ? "Select country first" : "Select city"} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {availableCities.map((c) => (
-                        <SelectItem key={c} value={c}>
-                          {c}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Input
+                    type="email"
+                    placeholder="user@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500"
+                  />
                 </div>
               </div>
-            </div>
 
-            {/* Password */}
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700">Password *</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500"
-                />
+              {/* Country and City in one row */}
+              <div className="grid grid-cols-2 gap-3">
+                {/* Country */}
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-gray-700">Country *</label>
+                  <div className="relative">
+                    <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 z-10 pointer-events-none" />
+                    <Select value={country} onValueChange={setCountry}>
+                      <SelectTrigger className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500">
+                        <SelectValue placeholder="Select country" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {COUNTRIES.map((c) => (
+                          <SelectItem key={c} value={c}>
+                            {c}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {/* City */}
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-gray-700">City *</label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 z-10 pointer-events-none" />
+                    <Select value={city} onValueChange={setCity} disabled={!country}>
+                      <SelectTrigger className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500 disabled:opacity-50">
+                        <SelectValue
+                          placeholder={!country ? 'Select country first' : 'Select city'}
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {availableCities.map((c) => (
+                          <SelectItem key={c} value={c}>
+                            {c}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            {/* Confirm Password */}
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-700">Confirm Password *</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500"
-                />
+              {/* Password */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700">Password *</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500"
+                  />
+                </div>
               </div>
-            </div>
 
-            {/* Sign Up Button */}
-            <Button 
-              type="submit" 
-              className="w-full h-11 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-semibold text-base rounded-lg transition-all mt-6"
-              disabled={loading}
-            >
-              {loading ? "Creating Account..." : "Create Account"}
-            </Button>
-          </form>
+              {/* Confirm Password */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700">Confirm Password *</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    className="pl-10 h-11 border-gray-200 focus:border-green-500 focus:ring-green-500"
+                  />
+                </div>
+              </div>
 
-          {/* Divider */}
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Already registered?</span>
-            </div>
-          </div>
-
-          {/* Login Link */}
-          <div className="text-center space-y-4">
-            <Link to="/login">
-              <Button 
-                type="button"
-                variant="outline"
-                className="w-full h-11 border-2 border-gray-200 hover:border-green-500 hover:bg-green-50 text-gray-900 hover:text-green-700 font-semibold rounded-lg transition-all"
+              {/* Sign Up Button */}
+              <Button
+                type="submit"
+                className="w-full h-11 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-semibold text-base rounded-lg transition-all mt-6"
+                disabled={loading}
               >
-                Sign In Instead
+                {loading ? 'Creating Account...' : 'Create Account'}
               </Button>
-            </Link>
-            <p className="text-xs text-gray-500">
-              <Link to="/admin-login" className="text-green-600 hover:text-green-700 font-semibold">
-                Admin Login
+            </form>
+
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Already registered?</span>
+              </div>
+            </div>
+
+            {/* Login Link */}
+            <div className="text-center space-y-4">
+              <Link to="/login">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full h-11 border-2 border-gray-200 hover:border-green-500 hover:bg-green-50 text-gray-900 hover:text-green-700 font-semibold rounded-lg transition-all"
+                >
+                  Sign In Instead
+                </Button>
               </Link>
-            </p>
-          </div>
+              <p className="text-xs text-gray-500">
+                <Link
+                  to="/admin-login"
+                  className="text-green-600 hover:text-green-700 font-semibold"
+                >
+                  Admin Login
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>

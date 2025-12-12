@@ -17,7 +17,7 @@ const migrations = [
       );
       CREATE INDEX idx_users_email ON users(email);
     `,
-    down: `DROP TABLE IF EXISTS users;`
+    down: `DROP TABLE IF EXISTS users;`,
   },
   {
     name: '001b_create_countries_table',
@@ -31,7 +31,7 @@ const migrations = [
       );
       CREATE INDEX IF NOT EXISTS idx_countries_code ON countries(code);
     `,
-    down: `DROP TABLE IF EXISTS countries;`
+    down: `DROP TABLE IF EXISTS countries;`,
   },
   {
     name: '002_create_cities_table',
@@ -51,7 +51,7 @@ const migrations = [
       CREATE INDEX idx_cities_country_id ON cities(country_id);
       CREATE INDEX idx_cities_name ON cities(name);
     `,
-    down: `DROP TABLE IF EXISTS cities;`
+    down: `DROP TABLE IF EXISTS cities;`,
   },
   {
     name: '003_create_places_table',
@@ -71,7 +71,7 @@ const migrations = [
       CREATE INDEX idx_places_city_id ON places(city_id);
       CREATE INDEX idx_places_name ON places(name);
     `,
-    down: `DROP TABLE IF EXISTS places;`
+    down: `DROP TABLE IF EXISTS places;`,
   },
   {
     name: '004_create_reports_table',
@@ -96,7 +96,7 @@ const migrations = [
       CREATE INDEX idx_reports_status ON reports(status);
       CREATE INDEX idx_reports_created_at ON reports(created_at DESC);
     `,
-    down: `DROP TABLE IF EXISTS reports;`
+    down: `DROP TABLE IF EXISTS reports;`,
   },
   {
     name: '005_create_report_photos_table',
@@ -110,7 +110,7 @@ const migrations = [
       );
       CREATE INDEX idx_report_photos_report_id ON report_photos(report_id);
     `,
-    down: `DROP TABLE IF EXISTS report_photos;`
+    down: `DROP TABLE IF EXISTS report_photos;`,
   },
   {
     name: '006_create_alerts_table',
@@ -128,7 +128,7 @@ const migrations = [
       CREATE INDEX idx_alerts_created_at ON alerts(created_at DESC);
       CREATE INDEX idx_alerts_severity ON alerts(severity);
     `,
-    down: `DROP TABLE IF EXISTS alerts;`
+    down: `DROP TABLE IF EXISTS alerts;`,
   },
   {
     name: '007_create_email_verification_otp_table',
@@ -144,7 +144,7 @@ const migrations = [
       );
       CREATE INDEX IF NOT EXISTS idx_verification_otp_user_id ON email_verification_otp(user_id);
     `,
-    down: `DROP TABLE IF EXISTS email_verification_otp;`
+    down: `DROP TABLE IF EXISTS email_verification_otp;`,
   },
   {
     name: '008_create_migrations_table',
@@ -155,8 +155,8 @@ const migrations = [
         executed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `,
-    down: `DROP TABLE IF EXISTS migrations;`
-  }
+    down: `DROP TABLE IF EXISTS migrations;`,
+  },
 ];
 
 export async function runMigrations() {
@@ -166,10 +166,7 @@ export async function runMigrations() {
 
     // Run each migration (excluding migrations table)
     for (const migration of migrations.slice(0, 8)) {
-      const result = await query(
-        'SELECT * FROM migrations WHERE name = $1',
-        [migration.name]
-      );
+      const result = await query('SELECT * FROM migrations WHERE name = $1', [migration.name]);
 
       if (result.rows.length === 0) {
         console.log(`Running migration: ${migration.name}`);

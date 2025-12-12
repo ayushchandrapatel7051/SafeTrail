@@ -83,15 +83,11 @@ export async function getSafetyStatus(score: number): Promise<'safe' | 'caution'
 
 export async function updatePlaceReportCount(placeId: number): Promise<void> {
   try {
-    const result = await query(
-      'SELECT COUNT(*) as count FROM reports WHERE place_id = $1',
-      [placeId]
-    );
+    const result = await query('SELECT COUNT(*) as count FROM reports WHERE place_id = $1', [
+      placeId,
+    ]);
     const count = parseInt(result.rows[0].count);
-    await query(
-      'UPDATE places SET report_count = $1 WHERE id = $2',
-      [count, placeId]
-    );
+    await query('UPDATE places SET report_count = $1 WHERE id = $2', [count, placeId]);
   } catch (error) {
     console.error('Error updating place report count:', error);
   }
@@ -107,10 +103,7 @@ export async function updateCityReportCount(cityId: number): Promise<void> {
       [cityId]
     );
     const count = parseInt(result.rows[0].count);
-    await query(
-      'UPDATE cities SET reports_count = $1 WHERE id = $2',
-      [count, cityId]
-    );
+    await query('UPDATE cities SET reports_count = $1 WHERE id = $2', [count, cityId]);
   } catch (error) {
     console.error('Error updating city report count:', error);
   }
@@ -118,15 +111,9 @@ export async function updateCityReportCount(cityId: number): Promise<void> {
 
 export async function updateCityPlacesCount(cityId: number): Promise<void> {
   try {
-    const result = await query(
-      'SELECT COUNT(*) as count FROM places WHERE city_id = $1',
-      [cityId]
-    );
+    const result = await query('SELECT COUNT(*) as count FROM places WHERE city_id = $1', [cityId]);
     const count = parseInt(result.rows[0].count);
-    await query(
-      'UPDATE cities SET places_count = $1 WHERE id = $2',
-      [count, cityId]
-    );
+    await query('UPDATE cities SET places_count = $1 WHERE id = $2', [count, cityId]);
   } catch (error) {
     console.error('Error updating city places count:', error);
   }

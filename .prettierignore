@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.*
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# Lock files
+package-lock.json
+yarn.lock
+bun.lockb
+
+# Generated files
+coverage/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+
+# Uploads
+uploads/
+
+# Database migrations
+migrations/

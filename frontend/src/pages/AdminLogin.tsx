@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { toast } from "sonner";
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from 'sonner';
 
-const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "admin";
+const ADMIN_USERNAME = 'admin';
+const ADMIN_PASSWORD = 'admin';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -31,24 +31,24 @@ export default function AdminLogin() {
       const data = await response.json();
 
       if (!response.ok) {
-        toast.error(data.error || "Admin login failed");
+        toast.error(data.error || 'Admin login failed');
         setLoading(false);
         return;
       }
 
       if (!data.token) {
-        toast.error("No token received from server");
+        toast.error('No token received from server');
         setLoading(false);
         return;
       }
 
       // Store the JWT token from the server
-      localStorage.setItem("adminToken", data.token);
-      toast.success("Admin login successful!");
-      navigate("/admin");
+      localStorage.setItem('adminToken', data.token);
+      toast.success('Admin login successful!');
+      navigate('/admin');
     } catch (error) {
       console.error('Admin login error:', error);
-      toast.error("Login request failed");
+      toast.error('Login request failed');
       setLoading(false);
     }
   };
@@ -83,7 +83,7 @@ export default function AdminLogin() {
               />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Logging in..." : "Admin Login"}
+              {loading ? 'Logging in...' : 'Admin Login'}
             </Button>
           </form>
 

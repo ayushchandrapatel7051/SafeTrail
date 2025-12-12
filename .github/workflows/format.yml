@@ -1,0 +1,32 @@
+name: Check Formatting
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  format-check:
+    name: Check Code Formatting
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install Prettier
+        run: npm install -g prettier
+      
+      - name: Check Frontend formatting
+        working-directory: ./frontend
+        run: npx prettier --check "src/**/*.{ts,tsx,js,jsx,json,css}"
+      
+      - name: Check Backend formatting
+        working-directory: ./backend
+        run: npx prettier --check "src/**/*.{ts,js,json}"

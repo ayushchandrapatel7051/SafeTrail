@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { auth, setAuthToken, getAuthToken } from "@/lib/api";
-import { Shield, Lock, Mail, AlertCircle, Loader2, ChevronRight } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
+import { auth, setAuthToken, getAuthToken } from '@/lib/api';
+import { Shield, Lock, Mail, AlertCircle, Loader2, ChevronRight } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export default function UserLogin() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [otp, setOtp] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState<"credentials" | "otp">("credentials");
+  const [step, setStep] = useState<'credentials' | 'otp'>('credentials');
   const [otpSent, setOtpSent] = useState(false);
   const [timer, setTimer] = useState(600); // 10 minutes in seconds
   const [attempts, setAttempts] = useState(0);
@@ -25,22 +25,22 @@ export default function UserLogin() {
   useEffect(() => {
     const token = getAuthToken();
     if (token) {
-      navigate("/dashboard", { replace: true });
+      navigate('/dashboard', { replace: true });
     }
   }, [navigate]);
 
   // Timer for OTP expiration
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (step === "otp" && timer > 0) {
+    if (step === 'otp' && timer > 0) {
       interval = setInterval(() => {
-        setTimer(prev => prev - 1);
+        setTimer((prev) => prev - 1);
       }, 1000);
-    } else if (timer === 0 && step === "otp") {
-      setStep("credentials");
-      setOtp("");
+    } else if (timer === 0 && step === 'otp') {
+      setStep('credentials');
+      setOtp('');
       setAttempts(0);
-      toast.error("OTP expired. Please log in again.");
+      toast.error('OTP expired. Please log in again.');
     }
     return () => clearInterval(interval);
   }, [timer, step]);
@@ -48,12 +48,12 @@ export default function UserLogin() {
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   // Handle OTP input with validation
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, "").slice(0, 6);
+    const value = e.target.value.replace(/\D/g, '').slice(0, 6);
     setOtp(value);
   };
 
@@ -63,11 +63,14 @@ export default function UserLogin() {
     setEmailNotVerified(false);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/auth/login`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
@@ -75,22 +78,22 @@ export default function UserLogin() {
         if (response.status === 403 && data.code === 'EMAIL_NOT_VERIFIED') {
           setEmailNotVerified(true);
           localStorage.setItem('verificationEmail', email);
-          toast.error("Please verify your email before logging in");
+          toast.error('Please verify your email before logging in');
         } else {
-          toast.error(data.error || "Invalid credentials");
+          toast.error(data.error || 'Invalid credentials');
         }
         return;
       }
 
       // OTP sent successfully, move to OTP step
       setOtpSent(true);
-      setStep("otp");
+      setStep('otp');
       setTimer(600); // Reset 10-minute timer
       setAttempts(0);
-      toast.success("OTP sent to your email!");
+      toast.success('OTP sent to your email!');
     } catch (error) {
-      console.error("Login error:", error);
-      toast.error(error instanceof Error ? error.message : "Login failed");
+      console.error('Login error:', error);
+      toast.error(error instanceof Error ? error.message : 'Login failed');
     } finally {
       setLoading(false);
     }
@@ -99,47 +102,54 @@ export default function UserLogin() {
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (otp.length !== 6) {
-      toast.error("Please enter a 6-digit OTP");
+      toast.error('Please enter a 6-digit OTP');
       return;
     }
 
     setLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/auth/verify-login-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/auth/verify-login-otp`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, otp }),
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
         const newAttempts = attempts + 1;
         setAttempts(newAttempts);
-        
+
         if (newAttempts >= maxAttempts) {
-          setStep("credentials");
-          setOtp("");
+          setStep('credentials');
+          setOtp('');
           setOtpSent(false);
           setAttempts(0);
-          toast.error("Too many failed attempts. Please try logging in again.");
+          toast.error('Too many failed attempts. Please try logging in again.');
         } else {
-          toast.error(`${data.error || "Invalid OTP"}. ${maxAttempts - newAttempts} attempts remaining.`);
+          toast.error(
+            `${data.error || 'Invalid OTP'}. ${maxAttempts - newAttempts} attempts remaining.`
+          );
         }
         return;
       }
 
       // Login successful
       setAuthToken(data.token);
-      const userName = data.user?.full_name || email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1);
+      const userName =
+        data.user?.full_name ||
+        email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1);
       localStorage.setItem('userName', userName);
       localStorage.setItem('userEmail', email);
-      toast.success("Login successful!");
-      window.location.href = "/dashboard";
+      toast.success('Login successful!');
+      window.location.href = '/dashboard';
     } catch (error) {
-      console.error("OTP verification error:", error);
-      toast.error(error instanceof Error ? error.message : "OTP verification failed");
+      console.error('OTP verification error:', error);
+      toast.error(error instanceof Error ? error.message : 'OTP verification failed');
     } finally {
       setLoading(false);
     }
@@ -149,11 +159,14 @@ export default function UserLogin() {
     setResendingEmail(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/auth/resend-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/auth/resend-otp`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        }
+      );
 
       const data = await response.json();
 
@@ -184,8 +197,15 @@ export default function UserLogin() {
               </div>
               <h1 className="text-3xl font-bold">SafeTrail</h1>
             </div>
-            <h2 className="text-4xl font-bold leading-tight">Travel <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-500">Safely</span></h2>
-            <p className="text-lg text-gray-300">Join thousands of travelers keeping each other safe</p>
+            <h2 className="text-4xl font-bold leading-tight">
+              Travel{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-500">
+                Safely
+              </span>
+            </h2>
+            <p className="text-lg text-gray-300">
+              Join thousands of travelers keeping each other safe
+            </p>
           </div>
 
           <div className="space-y-6 w-full">
@@ -226,11 +246,13 @@ export default function UserLogin() {
             <div className="text-center space-y-2">
               <h2 className="text-3xl font-bold text-gray-900">SafeTrail Login</h2>
               <p className="text-gray-600">
-                {step === "credentials" ? "Sign in to your account" : "Enter the OTP sent to your email"}
+                {step === 'credentials'
+                  ? 'Sign in to your account'
+                  : 'Enter the OTP sent to your email'}
               </p>
             </div>
 
-            {step === "credentials" ? (
+            {step === 'credentials' ? (
               <>
                 {/* Credentials Form */}
                 <form onSubmit={handleLogin} className="space-y-5">
@@ -250,18 +272,21 @@ export default function UserLogin() {
                           onClick={async () => {
                             setResendingEmail(true);
                             try {
-                              const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/auth/resend-otp`, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ email }),
-                              });
+                              const response = await fetch(
+                                `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/auth/resend-otp`,
+                                {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({ email }),
+                                }
+                              );
                               const data = await response.json();
                               if (!response.ok) {
                                 toast.error(data.error || 'Failed to resend verification code');
                               } else {
                                 toast.success('Verification code sent! Check your inbox.');
                                 localStorage.setItem('verificationEmail', email);
-                                navigate("/verify-email");
+                                navigate('/verify-email');
                               }
                             } catch (error) {
                               console.error('Resend error:', error);
@@ -278,7 +303,7 @@ export default function UserLogin() {
                               Sending...
                             </>
                           ) : (
-                            "Resend Verification Email"
+                            'Resend Verification Email'
                           )}
                         </Button>
                       </AlertDescription>
@@ -318,8 +343,8 @@ export default function UserLogin() {
                   </div>
 
                   {/* Login Button */}
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full h-11 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-semibold text-base rounded-lg transition-all mt-6"
                     disabled={loading}
                   >
@@ -340,8 +365,12 @@ export default function UserLogin() {
                 {/* Test Credentials */}
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-2">
                   <p className="font-semibold text-sm text-blue-900">Test Credentials:</p>
-                  <p className="text-xs text-blue-800">Email: <span className="font-mono">user@safetrail.com</span></p>
-                  <p className="text-xs text-blue-800">Password: <span className="font-mono">password123</span></p>
+                  <p className="text-xs text-blue-800">
+                    Email: <span className="font-mono">user@safetrail.com</span>
+                  </p>
+                  <p className="text-xs text-blue-800">
+                    Password: <span className="font-mono">password123</span>
+                  </p>
                 </div>
 
                 {/* Divider */}
@@ -357,7 +386,7 @@ export default function UserLogin() {
                 {/* Sign Up Link */}
                 <div className="text-center space-y-4">
                   <Link to="/signup">
-                    <Button 
+                    <Button
                       type="button"
                       variant="outline"
                       className="w-full h-11 border-2 border-gray-200 hover:border-green-500 hover:bg-green-50 text-gray-900 hover:text-green-700 font-semibold rounded-lg transition-all"
@@ -366,7 +395,10 @@ export default function UserLogin() {
                     </Button>
                   </Link>
                   <p className="text-xs text-gray-500">
-                    <Link to="/admin-login" className="text-green-600 hover:text-green-700 font-semibold">
+                    <Link
+                      to="/admin-login"
+                      className="text-green-600 hover:text-green-700 font-semibold"
+                    >
                       Admin Login
                     </Link>
                   </p>
@@ -378,7 +410,9 @@ export default function UserLogin() {
                 <form onSubmit={handleVerifyOtp} className="space-y-6">
                   {/* OTP Input */}
                   <div className="space-y-3">
-                    <label className="text-sm font-semibold text-gray-700 block">One-Time Password</label>
+                    <label className="text-sm font-semibold text-gray-700 block">
+                      One-Time Password
+                    </label>
                     <Input
                       type="text"
                       inputMode="numeric"
@@ -389,27 +423,38 @@ export default function UserLogin() {
                       required
                       className="text-center text-4xl font-bold tracking-widest border-gray-200 focus:border-green-500 focus:ring-green-500 h-16"
                     />
-                    <p className="text-xs text-gray-500 text-center">Enter the 6-digit code sent to {email}</p>
+                    <p className="text-xs text-gray-500 text-center">
+                      Enter the 6-digit code sent to {email}
+                    </p>
                   </div>
 
                   {/* Timer */}
-                  <div className={`text-center font-semibold text-lg ${timer < 60 ? 'text-red-600' : 'text-gray-700'}`}>
+                  <div
+                    className={`text-center font-semibold text-lg ${timer < 60 ? 'text-red-600' : 'text-gray-700'}`}
+                  >
                     Time remaining: {formatTime(timer)}
                   </div>
 
                   {/* Attempts Display */}
                   {attempts > 0 && (
-                    <Alert className={`${attempts >= maxAttempts - 1 ? 'border-red-500/50 bg-red-500/10' : 'border-amber-500/50 bg-amber-500/10'}`}>
-                      <AlertCircle className={`h-4 w-4 ${attempts >= maxAttempts - 1 ? 'text-red-600' : 'text-amber-600'}`} />
-                      <AlertDescription className={attempts >= maxAttempts - 1 ? 'text-red-700' : 'text-amber-700'}>
-                        {maxAttempts - attempts} attempt{maxAttempts - attempts === 1 ? '' : 's'} remaining
+                    <Alert
+                      className={`${attempts >= maxAttempts - 1 ? 'border-red-500/50 bg-red-500/10' : 'border-amber-500/50 bg-amber-500/10'}`}
+                    >
+                      <AlertCircle
+                        className={`h-4 w-4 ${attempts >= maxAttempts - 1 ? 'text-red-600' : 'text-amber-600'}`}
+                      />
+                      <AlertDescription
+                        className={attempts >= maxAttempts - 1 ? 'text-red-700' : 'text-amber-700'}
+                      >
+                        {maxAttempts - attempts} attempt{maxAttempts - attempts === 1 ? '' : 's'}{' '}
+                        remaining
                       </AlertDescription>
                     </Alert>
                   )}
 
                   {/* Verify Button */}
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full h-11 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-semibold text-base rounded-lg transition-all"
                     disabled={loading || otp.length !== 6}
                   >
@@ -442,7 +487,7 @@ export default function UserLogin() {
                           Resending...
                         </>
                       ) : (
-                        "Resend OTP"
+                        'Resend OTP'
                       )}
                     </Button>
                   </div>
@@ -453,11 +498,11 @@ export default function UserLogin() {
                     variant="outline"
                     className="w-full h-11 border-2 border-gray-200 hover:border-red-500 hover:bg-red-50 text-gray-900 hover:text-red-700"
                     onClick={() => {
-                      setStep("credentials");
-                      setOtp("");
+                      setStep('credentials');
+                      setOtp('');
                       setOtpSent(false);
                       setAttempts(0);
-                      setPassword("");
+                      setPassword('');
                     }}
                   >
                     Back to Login

@@ -1,22 +1,22 @@
-import { useState, useEffect } from "react";
-import DashboardLayout from "@/components/DashboardLayout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { User, Mail, MapPin, FileText, AlertCircle, BarChart3 } from "lucide-react";
+import { useState, useEffect } from 'react';
+import DashboardLayout from '@/components/DashboardLayout';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { User, Mail, MapPin, FileText, AlertCircle, BarChart3 } from 'lucide-react';
 
 export default function Profile() {
-  const [userName, setUserName] = useState<string>("");
-  const [userEmail, setUserEmail] = useState<string>("");
-  const [userCountry, setUserCountry] = useState<string>("");
-  const [userCity, setUserCity] = useState<string>("");
+  const [userName, setUserName] = useState<string>('');
+  const [userEmail, setUserEmail] = useState<string>('');
+  const [userCountry, setUserCountry] = useState<string>('');
+  const [userCity, setUserCity] = useState<string>('');
 
   useEffect(() => {
     // Load user data from localStorage
-    const name = localStorage.getItem("userName") || "User";
-    const email = localStorage.getItem("userEmail") || "Not set";
-    const country = localStorage.getItem("userCountry") || "Not selected";
-    const city = localStorage.getItem("userCity") || "Not selected";
+    const name = localStorage.getItem('userName') || 'User';
+    const email = localStorage.getItem('userEmail') || 'Not set';
+    const country = localStorage.getItem('userCountry') || 'Not selected';
+    const city = localStorage.getItem('userCity') || 'Not selected';
 
     setUserName(name);
     setUserEmail(email);
@@ -125,7 +125,9 @@ export default function Profile() {
                 <div className="flex items-center justify-between p-3 border rounded">
                   <div>
                     <p className="font-medium text-sm">Safety Alerts</p>
-                    <p className="text-xs text-muted-foreground">Get notified about safety incidents</p>
+                    <p className="text-xs text-muted-foreground">
+                      Get notified about safety incidents
+                    </p>
                   </div>
                   <Badge variant="outline">Enabled</Badge>
                 </div>

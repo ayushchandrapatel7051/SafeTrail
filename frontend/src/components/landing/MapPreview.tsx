@@ -1,31 +1,39 @@
-import { MapPin, Shield, AlertTriangle, AlertCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { MapPin, Shield, AlertTriangle, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 // Mock data for map preview
 const mockLocations = [
-  { id: 1, name: "Central Station", score: 92, status: "safe", x: 45, y: 35 },
-  { id: 2, name: "Old Market", score: 68, status: "caution", x: 65, y: 50 },
-  { id: 3, name: "Night District", score: 35, status: "danger", x: 30, y: 65 },
-  { id: 4, name: "Business Park", score: 88, status: "safe", x: 70, y: 30 },
-  { id: 5, name: "Tourist Area", score: 75, status: "caution", x: 50, y: 55 },
+  { id: 1, name: 'Central Station', score: 92, status: 'safe', x: 45, y: 35 },
+  { id: 2, name: 'Old Market', score: 68, status: 'caution', x: 65, y: 50 },
+  { id: 3, name: 'Night District', score: 35, status: 'danger', x: 30, y: 65 },
+  { id: 4, name: 'Business Park', score: 88, status: 'safe', x: 70, y: 30 },
+  { id: 5, name: 'Tourist Area', score: 75, status: 'caution', x: 50, y: 55 },
 ];
 
-const getStatusColor = (status: string) => {  
+const getStatusColor = (status: string) => {
   switch (status) {
-    case "safe": return "bg-safe text-safe-foreground";
-    case "caution": return "bg-caution text-caution-foreground";
-    case "danger": return "bg-danger text-danger-foreground";
-    default: return "bg-muted text-muted-foreground";
+    case 'safe':
+      return 'bg-safe text-safe-foreground';
+    case 'caution':
+      return 'bg-caution text-caution-foreground';
+    case 'danger':
+      return 'bg-danger text-danger-foreground';
+    default:
+      return 'bg-muted text-muted-foreground';
   }
 };
 
 const getMarkerColor = (status: string) => {
   switch (status) {
-    case "safe": return "text-safe";
-    case "caution": return "text-caution";
-    case "danger": return "text-danger";
-    default: return "text-muted-foreground";
+    case 'safe':
+      return 'text-safe';
+    case 'caution':
+      return 'text-caution';
+    case 'danger':
+      return 'text-danger';
+    default:
+      return 'text-muted-foreground';
   }
 };
 
@@ -34,11 +42,10 @@ const MapPreview = () => {
     <section className="py-24 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            See Safety at a Glance
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">See Safety at a Glance</h2>
           <p className="text-muted-foreground text-lg">
-            Our interactive map shows you exactly where it's safe to go. Color-coded zones make it easy to plan your route.
+            Our interactive map shows you exactly where it's safe to go. Color-coded zones make it
+            easy to plan your route.
           </p>
         </div>
 
@@ -51,7 +58,13 @@ const MapPreview = () => {
                 <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-border" />
+                      <path
+                        d="M 40 0 L 0 0 0 40"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="0.5"
+                        className="text-border"
+                      />
                     </pattern>
                   </defs>
                   <rect width="100%" height="100%" fill="url(#grid)" />
@@ -69,15 +82,19 @@ const MapPreview = () => {
                 <div
                   key={location.id}
                   className="absolute group cursor-pointer animate-float"
-                  style={{ 
-                    left: `${location.x}%`, 
+                  style={{
+                    left: `${location.x}%`,
                     top: `${location.y}%`,
-                    animationDelay: `${location.id * 0.2}s`
+                    animationDelay: `${location.id * 0.2}s`,
                   }}
                 >
                   <div className="relative">
-                    <MapPin className={`w-8 h-8 ${getMarkerColor(location.status)} drop-shadow-lg`} fill="currentColor" fillOpacity={0.2} />
-                    
+                    <MapPin
+                      className={`w-8 h-8 ${getMarkerColor(location.status)} drop-shadow-lg`}
+                      fill="currentColor"
+                      fillOpacity={0.2}
+                    />
+
                     {/* Tooltip on hover */}
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                       <div className="bg-card rounded-lg shadow-xl border border-border p-3 whitespace-nowrap">
@@ -137,9 +154,7 @@ const MapPreview = () => {
               <div className="text-sm text-muted-foreground">
                 <span className="font-medium text-foreground">Demo City</span> • 5 locations mapped
               </div>
-              <Button className="shadow-lg">
-                Open Full Map
-              </Button>
+              <Button className="shadow-lg">Open Full Map</Button>
             </div>
           </div>
         </div>
