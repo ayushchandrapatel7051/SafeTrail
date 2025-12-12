@@ -18,18 +18,39 @@ export default function AdminLogin() {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate authentication delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const response = await fetch(`${API_BASE_URL}/auth/admin/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-      localStorage.setItem("adminToken", "admin-token-" + Date.now());
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.error || "Admin login failed");
+        setLoading(false);
+        return;
+      }
+
+      if (!data.token) {
+        toast.error("No token received from server");
+        setLoading(false);
+        return;
+      }
+
+      // Store the JWT token from the server
+      localStorage.setItem("adminToken", data.token);
       toast.success("Admin login successful!");
       navigate("/admin");
-    } else {
-      toast.error("Invalid admin credentials");
+    } catch (error) {
+      console.error('Admin login error:', error);
+      toast.error("Login request failed");
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (

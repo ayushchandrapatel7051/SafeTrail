@@ -16,6 +16,37 @@ interface RegisterBody {
   full_name: string;
 }
 
+// Admin Login
+router.post('/admin/login', async (req, res) => {
+  try {
+    const { username, password } = req.body as { username: string; password: string };
+
+    // Hardcoded admin credentials for simplicity (in production, use database)
+    const ADMIN_USERNAME = 'admin';
+    const ADMIN_PASSWORD = 'admin';
+
+    if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+      return res.status(401).json({ error: 'Invalid admin credentials' });
+    }
+
+    // Generate a token for the admin user (using a fake admin user id)
+    const token = generateToken(0, 'admin@safetrail.com', 'admin');
+
+    res.json({
+      user: {
+        id: 0,
+        email: 'admin@safetrail.com',
+        full_name: 'Admin User',
+        role: 'admin',
+      },
+      token,
+    });
+  } catch (error) {
+    console.error('Admin login error:', error);
+    res.status(500).json({ error: 'Admin login failed' });
+  }
+});
+
 // Register
 router.post('/register', async (req, res) => {
   try {

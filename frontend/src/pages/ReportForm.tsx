@@ -135,7 +135,7 @@ const ReportForm = () => {
       setSelectedPlace("");
       
       // Redirect to map
-      setTimeout(() => navigate('/map'), 2000);
+      //setTimeout(() => navigate('/map'), 2000);
     } catch (error) {
       toast({
         title: "Error",
@@ -149,7 +149,7 @@ const ReportForm = () => {
 
   return (
     <DashboardLayout>
-      <div className="p-6 max-w-4xl mx-auto">
+      <div className="p-6 max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
