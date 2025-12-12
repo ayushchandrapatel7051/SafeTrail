@@ -135,7 +135,7 @@ const ReportForm = () => {
       setSelectedPlace("");
       
       // Redirect to map
-      setTimeout(() => navigate('/map'), 2000);
+      //setTimeout(() => navigate('/map'), 2000);
     } catch (error) {
       toast({
         title: "Error",
