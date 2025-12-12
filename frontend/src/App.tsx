@@ -16,6 +16,8 @@ import UserSignup from "./pages/UserSignup";
 import VerifyEmail from "./pages/VerifyEmail";
 import TripPlan from "./pages/TripPlan";
 import Profile from "./pages/Profile";
+import Emergency from "./pages/Emergency";
+import EmergencyDetail from "./pages/EmergencyDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -71,6 +73,8 @@ const App = () => (
           <Route path="/report" element={<PrivateRoute element={<ReportForm />} />} />
           <Route path="/trip-plan" element={<PrivateRoute element={<TripPlan />} />} />
           <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
+          <Route path="/emergency" element={<PrivateRoute element={<Emergency />} />} />
+          <Route path="/emergency/:placeId" element={<PrivateRoute element={<EmergencyDetail />} />} />
           
           {/* Not Found */}
           <Route path="*" element={<NotFound />} />

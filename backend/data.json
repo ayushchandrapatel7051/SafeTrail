@@ -1,0 +1,3348 @@
+[
+  {
+    "id": 1,
+    "city_id": 1,
+    "name": "Paharganj",
+    "latitude": "28.64480000",
+    "longitude": "77.21400000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 3947460096,
+        "name": "Surbhi hospital",
+        "distance_m": 537.7,
+        "lat": 28.6491348,
+        "lon": 77.2164415,
+        "tags": {
+          "addr:city": "New Delhi",
+          "addr:housenumber": "15",
+          "addr:postcode": "201301",
+          "addr:street": "Qutab Road",
+          "amenity": "hospital",
+          "name": "Surbhi hospital"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138534392,
+        "name": "Sharma Medical Center",
+        "distance_m": 658.5,
+        "lat": 28.6494565,
+        "lon": 77.209831,
+        "tags": {
+          "addr:district": "Central",
+          "addr:full": "B-112, Sardar Thana Rd, Daya Basti, Motia Khan",
+          "addr:postcode": "110035",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "contact:phone": "011-23651395",
+          "description": "<100 Bedded Hospital",
+          "name": "Sharma Medical Center",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138534302,
+        "name": "Sunder Lal Jain Eye Hospital",
+        "distance_m": 663.0,
+        "lat": 28.6495013,
+        "lon": 77.2098206,
+        "tags": {
+          "addr:district": "Central",
+          "addr:full": "Motia Khan, Sadar Thana Road, Motia Khan, Nabi Karim Paharganj",
+          "addr:postcode": "110055",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "contact:phone": "1123671231",
+          "description": "<100 Bedded Hospital",
+          "name": "Sunder Lal Jain Eye Hospital",
+          "source": "OpenGovernmentData"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 11075045128,
+      "name": "Railway Police Force Station",
+      "distance_m": 479.0,
+      "lat": 28.6452469,
+      "lon": 77.2188823,
+      "tags": {
+        "amenity": "police",
+        "name": "Railway Police Force Station",
+        "note": "Contributors are requested to not edit the \"operator\", \"operator:en\", \"operator:hi\", \"operator:ur\" and \"operator:wikidata\" tags. (2025/02/18)",
+        "operator": "Delhi Police",
+        "operator:en": "Delhi Police",
+        "operator:hi": "दिल्ली पुलिस",
+        "operator:ur": "دہلی پولیس",
+        "operator:wikidata": "Q3764926"
+      }
+    }
+  },
+  {
+    "id": 2,
+    "city_id": 1,
+    "name": "Chandni Chowk",
+    "latitude": "28.65060000",
+    "longitude": "77.23030000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7138534296,
+        "name": "Free Maternity & Child Welfare Centeri",
+        "distance_m": 374.8,
+        "lat": 28.6472649,
+        "lon": 77.2308534,
+        "tags": {
+          "addr:district": "Central",
+          "addr:full": "MCW Center, 1st floor, Opposite Hamdard Dawa khana, Hauz Quzi, Lal Kuan",
+          "addr:housenumber": "3870",
+          "addr:postcode": "110006",
+          "addr:state": "Delhi",
+          "addr:street": "Sarak Prem Narain",
+          "amenity": "hospital",
+          "check_date": "2024-06-17",
+          "contact:phone": "+91 23272611",
+          "description": "M&CW Center",
+          "healthcare": "birthing_centre",
+          "name": "Free Maternity & Child Welfare Centeri",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138534296,
+        "name": "Free Maternity & Child Welfare Centeri",
+        "distance_m": 374.8,
+        "lat": 28.6472649,
+        "lon": 77.2308534,
+        "tags": {
+          "addr:district": "Central",
+          "addr:full": "MCW Center, 1st floor, Opposite Hamdard Dawa khana, Hauz Quzi, Lal Kuan",
+          "addr:housenumber": "3870",
+          "addr:postcode": "110006",
+          "addr:state": "Delhi",
+          "addr:street": "Sarak Prem Narain",
+          "amenity": "hospital",
+          "check_date": "2024-06-17",
+          "contact:phone": "+91 23272611",
+          "description": "M&CW Center",
+          "healthcare": "birthing_centre",
+          "name": "Free Maternity & Child Welfare Centeri",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138534310,
+        "name": "Kasturba Hospital",
+        "distance_m": 555.8,
+        "lat": 28.649831,
+        "lon": 77.2359282,
+        "tags": {
+          "addr:district": "Central",
+          "addr:full": "Kasturba Hospital Marg, Kasturba Marg, Near Jama Masjid, Daryaganj, Urdu Bazar, Daryaganj",
+          "addr:postcode": "110006",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "contact:phone": "23275023",
+          "description": ">500 Bedded Hospital",
+          "name": "Kasturba Hospital",
+          "source": "OpenGovernmentData",
+          "wikidata": "Q50517763"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 1362943960,
+      "name": "Police Station Rajiv Chowk Metro",
+      "distance_m": 349.9,
+      "lat": 28.6498297,
+      "lon": 77.2268232,
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "building:levels": "4",
+        "contact:phone": "+91-11-2327-9036",
+        "name": "Police Station Rajiv Chowk Metro",
+        "roof:shape": "flat",
+        "wheelchair": "no"
+      }
+    }
+  },
+  {
+    "id": 3,
+    "city_id": 1,
+    "name": "Sarojini Nagar",
+    "latitude": "28.57450000",
+    "longitude": "77.19890000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 454523333,
+        "name": null,
+        "distance_m": 776.4,
+        "lat": 28.5677392,
+        "lon": 77.2008859,
+        "tags": {
+          "amenity": "hospital",
+          "healthcare": "hospital"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7544955483,
+        "name": "Aashlok Hospital",
+        "distance_m": 893.4,
+        "lat": 28.566466,
+        "lon": 77.198976,
+        "tags": {
+          "addr:district": "New Delhi",
+          "addr:full": "Aashlok 25 AB, Safdarjung Enclave, Near NCRMP",
+          "addr:postcode": "110029",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "name": "Aashlok Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138493195,
+        "name": "Sports Injury Centre, Safdarjung Hospital (Part of SJH), New Delhi",
+        "distance_m": 950.9,
+        "lat": 28.5681531,
+        "lon": 77.2054264,
+        "tags": {
+          "addr:district": "New Delhi",
+          "addr:full": "Sport Injury complex, Safdarjung Hospital, Safdarjung, Ansari Nagar West",
+          "addr:postcode": "110023",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "contact:phone": "011-26181908",
+          "description": "100 Bedded Hospital",
+          "name": "Sports Injury Centre, Safdarjung Hospital (Part of SJH), New Delhi",
+          "source": "OpenGovernmentData"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 12028883564,
+      "name": "Facilitation Kiosk",
+      "distance_m": 212.1,
+      "lat": 28.5758546,
+      "lon": 77.1973707,
+      "tags": {
+        "amenity": "police",
+        "name": "Facilitation Kiosk",
+        "note": "Contributors are requested to not edit the \"operator\", \"operator:en\", \"operator:hi\", \"operator:ur\" and \"operator:wikidata\" tags. (2025/02/18)",
+        "operator": "Delhi Police",
+        "operator:en": "Delhi Police",
+        "operator:hi": "दिल्ली पुलिस",
+        "operator:ur": "دہلی پولیس",
+        "operator:wikidata": "Q3764926",
+        "toilets": "no",
+        "wheelchair": "yes"
+      }
+    }
+  },
+  {
+    "id": 4,
+    "city_id": 1,
+    "name": "Karol Bagh",
+    "latitude": "28.65140000",
+    "longitude": "77.19070000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 264247764,
+        "name": "Ramakrishna Mission T.B.Clinic and Medical Centre",
+        "distance_m": 803.0,
+        "lat": 28.6459024,
+        "lon": 77.1960357,
+        "tags": {
+          "addr:city": "New Delhi",
+          "addr:housenumber": "1",
+          "addr:postcode": "110055",
+          "addr:street": "Arya Samaj Road",
+          "amenity": "hospital",
+          "building": "yes",
+          "name": "Ramakrishna Mission T.B.Clinic and Medical Centre"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138534367,
+        "name": "Shree Jeewan Hospital",
+        "distance_m": 817.6,
+        "lat": 28.6579998,
+        "lon": 77.1943948,
+        "tags": {
+          "addr:district": "Central",
+          "addr:full": "67/1, Dori Walan, Karol Bagh, Karolbagh, Near Rohtak Road",
+          "addr:postcode": "110005",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "contact:phone": "23511474",
+          "description": "100-500 Bedded Hospital",
+          "name": "Shree Jeewan Hospital",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 6507350887,
+        "name": null,
+        "distance_m": 818.9,
+        "lat": 28.6581566,
+        "lon": 77.1940384,
+        "tags": {
+          "amenity": "hospital",
+          "healthcare": "hospital"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 5978068724,
+      "name": "Police Station Karol Bagh",
+      "distance_m": 252.5,
+      "lat": 28.652398,
+      "lon": 77.1930248,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Station Karol Bagh",
+        "note": "Contributors are requested to not edit the \"operator\", \"operator:en\", \"operator:hi\", \"operator:ur\" and \"operator:wikidata\" tags. (2025/02/18)",
+        "operator": "Delhi Police",
+        "operator:en": "Delhi Police",
+        "operator:hi": "दिल्ली पुलिस",
+        "operator:ur": "دہلی پولیس",
+        "operator:wikidata": "Q3764926",
+        "phone": "+91-11-2872-6870;+91-11-2872-1115"
+      }
+    }
+  },
+  {
+    "id": 5,
+    "city_id": 1,
+    "name": "Connaught Place",
+    "latitude": "28.63290000",
+    "longitude": "77.18950000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 158038115,
+        "name": "Sir Ganga Ram Hospital",
+        "distance_m": 634.0,
+        "lat": 28.6386014,
+        "lon": 77.189509,
+        "tags": {
+          "addr:country": "IN",
+          "addr:housename": "Sir Ganga Ram Hospital",
+          "addr:postcode": "110060",
+          "addr:state": "Delhi",
+          "addr:street": "Sir Ganga Ram Hospital Marg",
+          "amenity": "hospital",
+          "beds": "675",
+          "contact:phone": "+91 11 3512 5600;+91 11 4225 4000",
+          "email": "gangaram@sgrh.com",
+          "emergency": "yes",
+          "healthcare": "hospital",
+          "name": "Sir Ganga Ram Hospital",
+          "name:etymology:wikidata": "Q150465",
+          "name:ur": "سر گنگا رام ہسپتال",
+          "nohousenumber": "yes",
+          "opening_hours": "mo-sa 08:00-20:00",
+          "source": "OpenGovernmentData",
+          "website": "https://sgrh.com",
+          "wikidata": "Q7526817",
+          "wikipedia": "en:Sir Ganga Ram Hospital (India)"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 158038115,
+        "name": "Sir Ganga Ram Hospital",
+        "distance_m": 634.0,
+        "lat": 28.6386014,
+        "lon": 77.189509,
+        "tags": {
+          "addr:country": "IN",
+          "addr:housename": "Sir Ganga Ram Hospital",
+          "addr:postcode": "110060",
+          "addr:state": "Delhi",
+          "addr:street": "Sir Ganga Ram Hospital Marg",
+          "amenity": "hospital",
+          "beds": "675",
+          "contact:phone": "+91 11 3512 5600;+91 11 4225 4000",
+          "email": "gangaram@sgrh.com",
+          "emergency": "yes",
+          "healthcare": "hospital",
+          "name": "Sir Ganga Ram Hospital",
+          "name:etymology:wikidata": "Q150465",
+          "name:ur": "سر گنگا رام ہسپتال",
+          "nohousenumber": "yes",
+          "opening_hours": "mo-sa 08:00-20:00",
+          "source": "OpenGovernmentData",
+          "website": "https://sgrh.com",
+          "wikidata": "Q7526817",
+          "wikipedia": "en:Sir Ganga Ram Hospital (India)"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 158038115,
+        "name": "Sir Ganga Ram Hospital",
+        "distance_m": 634.0,
+        "lat": 28.6386014,
+        "lon": 77.189509,
+        "tags": {
+          "addr:country": "IN",
+          "addr:housename": "Sir Ganga Ram Hospital",
+          "addr:postcode": "110060",
+          "addr:state": "Delhi",
+          "addr:street": "Sir Ganga Ram Hospital Marg",
+          "amenity": "hospital",
+          "beds": "675",
+          "contact:phone": "+91 11 3512 5600;+91 11 4225 4000",
+          "email": "gangaram@sgrh.com",
+          "emergency": "yes",
+          "healthcare": "hospital",
+          "name": "Sir Ganga Ram Hospital",
+          "name:etymology:wikidata": "Q150465",
+          "name:ur": "سر گنگا رام ہسپتال",
+          "nohousenumber": "yes",
+          "opening_hours": "mo-sa 08:00-20:00",
+          "source": "OpenGovernmentData",
+          "website": "https://sgrh.com",
+          "wikidata": "Q7526817",
+          "wikipedia": "en:Sir Ganga Ram Hospital (India)"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 2446008279,
+      "name": "Police Residential Complex",
+      "distance_m": 606.2,
+      "lat": 28.6349617,
+      "lon": 77.1837505,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Residential Complex",
+        "name:ur": "پولیس رہائشی کمپلیکس",
+        "note": "Contributors are requested to not edit the \"operator\", \"operator:en\", \"operator:hi\", \"operator:ur\" and \"operator:wikidata\" tags. (2025/02/18)",
+        "operator": "Delhi Police",
+        "operator:en": "Delhi Police",
+        "operator:hi": "दिल्ली पुलिस",
+        "operator:ur": "دہلی پولیس",
+        "operator:wikidata": "Q3764926"
+      }
+    }
+  },
+  {
+    "id": 6,
+    "city_id": 1,
+    "name": "India Gate",
+    "latitude": "28.61290000",
+    "longitude": "77.22950000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 8151246349,
+        "name": "General Williams Hospital",
+        "distance_m": 1893.1,
+        "lat": 28.6267808,
+        "lon": 77.2182706,
+        "tags": {
+          "addr:city": "New Delhi",
+          "addr:full": "40, Tolstoy Rd, Atul Grove Road, Janpath, Connaught Place, New Delhi, Delhi",
+          "amenity": "hospital",
+          "name": "General Williams Hospital"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138534340,
+        "name": "NGO Lok Kalyan Samiti",
+        "distance_m": 2083.6,
+        "lat": 28.629808,
+        "lon": 77.2387009,
+        "tags": {
+          "addr:district": "Central",
+          "addr:full": "Sucheta Bhawan (Near ITO), Vishnu Digamber Marg, ITO,Vikram Nagar",
+          "addr:postcode": "110002",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "contact:phone": "23235505",
+          "description": "<100 Bedded Hospital",
+          "name": "NGO Lok Kalyan Samiti",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 8151246340,
+        "name": "Arvind Medicare",
+        "distance_m": 2368.4,
+        "lat": 28.6311711,
+        "lon": 77.2170294,
+        "tags": {
+          "addr:city": "New Delhi",
+          "addr:full": "L-43, Connaught Cir, Hanuman Road Area, Connaught Place, New Delhi, Delhi",
+          "amenity": "hospital",
+          "name": "Arvind Medicare"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 351603877,
+      "name": "Police Station Tilak Marg",
+      "distance_m": 806.0,
+      "lat": 28.6178784,
+      "lon": 77.235502,
+      "tags": {
+        "addr:district": "New Delhi",
+        "amenity": "police",
+        "check_date": "2024-07-20",
+        "name": "Police Station Tilak Marg",
+        "phone": "+91-11-2338-5571;+91-11-2338-2100"
+      }
+    }
+  },
+  {
+    "id": 7,
+    "city_id": 1,
+    "name": "Red Fort",
+    "latitude": "28.65620000",
+    "longitude": "77.24100000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 1203630504,
+        "name": "Sant Parmanand Hospital",
+        "distance_m": 838.7,
+        "lat": 28.6632045,
+        "lon": 77.2378123,
+        "tags": {
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Sant Parmanand Hospital"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138534310,
+        "name": "Kasturba Hospital",
+        "distance_m": 864.0,
+        "lat": 28.649831,
+        "lon": 77.2359282,
+        "tags": {
+          "addr:district": "Central",
+          "addr:full": "Kasturba Hospital Marg, Kasturba Marg, Near Jama Masjid, Daryaganj, Urdu Bazar, Daryaganj",
+          "addr:postcode": "110006",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "contact:phone": "23275023",
+          "description": ">500 Bedded Hospital",
+          "name": "Kasturba Hospital",
+          "source": "OpenGovernmentData",
+          "wikidata": "Q50517763"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 12441108176,
+        "name": "Kasturba Hospital",
+        "distance_m": 884.9,
+        "lat": 28.6485447,
+        "lon": 77.2385223,
+        "tags": {
+          "amenity": "hospital",
+          "check_date": "2024-12-22",
+          "healthcare": "hospital",
+          "name": "Kasturba Hospital"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 3249140375,
+      "name": "Cycle Market Police Post",
+      "distance_m": 611.8,
+      "lat": 28.6559206,
+      "lon": 77.2347384,
+      "tags": {
+        "addr:postcode": "110006",
+        "amenity": "police",
+        "name": "Cycle Market Police Post",
+        "note": "Contributors are requested to not edit the \"operator\", \"operator:en\", \"operator:hi\", \"operator:ur\" and \"operator:wikidata\" tags. (2025/02/18)",
+        "operator": "Delhi Police",
+        "operator:en": "Delhi Police",
+        "operator:hi": "दिल्ली पुलिस",
+        "operator:ur": "دہلی پولیس",
+        "operator:wikidata": "Q3764926"
+      }
+    }
+  },
+  {
+    "id": 8,
+    "city_id": 1,
+    "name": "Rajiv Chowk",
+    "latitude": "28.63280000",
+    "longitude": "77.21970000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 8151246340,
+        "name": "Arvind Medicare",
+        "distance_m": 317.4,
+        "lat": 28.6311711,
+        "lon": 77.2170294,
+        "tags": {
+          "addr:city": "New Delhi",
+          "addr:full": "L-43, Connaught Cir, Hanuman Road Area, Connaught Place, New Delhi, Delhi",
+          "amenity": "hospital",
+          "name": "Arvind Medicare"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138493258,
+        "name": "Central Hospital (Northern Railways)",
+        "distance_m": 477.6,
+        "lat": 28.6365867,
+        "lon": 77.2173905,
+        "tags": {
+          "addr:district": "New Delhi",
+          "addr:full": "Basant Lane, Paharganj, Connaught Place",
+          "addr:postcode": "110055",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "contact:phone": "011- 2334 4092",
+          "description": "100-500 Bedded Hospital",
+          "healthcare": "hospital",
+          "name": "Central Hospital (Northern Railways)",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 44263455,
+        "name": "Lady Hardinge Medical College",
+        "distance_m": 730.3,
+        "lat": 28.6352161,
+        "lon": 77.2127416,
+        "tags": {
+          "addr:housenumber": "C-604",
+          "addr:postcode": "110001",
+          "addr:street": "Shaheed Baghat Singh Marg",
+          "amenity": "college",
+          "emergency": "yes",
+          "healthcare": "hospital",
+          "name": "Lady Hardinge Medical College",
+          "name:en": "Lady Hardinge Medical College",
+          "name:hi": "लेडी हार्डिंग मेडिकल कॉलेज",
+          "wikidata": "Q6470215"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 12098409831,
+      "name": "Prepaid Auto Service",
+      "distance_m": 146.8,
+      "lat": 28.6316262,
+      "lon": 77.219012,
+      "tags": {
+        "amenity": "police",
+        "name": "Prepaid Auto Service",
+        "note": "Contributors are requested to not edit the \"operator\", \"operator:en\", \"operator:hi\", \"operator:ur\" and \"operator:wikidata\" tags. (2025/02/18)",
+        "operator": "Delhi Police",
+        "operator:en": "Delhi Police",
+        "operator:hi": "दिल्ली पुलिस",
+        "operator:ur": "دہلی پولیس",
+        "operator:wikidata": "Q3764926",
+        "wheelchair": "yes"
+      }
+    }
+  },
+  {
+    "id": 9,
+    "city_id": 1,
+    "name": "New Delhi Railway Station",
+    "latitude": "28.64310000",
+    "longitude": "77.21970000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 3947460096,
+        "name": "Surbhi hospital",
+        "distance_m": 742.6,
+        "lat": 28.6491348,
+        "lon": 77.2164415,
+        "tags": {
+          "addr:city": "New Delhi",
+          "addr:housenumber": "15",
+          "addr:postcode": "201301",
+          "addr:street": "Qutab Road",
+          "amenity": "hospital",
+          "name": "Surbhi hospital"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138493258,
+        "name": "Central Hospital (Northern Railways)",
+        "distance_m": 758.5,
+        "lat": 28.6365867,
+        "lon": 77.2173905,
+        "tags": {
+          "addr:district": "New Delhi",
+          "addr:full": "Basant Lane, Paharganj, Connaught Place",
+          "addr:postcode": "110055",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "contact:phone": "011- 2334 4092",
+          "description": "100-500 Bedded Hospital",
+          "healthcare": "hospital",
+          "name": "Central Hospital (Northern Railways)",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 44263455,
+        "name": "Lady Hardinge Medical College",
+        "distance_m": 1108.9,
+        "lat": 28.6352161,
+        "lon": 77.2127416,
+        "tags": {
+          "addr:housenumber": "C-604",
+          "addr:postcode": "110001",
+          "addr:street": "Shaheed Baghat Singh Marg",
+          "amenity": "college",
+          "emergency": "yes",
+          "healthcare": "hospital",
+          "name": "Lady Hardinge Medical College",
+          "name:en": "Lady Hardinge Medical College",
+          "name:hi": "लेडी हार्डिंग मेडिकल कॉलेज",
+          "wikidata": "Q6470215"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 6134779778,
+      "name": "Police Station New Delhi Railway Station",
+      "distance_m": 100.8,
+      "lat": 28.6437003,
+      "lon": 77.2189266,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Station New Delhi Railway Station",
+        "note": "Contributors are requested to not edit the \"operator\", \"operator:en\", \"operator:hi\", \"operator:ur\" and \"operator:wikidata\" tags. (2025/02/18)",
+        "operator": "Delhi Police",
+        "operator:en": "Delhi Police",
+        "operator:hi": "दिल्ली पुलिस",
+        "operator:ur": "دہلی پولیس",
+        "operator:wikidata": "Q3764926"
+      }
+    }
+  },
+  {
+    "id": 10,
+    "city_id": 1,
+    "name": "Lodi Garden",
+    "latitude": "28.59380000",
+    "longitude": "77.21970000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 1163845332,
+        "name": "Palika Maternity Hospital",
+        "distance_m": 1124.4,
+        "lat": 28.5838587,
+        "lon": 77.221808,
+        "tags": {
+          "addr:district": "South East",
+          "addr:full": "Block 11, Lodhi Colony, Khanna Market",
+          "addr:postcode": "110003",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "contact:phone": "011- 2465 4902",
+          "description": "100 Bedded Hospital",
+          "name": "Palika Maternity Hospital",
+          "name:hi": "Maternity Hospitals",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138632241,
+        "name": "MCW Sewa Nagar",
+        "distance_m": 1962.5,
+        "lat": 28.577053,
+        "lon": 77.226043,
+        "tags": {
+          "addr:district": "South East",
+          "addr:full": "SEWANAGAR, Jamia Miliia Islamia University Area",
+          "addr:postcode": "110003",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "description": "M&CW Center",
+          "healthcare": "centre",
+          "name": "MCW Sewa Nagar",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7138632176,
+        "name": "Manav Medicare Centre",
+        "distance_m": 2570.1,
+        "lat": 28.5706874,
+        "lon": 77.2199599,
+        "tags": {
+          "addr:district": "South East",
+          "addr:full": "E-11, Defence Colony, South Extension Part-1",
+          "addr:postcode": "110049",
+          "addr:state": "Delhi",
+          "amenity": "hospital",
+          "contact:phone": "011 2469 0655",
+          "description": "<100 Bedded Hospital",
+          "name": "Manav Medicare Centre",
+          "source": "OpenGovernmentData"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "relation",
+      "osm_id": 19233789,
+      "name": "Lodhi Colony Police Station",
+      "distance_m": 927.6,
+      "lat": 28.587959,
+      "lon": 77.2264833,
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Lodhi Colony Police Station",
+        "operator": "Delhi Police",
+        "operator:wikidata": "Q3764926",
+        "type": "multipolygon"
+      }
+    }
+  },
+  {
+    "id": 11,
+    "city_id": 2,
+    "name": "Dharavi",
+    "latitude": "19.04300000",
+    "longitude": "72.85500000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7664032209,
+        "name": "Janani Hospital",
+        "distance_m": 290.5,
+        "lat": 19.040411,
+        "lon": 72.854633,
+        "tags": {
+          "addr:district": "Mumbai City",
+          "addr:full": "Dharavi Vivekananda Cooperative Housing Society Limited, RP Nagar, Dharavi, Mumbai",
+          "addr:postcode": "400017",
+          "addr:state": "Maharastra",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Janani Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7664032240,
+        "name": "Lelavati Hospital",
+        "distance_m": 298.8,
+        "lat": 19.04033,
+        "lon": 72.8553219,
+        "tags": {
+          "addr:district": "Mumbai City",
+          "addr:full": "Bandra Reclamation Road, Muslim Nagar, Kumbhar Wada, Bandra West, Mumbai",
+          "addr:postcode": "400017",
+          "addr:state": "Maharastra",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Lelavati Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7664032241,
+        "name": "Aayush Hospital",
+        "distance_m": 299.2,
+        "lat": 19.040315,
+        "lon": 72.854812,
+        "tags": {
+          "addr:district": "Mumbai City",
+          "addr:full": "Dharavi Vivekananda Cooperative Housing Society Limited, 90 Feet Road, Muslim Nagar, RP Nagar, Dharavi, Mumbai",
+          "addr:postcode": "400017",
+          "addr:state": "Maharastra",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Aayush Hospital",
+          "source": "Local Knowledge"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 308016832,
+      "name": "Dharavi Police Station",
+      "distance_m": 264.5,
+      "lat": 19.0432664,
+      "lon": 72.8575004,
+      "tags": {
+        "amenity": "police",
+        "name": "Dharavi Police Station"
+      }
+    }
+  },
+  {
+    "id": 12,
+    "city_id": 2,
+    "name": "Colaba",
+    "latitude": "18.90670000",
+    "longitude": "72.81470000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 1288781456,
+        "name": "INHS Asvini Naval Hospital",
+        "distance_m": 713.3,
+        "lat": 18.9002886,
+        "lon": 72.8149353,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "Near RC Church, Navy Nagar, Colaba, Mumbai",
+          "addr:postcode": "400005",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "landuse": "Hospital",
+          "name": "INHS Asvini Naval Hospital",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 1288781456,
+        "name": "INHS Asvini Naval Hospital",
+        "distance_m": 713.3,
+        "lat": 18.9002886,
+        "lon": 72.8149353,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "Near RC Church, Navy Nagar, Colaba, Mumbai",
+          "addr:postcode": "400005",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "landuse": "Hospital",
+          "name": "INHS Asvini Naval Hospital",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 820951209,
+        "name": "School of Medical Assistants",
+        "distance_m": 812.4,
+        "lat": 18.8994331,
+        "lon": 72.8139031,
+        "tags": {
+          "addr:city": "Mumbai",
+          "addr:district": "Mumbai",
+          "addr:full": "45, Nanabhai Moos Marg, Near RC Church, Navy Nagar, Colaba, Mumbai",
+          "addr:postcode": "400005",
+          "addr:state": "Maharastra",
+          "addr:street": "Robert Rd, Navy Nagar, Colaba",
+          "alt_name": "School of Medical Assistants",
+          "amenity": "hospital",
+          "building": "yes",
+          "healthcare": "hospital",
+          "name": "School of Medical Assistants",
+          "source": "Local Knowledge"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 353758584,
+      "name": "Cuffe Parade Police Station",
+      "distance_m": 719.4,
+      "lat": 18.9119152,
+      "lon": 72.8187464,
+      "tags": {
+        "addr:city": "Mumbai",
+        "addr:district": "Mumbai City",
+        "addr:postcode": "400005",
+        "addr:street": "Sadhu Vaswani Marg,Ganesh Murti Nagar, Cuffe Parade",
+        "amenity": "police",
+        "building": "yes",
+        "name": "Cuffe Parade Police Station"
+      }
+    }
+  },
+  {
+    "id": 13,
+    "city_id": 2,
+    "name": "Marine Drive",
+    "latitude": "18.95980000",
+    "longitude": "72.82950000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 860315256,
+        "name": "Saifee Ambulance",
+        "distance_m": 210.4,
+        "lat": 18.9599377,
+        "lon": 72.8314957,
+        "tags": {
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Saifee Ambulance",
+          "source": "GPS"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7059192086,
+        "name": "M.H. Saboo Siddique Maternity and General Hospital - Masjid",
+        "distance_m": 381.4,
+        "lat": 18.9595979,
+        "lon": 72.8331207,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "Imamwada Road, Opposite Mughal Masjid",
+          "addr:postcode": "400009",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "emergency": "yes",
+          "healthcare": "hospital",
+          "healthcare:speciality": "gynaecology;general",
+          "name": "M.H. Saboo Siddique Maternity and General Hospital - Masjid",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7607557871,
+        "name": "BMC Eye Hospital ,Kamathipura",
+        "distance_m": 397.2,
+        "lat": 18.961983,
+        "lon": 72.8265104,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "MS Ali Road, Siddharth Nagar, Kamathipura, Mumbai",
+          "addr:postcode": "400008",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "BMC Eye Hospital ,Kamathipura",
+          "source": "Local Knowledge"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 7506854141,
+      "name": "Do Taki Police Chowki",
+      "distance_m": 219.0,
+      "lat": 18.9616064,
+      "lon": 72.8286697,
+      "tags": {
+        "amenity": "police",
+        "name": "Do Taki Police Chowki",
+        "operator": "Mumbai Police"
+      }
+    }
+  },
+  {
+    "id": 14,
+    "city_id": 2,
+    "name": "Gateway of India",
+    "latitude": "18.92200000",
+    "longitude": "72.83470000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7664032193,
+        "name": "Kalajot Hospital",
+        "distance_m": 229.8,
+        "lat": 18.923038,
+        "lon": 72.832811,
+        "tags": {
+          "addr:district": "Mumbai City",
+          "addr:full": "Devidas Mansion, 4, Behind Taj Hotel, Apollo Bandar, Colaba, Mumbai",
+          "addr:postcode": "400005",
+          "addr:state": "Maharastra",
+          "amenity": "hospital",
+          "name": "Kalajot Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7664032193,
+        "name": "Kalajot Hospital",
+        "distance_m": 229.8,
+        "lat": 18.923038,
+        "lon": 72.832811,
+        "tags": {
+          "addr:district": "Mumbai City",
+          "addr:full": "Devidas Mansion, 4, Behind Taj Hotel, Apollo Bandar, Colaba, Mumbai",
+          "addr:postcode": "400005",
+          "addr:state": "Maharastra",
+          "amenity": "hospital",
+          "name": "Kalajot Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 12560946824,
+        "name": "Apollo Hospitals",
+        "distance_m": 376.0,
+        "lat": 18.9232674,
+        "lon": 72.831386,
+        "tags": {
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Apollo Hospitals",
+          "operator": "Apollo Hospitals",
+          "operator:type": "private",
+          "operator:wikidata": "Q4780321"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "relation",
+      "osm_id": 19278855,
+      "name": "Maharashtra Police Headquarters",
+      "distance_m": 367.2,
+      "lat": 18.9251097,
+      "lon": 72.8335259,
+      "tags": {
+        "amenity": "police",
+        "building": "government;yes",
+        "name": "Maharashtra Police Headquarters",
+        "type": "multipolygon"
+      }
+    }
+  },
+  {
+    "id": 15,
+    "city_id": 2,
+    "name": "Bandra",
+    "latitude": "19.05960000",
+    "longitude": "72.82950000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 665481038,
+        "name": "K B Bhabha Municipal General Hospital",
+        "distance_m": 482.6,
+        "lat": 19.0573835,
+        "lon": 72.8334479,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "K.B.Bhabha Municipal General Hospital, Waterfield Road, Bandra (W)",
+          "addr:postcode": "400050",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "full_name": "Khurshitji Beharamji Bhabha Municipal General Hospital",
+          "full_name:en": "Khurshitji Beharamji Bhabha Municipal General Hospital",
+          "healthcare": "hospital",
+          "name": "K B Bhabha Municipal General Hospital",
+          "official_name": "K B Bhabha Municipal General Hospital",
+          "official_name:en": "K B Bhabha Municipal General Hospital",
+          "phone": "+912226422775",
+          "short_name": "Bhabha Hospital",
+          "short_name:en": "Bhabha Hospital",
+          "source": "OpenGovernmentData",
+          "wikidata": "Q4900481",
+          "wikipedia": "en:Bhabha Hospital"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 665481038,
+        "name": "K B Bhabha Municipal General Hospital",
+        "distance_m": 482.6,
+        "lat": 19.0573835,
+        "lon": 72.8334479,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "K.B.Bhabha Municipal General Hospital, Waterfield Road, Bandra (W)",
+          "addr:postcode": "400050",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "full_name": "Khurshitji Beharamji Bhabha Municipal General Hospital",
+          "full_name:en": "Khurshitji Beharamji Bhabha Municipal General Hospital",
+          "healthcare": "hospital",
+          "name": "K B Bhabha Municipal General Hospital",
+          "official_name": "K B Bhabha Municipal General Hospital",
+          "official_name:en": "K B Bhabha Municipal General Hospital",
+          "phone": "+912226422775",
+          "short_name": "Bhabha Hospital",
+          "short_name:en": "Bhabha Hospital",
+          "source": "OpenGovernmentData",
+          "wikidata": "Q4900481",
+          "wikipedia": "en:Bhabha Hospital"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 31213763,
+        "name": "Holy Family Hospital, Mumbai",
+        "distance_m": 519.0,
+        "lat": 19.0555006,
+        "lon": 72.8271397,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "St.Andrew's Road,Bandra West,Bandra",
+          "addr:postcode": "400050",
+          "addr:state": "Maharashtra",
+          "addr:street": "St. Andrew Road",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Holy Family Hospital, Mumbai",
+          "opening_hours": "Mo-Fr 08:00-17:00",
+          "phone": "(022 30610555 )",
+          "source": "OpenGovernmentData",
+          "wikidata": "Q5885495",
+          "wikipedia": "en:Holy Family Hospital, Mumbai"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 2171447204,
+      "name": "Police Chowki",
+      "distance_m": 360.6,
+      "lat": 19.0628319,
+      "lon": 72.8292193,
+      "tags": {
+        "amenity": "police",
+        "name": "Police Chowki"
+      }
+    }
+  },
+  {
+    "id": 16,
+    "city_id": 2,
+    "name": "Dadar",
+    "latitude": "19.01760000",
+    "longitude": "72.84790000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7065561552,
+        "name": "Akshi Eye Centre",
+        "distance_m": 119.9,
+        "lat": 19.0186715,
+        "lon": 72.8480257,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "Mayur Niwas, 169/A, Dr. Ambedkar Road, Dadar T.T",
+          "addr:postcode": "400014",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "name": "Akshi Eye Centre",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7068194946,
+        "name": "Arthroscopy and Sports Medicine Institute",
+        "distance_m": 201.8,
+        "lat": 19.019313,
+        "lon": 72.848534,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "Ground Floor,168-A, Savitri Sdn, Dr. B.A. Road, Dadar",
+          "addr:postcode": "400014",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "name": "Arthroscopy and Sports Medicine Institute",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7044553386,
+        "name": "Krishna Cardiac Care Centre, Mumbai",
+        "distance_m": 243.4,
+        "lat": 19.0196598,
+        "lon": 72.8486822,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "166-C Krishna Kunj,Khareghat Road, Dr.Ambedkar Road,Dadar( E)",
+          "addr:postcode": "400014",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "name": "Krishna Cardiac Care Centre, Mumbai",
+          "source": "OpenGovernmentData"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 135732933,
+      "name": "Shivaji Park Police Station",
+      "distance_m": 967.0,
+      "lat": 19.0232623,
+      "lon": 72.8409178,
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Shivaji Park Police Station"
+      }
+    }
+  },
+  {
+    "id": 17,
+    "city_id": 2,
+    "name": "Bombay Central Railway Station",
+    "latitude": "18.96760000",
+    "longitude": "72.81940000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7070857459,
+        "name": "Sadhu-Kamal Eye Hospital",
+        "distance_m": 158.8,
+        "lat": 18.9661811,
+        "lon": 72.8195715,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "Bldg. No.2, 1st Floor, R.No. 4, 5 & 10, Navjivan Society, Lamington Road",
+          "addr:postcode": "400008",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "name": "Sadhu-Kamal Eye Hospital",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7070857459,
+        "name": "Sadhu-Kamal Eye Hospital",
+        "distance_m": 158.8,
+        "lat": 18.9661811,
+        "lon": 72.8195715,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "Bldg. No.2, 1st Floor, R.No. 4, 5 & 10, Navjivan Society, Lamington Road",
+          "addr:postcode": "400008",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "name": "Sadhu-Kamal Eye Hospital",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7225067213,
+        "name": "Nair Hospital Dental College",
+        "distance_m": 432.3,
+        "lat": 18.971194,
+        "lon": 72.820968,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "55, Dr Anandrao Nair Marg, Near Mumbai Central Railway Station, Mumbai",
+          "addr:postcode": "400008",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "description": "Medical Colleges Hospital",
+          "name": "Nair Hospital Dental College",
+          "source": "OpenGovernmentData"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 48754898,
+      "name": "Tardeo Police Station",
+      "distance_m": 588.0,
+      "lat": 18.969485,
+      "lon": 72.8141758,
+      "tags": {
+        "addr:city": "Mumbai",
+        "addr:postcode": "400034",
+        "addr:street": "Tardeo Police Lane",
+        "amenity": "police",
+        "building": "yes",
+        "name": "Tardeo Police Station",
+        "name:mr": "ताडदेव पोलीस स्टेशन"
+      }
+    }
+  },
+  {
+    "id": 18,
+    "city_id": 2,
+    "name": "Victoria Terminus",
+    "latitude": "18.94320000",
+    "longitude": "72.83300000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 207376648,
+        "name": "Cama Hospital",
+        "distance_m": 132.9,
+        "lat": 18.9423641,
+        "lon": 72.8320971,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "Mahapalika Marg, opp. Azad Maidan, Dhobi Talao, Chhatrapati Shivaji Terminus Area",
+          "addr:postcode": "400001",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "emergency": "yes",
+          "healthcare": "hospital",
+          "landuse": "yes",
+          "name": "Cama Hospital",
+          "name:etymology:wikidata": "Q21556664",
+          "source": "OpenGovernmentData",
+          "wikidata": "Q5024895",
+          "wikimedia_commons": "Category:Cama & Albless Hospital",
+          "wikipedia": "en:Cama Hospital"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 6884803664,
+        "name": "Cama and Albles Hospital - Abdul Fazalbhoy Blood Bank",
+        "distance_m": 139.0,
+        "lat": 18.9420805,
+        "lon": 72.8324126,
+        "tags": {
+          "addr:city": "Mumbai",
+          "addr:district": "MUMBAI",
+          "addr:full": "Mahapalika Marg, Mumbai CST",
+          "addr:postcode": "400001",
+          "addr:state": "Maharashtra",
+          "contact:mobile": "9867798441",
+          "contact:phone": "02222611667;02222611654;02222611647(Extn.319);02222611648",
+          "fax": "022 22621197",
+          "healthcare": "hospital",
+          "name": "Cama and Albles Hospital - Abdul Fazalbhoy Blood Bank",
+          "opening_hours": "24/7",
+          "operator:type": "government",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 207376654,
+        "name": "गोकुळदास तेजपाल रुग्णालय",
+        "distance_m": 218.5,
+        "lat": 18.9447424,
+        "lon": 72.8317135,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "Near Police Commissioners Office, Lokmanya Tilak Road, G. P. O.",
+          "addr:postcode": "400001",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "गोकुळदास तेजपाल रुग्णालय",
+          "name:en": "Gokuldas Tejpal Hospital",
+          "source": "OpenGovernmentData"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 207376650,
+      "name": null,
+      "distance_m": 134.2,
+      "lat": 18.9420194,
+      "lon": 72.8332649,
+      "tags": {
+        "amenity": "police"
+      }
+    }
+  },
+  {
+    "id": 19,
+    "city_id": 2,
+    "name": "Juhu Beach",
+    "latitude": "19.11360000",
+    "longitude": "72.82610000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 4998848423,
+        "name": "Bharatiya Arogya Nidhi Sheth Kantilal C. Parikh General Hospital",
+        "distance_m": 310.3,
+        "lat": 19.1117839,
+        "lon": 72.8283425,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "N. S. Road No. 13, Juhu Scheme, Vile Parle (W), Nxt To Utpal Sanghvi School",
+          "addr:postcode": "400049",
+          "addr:state": "Maharashtra",
+          "addr:street": "N S Road No. 13",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Bharatiya Arogya Nidhi Sheth Kantilal C. Parikh General Hospital",
+          "name:en": "Bharatiya Arogya Nidhi Sheth Kantilal C. Parikh General Hospital",
+          "opening_hours": "24/7",
+          "phone": "02226206021",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 4998848423,
+        "name": "Bharatiya Arogya Nidhi Sheth Kantilal C. Parikh General Hospital",
+        "distance_m": 310.3,
+        "lat": 19.1117839,
+        "lon": 72.8283425,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "N. S. Road No. 13, Juhu Scheme, Vile Parle (W), Nxt To Utpal Sanghvi School",
+          "addr:postcode": "400049",
+          "addr:state": "Maharashtra",
+          "addr:street": "N S Road No. 13",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Bharatiya Arogya Nidhi Sheth Kantilal C. Parikh General Hospital",
+          "name:en": "Bharatiya Arogya Nidhi Sheth Kantilal C. Parikh General Hospital",
+          "opening_hours": "24/7",
+          "phone": "02226206021",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7663961397,
+        "name": "Lotus Eye Hospital",
+        "distance_m": 450.0,
+        "lat": 19.10982,
+        "lon": 72.82763,
+        "tags": {
+          "addr:district": "Mumbai Suburban",
+          "addr:full": "Bus Terminus, North South Road, Opp Juhu, Vithal Nagar, Juhu, Mumbai",
+          "addr:postcode": "400049",
+          "addr:state": "Maharastra",
+          "amenity": "hospital",
+          "name": "Lotus Eye Hospital",
+          "source": "Local Knowledge"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 1697431324,
+      "name": "D.N. Nagar Police Station",
+      "distance_m": 1079.8,
+      "lat": 19.1225849,
+      "lon": 72.8299999,
+      "tags": {
+        "amenity": "police",
+        "check_date": "2024-09-25",
+        "name": "D.N. Nagar Police Station"
+      }
+    }
+  },
+  {
+    "id": 20,
+    "city_id": 2,
+    "name": "Worli",
+    "latitude": "19.01760000",
+    "longitude": "72.81790000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7064364272,
+        "name": "Worli Hospital For Women",
+        "distance_m": 725.3,
+        "lat": 19.0128124,
+        "lon": 72.8225863,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "Pupala Sadan",
+          "addr:postcode": "400030",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "name": "Worli Hospital For Women",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7064364272,
+        "name": "Worli Hospital For Women",
+        "distance_m": 725.3,
+        "lat": 19.0128124,
+        "lon": 72.8225863,
+        "tags": {
+          "addr:district": "Mumbai",
+          "addr:full": "Pupala Sadan",
+          "addr:postcode": "400030",
+          "addr:state": "Maharashtra",
+          "amenity": "hospital",
+          "name": "Worli Hospital For Women",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7664032219,
+        "name": "BMC Hospital",
+        "distance_m": 902.6,
+        "lat": 19.015443,
+        "lon": 72.8261774,
+        "tags": {
+          "addr:district": "Mumbai City",
+          "addr:full": "Old Prabhadevi Road, G-South Ward, Dadar West, Prabhadevi, Mumbai",
+          "addr:postcode": "400025",
+          "addr:state": "Maharastra",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "healthcare:speciality": "general",
+          "name": "BMC Hospital",
+          "source": "Local Knowledge"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 353810415,
+      "name": "Worli Police Station",
+      "distance_m": 1384.0,
+      "lat": 19.0051624,
+      "lon": 72.817387,
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "Worli Police Station",
+        "name:en": "Worli Police Station",
+        "name:mr": "वरळी पोलीस ठाणे"
+      }
+    }
+  },
+  {
+    "id": 21,
+    "city_id": 3,
+    "name": "MG Road",
+    "latitude": "12.93520000",
+    "longitude": "77.62450000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 6939445234,
+        "name": "HCG, Koramangala",
+        "distance_m": 200.1,
+        "lat": 12.9343279,
+        "lon": 77.6228848,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "# 88, 17th, A Main, 2nd Cross, 5th Block, Koramangala",
+          "addr:postcode": "560095",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "healthcare:speciality": "Clinical Labs; Diagnosis; Medical Oncology; Radiation oncology; Surgical Oncology",
+          "name": "HCG, Koramangala",
+          "operator:type": "private",
+          "source": "OpenGovernmentData",
+          "website": "https://www.hcgoncology.com/"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 6124618183,
+        "name": "Shiva Vision Care",
+        "distance_m": 383.8,
+        "lat": 12.9366526,
+        "lon": 77.6277125,
+        "tags": {
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Shiva Vision Care"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 4447087999,
+        "name": "Acura Speciality Hospital",
+        "distance_m": 428.2,
+        "lat": 12.9353208,
+        "lon": 77.6205504,
+        "tags": {
+          "addr:city": "Bangalore",
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "435, Acura Hospital, 18th Main, 6th Block, Koramangala",
+          "addr:housenumber": "105",
+          "addr:postcode": "560095",
+          "addr:state": "Karnataka",
+          "addr:street": "5th Block, 17th C Main Road, KHB Colony , Koramangala",
+          "amenity": "hospital",
+          "name": "Acura Speciality Hospital",
+          "operator:type": "private",
+          "phone": "+9180 4110 5151",
+          "source": "OpenGovernmentData",
+          "website": "https://www.seekandsource.com/acurahospital"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 1099882755,
+      "name": "Koramangala Police Station",
+      "distance_m": 736.3,
+      "lat": 12.9410977,
+      "lon": 77.6214106,
+      "tags": {
+        "amenity": "police",
+        "name": "Koramangala Police Station",
+        "name:kn": "ಕೋರಮಂಗಲ ಆರಕ್ಷಕ ಠಾಣೆ"
+      }
+    }
+  },
+  {
+    "id": 22,
+    "city_id": 3,
+    "name": "Indiranagar",
+    "latitude": "12.97160000",
+    "longitude": "77.64120000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7572526687,
+        "name": "Dr. Rajesh Hospitals Eye and Dental",
+        "distance_m": 319.8,
+        "lat": 12.9688989,
+        "lon": 77.6422131,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "Indiranagar, Bengaluru",
+          "addr:postcode": "560008",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Dr. Rajesh Hospitals Eye and Dental",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 59358741,
+        "name": "ESI Hospital",
+        "distance_m": 485.8,
+        "lat": 12.9713479,
+        "lon": 77.6367243,
+        "tags": {
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "ESI Hospital",
+          "name:kn": "ಇಎಸ್ಐ ಆಸ್ಪತ್ರೆ",
+          "operator": "Employees' State Insurance",
+          "operator:short": "ESI",
+          "operator:wikidata": "Q3595726"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7572526750,
+        "name": "Athoz Hospitals",
+        "distance_m": 493.9,
+        "lat": 12.9673428,
+        "lon": 77.6424996,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "Indiranagar, Bengaluru",
+          "addr:postcode": "560008",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Athoz Hospitals",
+          "source": "Local Knowledge"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 3369937900,
+      "name": "Indiranagar Traffic Police Station",
+      "distance_m": 743.4,
+      "lat": 12.978243,
+      "lon": 77.6404269,
+      "tags": {
+        "amenity": "police",
+        "check_date": "2025-08-15",
+        "name": "Indiranagar Traffic Police Station"
+      }
+    }
+  },
+  {
+    "id": 23,
+    "city_id": 3,
+    "name": "Whitefield",
+    "latitude": "12.96980000",
+    "longitude": "77.74990000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 704936395,
+        "name": "Pushpa Nursing Home",
+        "distance_m": 105.6,
+        "lat": 12.9689357,
+        "lon": 77.7494971,
+        "tags": {
+          "addr:city": "Bangalore",
+          "addr:housenumber": "284",
+          "addr:postcode": "560066",
+          "addr:street": "Whitefield Main road",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Pushpa Nursing Home",
+          "phone": "+917676548532",
+          "website": "https://www.pushpanursinghome.com/"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 12500298573,
+        "name": "Dr. Agarwal's Eye Hospital",
+        "distance_m": 214.6,
+        "lat": 12.9678752,
+        "lon": 77.7500478,
+        "tags": {
+          "amenity": "hospital",
+          "branch": "Whitefield",
+          "check_date": "2025-07-12",
+          "healthcare": "hospital",
+          "name": "Dr. Agarwal's Eye Hospital",
+          "operator": "Dr. Agarwal's Eye Hospital",
+          "operator:type": "private",
+          "operator:wikidata": "Q17052044"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 674106057,
+        "name": "Svastha Hospital",
+        "distance_m": 433.9,
+        "lat": 12.9659316,
+        "lon": 77.7493736,
+        "tags": {
+          "addr:street": "Whitefield Main Road",
+          "amenity": "hospital",
+          "building": "yes",
+          "building:levels": "3",
+          "check_date": "2025-07-12",
+          "emergency": "yes",
+          "healthcare": "hospital",
+          "healthcare:speciality": "neurology;dermatology;cardiology;pulmonology;plastic_surgery;physiatry;urology;fertility;internal;paediatrics;otolaryngology",
+          "name": "Svastha Hospital",
+          "roof:levels": "0",
+          "roof:shape": "flat",
+          "wheelchair": "yes"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 1088209026,
+      "name": "Whitefield Police Station -Office of the Deputy Commisionner",
+      "distance_m": 641.6,
+      "lat": 12.9754425,
+      "lon": 77.7511388,
+      "tags": {
+        "amenity": "police",
+        "check_date": "2025-06-10",
+        "name": "Whitefield Police Station -Office of the Deputy Commisionner"
+      }
+    }
+  },
+  {
+    "id": 24,
+    "city_id": 3,
+    "name": "Vidhana Soudha",
+    "latitude": "12.98400000",
+    "longitude": "77.59040000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 124760551,
+        "name": "Sparsh Hospital For Advanced Surgeries, Bengaluru Urban",
+        "distance_m": 454.2,
+        "lat": 12.9833345,
+        "lon": 77.5945358,
+        "tags": {
+          "addr:city": "Bangalore",
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "# 146, Infantry Road, Prestige Opal Building, Opp Police Commissioners Office",
+          "addr:postcode": "560001",
+          "addr:state": "Karnataka",
+          "addr:street": "Infantry Road",
+          "amenity": "hospital",
+          "name": "Sparsh Hospital For Advanced Surgeries, Bengaluru Urban",
+          "name:kn": "ಸ್ಪರ್ಶ್ ಆಸ್ಪತ್ರೆ",
+          "source": "OpenGovernmentData",
+          "website": "https://www.sparshhospital.com/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 124760551,
+        "name": "Sparsh Hospital For Advanced Surgeries, Bengaluru Urban",
+        "distance_m": 454.2,
+        "lat": 12.9833345,
+        "lon": 77.5945358,
+        "tags": {
+          "addr:city": "Bangalore",
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "# 146, Infantry Road, Prestige Opal Building, Opp Police Commissioners Office",
+          "addr:postcode": "560001",
+          "addr:state": "Karnataka",
+          "addr:street": "Infantry Road",
+          "amenity": "hospital",
+          "name": "Sparsh Hospital For Advanced Surgeries, Bengaluru Urban",
+          "name:kn": "ಸ್ಪರ್ಶ್ ಆಸ್ಪತ್ರೆ",
+          "source": "OpenGovernmentData",
+          "website": "https://www.sparshhospital.com/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 371602983,
+        "name": "Manipal Hospital",
+        "distance_m": 505.2,
+        "lat": 12.9882084,
+        "lon": 77.5921572,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "No.71/1, Millers Road, Opp. St. Anne's College, Bengaluru",
+          "addr:postcode": "560052",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Manipal Hospital",
+          "name:kn": "ಮಣಿಪಾಲ ಆಸ್ಪತ್ರೆ",
+          "old_name": "Vikram Hospital",
+          "old_name:kn": "ವಿಕ್ರಮ್ ಆಸ್ಪತ್ರೆ",
+          "source": "OpenGovernmentData",
+          "website": "https://www.vikramhospital.com/"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 782014100,
+      "name": "Commisioner of Police",
+      "distance_m": 462.5,
+      "lat": 12.9844786,
+      "lon": 77.5946399,
+      "tags": {
+        "amenity": "police",
+        "name": "Commisioner of Police"
+      }
+    }
+  },
+  {
+    "id": 25,
+    "city_id": 3,
+    "name": "Lalbagh",
+    "latitude": "12.95890000",
+    "longitude": "77.58490000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 1311064558,
+        "name": "Trustwell Hospitals",
+        "distance_m": 216.1,
+        "lat": 12.9606538,
+        "lon": 77.5840403,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "Chandrika Tower, JC Road, Bengaluru",
+          "addr:postcode": "560002",
+          "addr:state": "Karnataka",
+          "addr:street": "Jayachamaraja Wodeyar Road",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Trustwell Hospitals",
+          "source": "Local Knowledge",
+          "website": "https://trustwellhospitals.com/"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 12541779301,
+        "name": "H Siddiah Referral Hospital",
+        "distance_m": 346.8,
+        "lat": 12.9569057,
+        "lon": 77.5824398,
+        "tags": {
+          "amenity": "hospital",
+          "name": "H Siddiah Referral Hospital"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 6944925493,
+        "name": "Bengaluru West Lions Hospital",
+        "distance_m": 348.4,
+        "lat": 12.9563042,
+        "lon": 77.5830996,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "J.C.Road",
+          "addr:postcode": "560002",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "name": "Bengaluru West Lions Hospital",
+          "operator:type": "private",
+          "source": "OpenGovernmentData",
+          "website": "http://dpal.kar.nic.in/Kanunu%20padakosha%20PDF%20Files/Recognised%20Hospitals.pdf"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 347425037,
+      "name": "S.J. Park Police",
+      "distance_m": 297.8,
+      "lat": 12.9609483,
+      "lon": 77.5831297,
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "S.J. Park Police"
+      }
+    }
+  },
+  {
+    "id": 26,
+    "city_id": 3,
+    "name": "Brigade Road",
+    "latitude": "12.97160000",
+    "longitude": "77.60710000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 1454651986,
+        "name": "Narayana Netralaya",
+        "distance_m": 557.4,
+        "lat": 12.9671401,
+        "lon": 77.6094485,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "#37, Castle Street, Opp Sacred Heart Church, Ashok Nagar, B.E",
+          "addr:housenumber": "37",
+          "addr:postcode": "560025",
+          "addr:state": "Karnataka",
+          "addr:street": "Castle Street",
+          "amenity": "hospital",
+          "name": "Narayana Netralaya",
+          "name:kn": "ನಾರಾಯಣ ನೇತ್ರಾಲಯ",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 346537092,
+        "name": "Fortis La Femme Hospital",
+        "distance_m": 710.1,
+        "lat": 12.9657452,
+        "lon": 77.6097161,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "Richmond Town, Bengaluru",
+          "addr:postcode": "560025",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "building": "hospital",
+          "name": "Fortis La Femme Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "way",
+        "osm_id": 148065730,
+        "name": "Hosmat Hospital",
+        "distance_m": 728.3,
+        "lat": 12.9691251,
+        "lon": 77.6133228,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "45 Magrath Road, Off Richmond Road",
+          "addr:postcode": "560025",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "emergency": "yes",
+          "healthcare": "hospital",
+          "name": "Hosmat Hospital",
+          "name:kn": "ಹೊಸ್ಮತ್ ಆಸ್ಪತ್ರೆ",
+          "source": "OpenGovernmentData",
+          "wheelchair": "yes",
+          "wikidata": "Q5635474",
+          "wikipedia": "en:HOSMAT"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 403473919,
+      "name": "Ashok Nagar Police Station",
+      "distance_m": 334.6,
+      "lat": 12.9716381,
+      "lon": 77.610188,
+      "tags": {
+        "amenity": "police",
+        "name": "Ashok Nagar Police Station",
+        "name:kn": "ಆರಕ್ಷಕ ಠಾಣೆ, ಅಶೋಕನಗರ"
+      }
+    }
+  },
+  {
+    "id": 27,
+    "city_id": 3,
+    "name": "Commercial Street",
+    "latitude": "12.96570000",
+    "longitude": "77.60120000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7576958106,
+        "name": "Gleneagles Global Hospitals",
+        "distance_m": 143.1,
+        "lat": 12.9654497,
+        "lon": 77.5999044,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "Richmond Road, Shanthala Nagar, Ashok Nagar, Bengaluru",
+          "addr:postcode": "560025",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "name": "Gleneagles Global Hospitals",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7576958106,
+        "name": "Gleneagles Global Hospitals",
+        "distance_m": 143.1,
+        "lat": 12.9654497,
+        "lon": 77.5999044,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "Richmond Road, Shanthala Nagar, Ashok Nagar, Bengaluru",
+          "addr:postcode": "560025",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "name": "Gleneagles Global Hospitals",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 6947504038,
+        "name": "Republic Hospital",
+        "distance_m": 364.9,
+        "lat": 12.964162,
+        "lon": 77.5982255,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "No. 5, Langford Gardens, Near Richmond Circle",
+          "addr:postcode": "560025",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "name": "Republic Hospital",
+          "source": "OpenGovernmentData"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 2577231853,
+      "name": "Sampangi Rama Nagar Police Station",
+      "distance_m": 1026.7,
+      "lat": 12.9632542,
+      "lon": 77.5920638,
+      "tags": {
+        "addr:city": "Bangalore",
+        "addr:housenumber": "16",
+        "addr:postcode": "560027",
+        "addr:street": "Mission Road (Kalinga Rao Road)",
+        "amenity": "police",
+        "name": "Sampangi Rama Nagar Police Station",
+        "name:bn": "সম্পাঙ্গী রাম নগর থানা"
+      }
+    }
+  },
+  {
+    "id": 28,
+    "city_id": 3,
+    "name": "Koramangala",
+    "latitude": "12.93520000",
+    "longitude": "77.62450000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 6939445234,
+        "name": "HCG, Koramangala",
+        "distance_m": 200.1,
+        "lat": 12.9343279,
+        "lon": 77.6228848,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "# 88, 17th, A Main, 2nd Cross, 5th Block, Koramangala",
+          "addr:postcode": "560095",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "healthcare:speciality": "Clinical Labs; Diagnosis; Medical Oncology; Radiation oncology; Surgical Oncology",
+          "name": "HCG, Koramangala",
+          "operator:type": "private",
+          "source": "OpenGovernmentData",
+          "website": "https://www.hcgoncology.com/"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 6124618183,
+        "name": "Shiva Vision Care",
+        "distance_m": 383.8,
+        "lat": 12.9366526,
+        "lon": 77.6277125,
+        "tags": {
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Shiva Vision Care"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 4447087999,
+        "name": "Acura Speciality Hospital",
+        "distance_m": 428.2,
+        "lat": 12.9353208,
+        "lon": 77.6205504,
+        "tags": {
+          "addr:city": "Bangalore",
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "435, Acura Hospital, 18th Main, 6th Block, Koramangala",
+          "addr:housenumber": "105",
+          "addr:postcode": "560095",
+          "addr:state": "Karnataka",
+          "addr:street": "5th Block, 17th C Main Road, KHB Colony , Koramangala",
+          "amenity": "hospital",
+          "name": "Acura Speciality Hospital",
+          "operator:type": "private",
+          "phone": "+9180 4110 5151",
+          "source": "OpenGovernmentData",
+          "website": "https://www.seekandsource.com/acurahospital"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 1099882755,
+      "name": "Koramangala Police Station",
+      "distance_m": 736.3,
+      "lat": 12.9410977,
+      "lon": 77.6214106,
+      "tags": {
+        "amenity": "police",
+        "name": "Koramangala Police Station",
+        "name:kn": "ಕೋರಮಂಗಲ ಆರಕ್ಷಕ ಠಾಣೆ"
+      }
+    }
+  },
+  {
+    "id": 29,
+    "city_id": 3,
+    "name": "Hebbal",
+    "latitude": "13.00110000",
+    "longitude": "77.60000000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 8188038706,
+        "name": "Appllo Diagnostic",
+        "distance_m": 344.3,
+        "lat": 12.9981064,
+        "lon": 77.6008126,
+        "tags": {
+          "addr:full": "79/10, Nandi Durga Rd, Byadarahalli, Benson Town, Bengaluru, Karnataka",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "name": "Appllo Diagnostic"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 8188038706,
+        "name": "Appllo Diagnostic",
+        "distance_m": 344.3,
+        "lat": 12.9981064,
+        "lon": 77.6008126,
+        "tags": {
+          "addr:full": "79/10, Nandi Durga Rd, Byadarahalli, Benson Town, Bengaluru, Karnataka",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "name": "Appllo Diagnostic"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 1067181192,
+        "name": "Devine Hospital",
+        "distance_m": 527.6,
+        "lat": 13.0038999,
+        "lon": 77.6039313,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "110,6Th Main Iti Layout Benson Town Post",
+          "addr:postcode": "560046",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "name": "Devine Hospital",
+          "name:kn": "ಡಿವೈನ್ ಆಸ್ಪತ್ರೆ",
+          "source": "OpenGovernmentData"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 5862563586,
+      "name": "JC Nagara Police Station",
+      "distance_m": 879.2,
+      "lat": 13.0057165,
+      "lon": 77.5934124,
+      "tags": {
+        "amenity": "police",
+        "name": "JC Nagara Police Station",
+        "name:kn": "ಜೆಸಿ ನಗರ ಆರಕ್ಷಕ ಠಾಣೆ"
+      }
+    }
+  },
+  {
+    "id": 30,
+    "city_id": 3,
+    "name": "Banashankari",
+    "latitude": "12.95890000",
+    "longitude": "77.58490000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "way",
+        "osm_id": 1311064558,
+        "name": "Trustwell Hospitals",
+        "distance_m": 216.1,
+        "lat": 12.9606538,
+        "lon": 77.5840403,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "Chandrika Tower, JC Road, Bengaluru",
+          "addr:postcode": "560002",
+          "addr:state": "Karnataka",
+          "addr:street": "Jayachamaraja Wodeyar Road",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Trustwell Hospitals",
+          "source": "Local Knowledge",
+          "website": "https://trustwellhospitals.com/"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 12541779301,
+        "name": "H Siddiah Referral Hospital",
+        "distance_m": 346.8,
+        "lat": 12.9569057,
+        "lon": 77.5824398,
+        "tags": {
+          "amenity": "hospital",
+          "name": "H Siddiah Referral Hospital"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 6944925493,
+        "name": "Bengaluru West Lions Hospital",
+        "distance_m": 348.4,
+        "lat": 12.9563042,
+        "lon": 77.5830996,
+        "tags": {
+          "addr:district": "Bengaluru Urban",
+          "addr:full": "J.C.Road",
+          "addr:postcode": "560002",
+          "addr:state": "Karnataka",
+          "amenity": "hospital",
+          "name": "Bengaluru West Lions Hospital",
+          "operator:type": "private",
+          "source": "OpenGovernmentData",
+          "website": "http://dpal.kar.nic.in/Kanunu%20padakosha%20PDF%20Files/Recognised%20Hospitals.pdf"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 347425037,
+      "name": "S.J. Park Police",
+      "distance_m": 297.8,
+      "lat": 12.9609483,
+      "lon": 77.5831297,
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "name": "S.J. Park Police"
+      }
+    }
+  },
+  {
+    "id": 31,
+    "city_id": 4,
+    "name": "City Palace",
+    "latitude": "26.92450000",
+    "longitude": "75.82490000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7025306774,
+        "name": "Amar Jain Hospital",
+        "distance_m": 571.6,
+        "lat": 26.9204054,
+        "lon": 75.821414,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "4-J-5, Jawahar Nagar, Choura Rasta",
+          "addr:postcode": "302003",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Amar Jain Hospital",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7698578107,
+        "name": "Bhiwani Eye Hospital",
+        "distance_m": 584.0,
+        "lat": 26.9200507,
+        "lon": 75.8217693,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Bapu Bazar, Biseswarji",
+          "addr:postcode": "302003",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "healthcare:speciality": "ophthalmology",
+          "name": "Bhiwani Eye Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7698578067,
+        "name": "Solanki Hospital",
+        "distance_m": 639.5,
+        "lat": 26.9272446,
+        "lon": 75.819232,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Gangori Bazaar",
+          "addr:postcode": "302002",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "name": "Solanki Hospital",
+          "source": "Local Knowledge"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 170101096,
+      "name": "Police Thana Manak Chowk",
+      "distance_m": 301.8,
+      "lat": 26.9231805,
+      "lon": 75.8275598,
+      "tags": {
+        "addr:city": "Jaipur",
+        "addr:postcode": "302003",
+        "addr:street": "Badi Chaupar",
+        "amenity": "police",
+        "building": "yes",
+        "check_date": "2025-11-03",
+        "name": "Police Thana Manak Chowk",
+        "phone": "0141 260 1366",
+        "website": "https://jaipurpolice.rajasthan.gov.in/"
+      }
+    }
+  },
+  {
+    "id": 32,
+    "city_id": 4,
+    "name": "Jantar Mantar",
+    "latitude": "26.91240000",
+    "longitude": "75.82350000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7698578080,
+        "name": "M.D. Hospital",
+        "distance_m": 113.5,
+        "lat": 26.9124912,
+        "lon": 75.8246404,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Central Jail, Fateh Tibba, Adarsh Nagar",
+          "addr:postcode": "302004",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "M.D. Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7040488133,
+        "name": "Mahila Chikitsalya",
+        "distance_m": 229.1,
+        "lat": 26.9143851,
+        "lon": 75.8241183,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Sanganeri Gate",
+          "addr:postcode": "302003",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Mahila Chikitsalya",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7698578024,
+        "name": "Akhila Hospital",
+        "distance_m": 451.7,
+        "lat": 26.9151062,
+        "lon": 75.826897,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Adarsh Nagar",
+          "addr:postcode": "302003",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Akhila Hospital",
+          "source": "Local Knowledge"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 1257701014,
+      "name": "policr thana manak chowk",
+      "distance_m": 1170.3,
+      "lat": 26.9224223,
+      "lon": 75.8271042,
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "layer": "-1",
+        "name": "policr thana manak chowk"
+      }
+    }
+  },
+  {
+    "id": 33,
+    "city_id": 4,
+    "name": "Hawa Mahal",
+    "latitude": "26.92450000",
+    "longitude": "75.82670000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7034765483,
+        "name": "K.K Diagnostic Centre , Jaipur",
+        "distance_m": 505.2,
+        "lat": 26.9260733,
+        "lon": 75.8314803,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Khawasaji Ka Rasta, Near Hawa Mahal Road",
+          "addr:postcode": "302002",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "K.K Diagnostic Centre , Jaipur",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7025306774,
+        "name": "Amar Jain Hospital",
+        "distance_m": 694.2,
+        "lat": 26.9204054,
+        "lon": 75.821414,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "4-J-5, Jawahar Nagar, Choura Rasta",
+          "addr:postcode": "302003",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Amar Jain Hospital",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7698578107,
+        "name": "Bhiwani Eye Hospital",
+        "distance_m": 695.5,
+        "lat": 26.9200507,
+        "lon": 75.8217693,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Bapu Bazar, Biseswarji",
+          "addr:postcode": "302003",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "healthcare:speciality": "ophthalmology",
+          "name": "Bhiwani Eye Hospital",
+          "source": "Local Knowledge"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 170101096,
+      "name": "Police Thana Manak Chowk",
+      "distance_m": 169.7,
+      "lat": 26.9231805,
+      "lon": 75.8275598,
+      "tags": {
+        "addr:city": "Jaipur",
+        "addr:postcode": "302003",
+        "addr:street": "Badi Chaupar",
+        "amenity": "police",
+        "building": "yes",
+        "check_date": "2025-11-03",
+        "name": "Police Thana Manak Chowk",
+        "phone": "0141 260 1366",
+        "website": "https://jaipurpolice.rajasthan.gov.in/"
+      }
+    }
+  },
+  {
+    "id": 34,
+    "city_id": 4,
+    "name": "Jaipur Railway Station",
+    "latitude": "26.81190000",
+    "longitude": "75.83290000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7695122986,
+        "name": "Om Sai Hospital",
+        "distance_m": 757.0,
+        "lat": 26.8051181,
+        "lon": 75.8322375,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Pratap Nagar, Sanganer",
+          "addr:postcode": "302033",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "name": "Om Sai Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7695122986,
+        "name": "Om Sai Hospital",
+        "distance_m": 757.0,
+        "lat": 26.8051181,
+        "lon": 75.8322375,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Pratap Nagar, Sanganer",
+          "addr:postcode": "302033",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "name": "Om Sai Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 13131397298,
+        "name": "Apollo Pharmacy Sector 9 Pratap Nagar",
+        "distance_m": 961.8,
+        "lat": 26.803982,
+        "lon": 75.8289992,
+        "tags": {
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Apollo Pharmacy Sector 9 Pratap Nagar",
+          "operator": "Apollo Hospitals Group.",
+          "operator:type": "business"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "node",
+      "osm_id": 12149437904,
+      "name": "Sanganer Sadar Police Station",
+      "distance_m": 3324.0,
+      "lat": 26.7834733,
+      "lon": 75.8225385,
+      "tags": {
+        "addr:city": "Sukhpuria",
+        "addr:district": "Jaipur",
+        "addr:housenumber": "2",
+        "addr:postcode": "302033",
+        "addr:street": "Tonk Road",
+        "amenity": "police",
+        "name": "Sanganer Sadar Police Station"
+      }
+    }
+  },
+  {
+    "id": 35,
+    "city_id": 4,
+    "name": "New Gate",
+    "latitude": "26.91340000",
+    "longitude": "75.82600000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7698578080,
+        "name": "M.D. Hospital",
+        "distance_m": 168.5,
+        "lat": 26.9124912,
+        "lon": 75.8246404,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Central Jail, Fateh Tibba, Adarsh Nagar",
+          "addr:postcode": "302004",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "M.D. Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7698578024,
+        "name": "Akhila Hospital",
+        "distance_m": 209.5,
+        "lat": 26.9151062,
+        "lon": 75.826897,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Adarsh Nagar",
+          "addr:postcode": "302003",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Akhila Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7040488133,
+        "name": "Mahila Chikitsalya",
+        "distance_m": 216.4,
+        "lat": 26.9143851,
+        "lon": 75.8241183,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Sanganeri Gate",
+          "addr:postcode": "302003",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Mahila Chikitsalya",
+          "source": "OpenGovernmentData"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 1257701014,
+      "name": "policr thana manak chowk",
+      "distance_m": 1009.2,
+      "lat": 26.9224223,
+      "lon": 75.8271042,
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "layer": "-1",
+        "name": "policr thana manak chowk"
+      }
+    }
+  },
+  {
+    "id": 36,
+    "city_id": 4,
+    "name": "Johri Bazaar",
+    "latitude": "26.92670000",
+    "longitude": "75.82670000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7034765483,
+        "name": "K.K Diagnostic Centre , Jaipur",
+        "distance_m": 479.0,
+        "lat": 26.9260733,
+        "lon": 75.8314803,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Khawasaji Ka Rasta, Near Hawa Mahal Road",
+          "addr:postcode": "302002",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "K.K Diagnostic Centre , Jaipur",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7034765483,
+        "name": "K.K Diagnostic Centre , Jaipur",
+        "distance_m": 479.0,
+        "lat": 26.9260733,
+        "lon": 75.8314803,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Khawasaji Ka Rasta, Near Hawa Mahal Road",
+          "addr:postcode": "302002",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "K.K Diagnostic Centre , Jaipur",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7698578067,
+        "name": "Solanki Hospital",
+        "distance_m": 742.8,
+        "lat": 26.9272446,
+        "lon": 75.819232,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Gangori Bazaar",
+          "addr:postcode": "302002",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "name": "Solanki Hospital",
+          "source": "Local Knowledge"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 170101096,
+      "name": "Police Thana Manak Chowk",
+      "distance_m": 400.5,
+      "lat": 26.9231805,
+      "lon": 75.8275598,
+      "tags": {
+        "addr:city": "Jaipur",
+        "addr:postcode": "302003",
+        "addr:street": "Badi Chaupar",
+        "amenity": "police",
+        "building": "yes",
+        "check_date": "2025-11-03",
+        "name": "Police Thana Manak Chowk",
+        "phone": "0141 260 1366",
+        "website": "https://jaipurpolice.rajasthan.gov.in/"
+      }
+    }
+  },
+  {
+    "id": 37,
+    "city_id": 4,
+    "name": "Bapu Bazaar",
+    "latitude": "26.91240000",
+    "longitude": "75.81650000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7039514016,
+        "name": "Nova Specialty Surgery",
+        "distance_m": 400.2,
+        "lat": 26.9136323,
+        "lon": 75.8127075,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "J-2/37, Mahaveer Marg",
+          "addr:postcode": "302004",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "healthcare:speciality": "surgery",
+          "name": "Nova Specialty Surgery",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7039514016,
+        "name": "Nova Specialty Surgery",
+        "distance_m": 400.2,
+        "lat": 26.9136323,
+        "lon": 75.8127075,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "J-2/37, Mahaveer Marg",
+          "addr:postcode": "302004",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "healthcare:speciality": "surgery",
+          "name": "Nova Specialty Surgery",
+          "source": "OpenGovernmentData"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 4798048721,
+        "name": "SMS Trauma Center",
+        "distance_m": 592.5,
+        "lat": 26.90734,
+        "lon": 75.8146282,
+        "tags": {
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "healthcare:speciality": "emergency",
+          "name": "SMS Trauma Center"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 1257701014,
+      "name": "policr thana manak chowk",
+      "distance_m": 1532.1,
+      "lat": 26.9224223,
+      "lon": 75.8271042,
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "layer": "-1",
+        "name": "policr thana manak chowk"
+      }
+    }
+  },
+  {
+    "id": 38,
+    "city_id": 4,
+    "name": "Chaugan Stadium",
+    "latitude": "26.91840000",
+    "longitude": "75.81960000",
+    "type": "",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "women_helpline": "1091",
+      "tourist_helpline": "1363"
+    },
+    "nearest_hospitals": [
+      {
+        "osm_type": "node",
+        "osm_id": 7698578066,
+        "name": "Goyal Hospital",
+        "distance_m": 182.6,
+        "lat": 26.9186623,
+        "lon": 75.8214178,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Telepara",
+          "addr:postcode": "302001",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Goyal Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7698578107,
+        "name": "Bhiwani Eye Hospital",
+        "distance_m": 282.8,
+        "lat": 26.9200507,
+        "lon": 75.8217693,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "Bapu Bazar, Biseswarji",
+          "addr:postcode": "302003",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "healthcare:speciality": "ophthalmology",
+          "name": "Bhiwani Eye Hospital",
+          "source": "Local Knowledge"
+        }
+      },
+      {
+        "osm_type": "node",
+        "osm_id": 7025306774,
+        "name": "Amar Jain Hospital",
+        "distance_m": 286.5,
+        "lat": 26.9204054,
+        "lon": 75.821414,
+        "tags": {
+          "addr:district": "Jaipur",
+          "addr:full": "4-J-5, Jawahar Nagar, Choura Rasta",
+          "addr:postcode": "302003",
+          "addr:state": "Rajasthan",
+          "amenity": "hospital",
+          "healthcare": "hospital",
+          "name": "Amar Jain Hospital",
+          "source": "OpenGovernmentData"
+        }
+      }
+    ],
+    "nearest_police": {
+      "osm_type": "way",
+      "osm_id": 1257701014,
+      "name": "policr thana manak chowk",
+      "distance_m": 868.1,
+      "lat": 26.9224223,
+      "lon": 75.8271042,
+      "tags": {
+        "amenity": "police",
+        "building": "yes",
+        "layer": "-1",
+        "name": "policr thana manak chowk"
+      }
+    }
+  }
+]

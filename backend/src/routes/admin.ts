@@ -63,14 +63,21 @@ router.get('/reports/pending', authMiddleware, adminMiddleware, async (req: Auth
     const { limit = 20, offset = 0 } = req.query;
 
     const result = await query(
-      `SELECT r.id, r.user_id, r.place_id, p.name as place_name, r.type, r.description, 
-              r.latitude, r.longitude, r.severity, r.created_at,
+      `SELECT r.id, r.user_id, r.place_id, 
+              p.name as place_name, 
+              c.name as city_name,
+              u.full_name as reporter_name,
+              u.email as reporter_email,
+              r.type, r.description, 
+              r.latitude, r.longitude, r.severity, r.status, r.created_at,
               COUNT(rp.id) as photo_count
        FROM reports r
        JOIN places p ON r.place_id = p.id
+       JOIN cities c ON p.city_id = c.id
+       LEFT JOIN users u ON r.user_id = u.id
        LEFT JOIN report_photos rp ON r.id = rp.report_id
        WHERE r.status = $1
-       GROUP BY r.id, p.name
+       GROUP BY r.id, p.name, c.name, u.full_name, u.email
        ORDER BY r.created_at DESC
        LIMIT $2 OFFSET $3`,
       ['pending', limit, offset]

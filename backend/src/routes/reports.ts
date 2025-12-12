@@ -113,19 +113,19 @@ router.get('/', async (req: Request, res: Response) => {
     let paramCount = 1;
 
     if (status) {
-      whereClause += ` AND status = $${paramCount}`;
+      whereClause += ` AND r.status = $${paramCount}`;
       params.push(status);
       paramCount++;
     }
 
     if (place_id) {
-      whereClause += ` AND place_id = $${paramCount}`;
+      whereClause += ` AND r.place_id = $${paramCount}`;
       params.push(place_id);
       paramCount++;
     }
 
     if (type) {
-      whereClause += ` AND type = $${paramCount}`;
+      whereClause += ` AND r.type = $${paramCount}`;
       params.push(type);
       paramCount++;
     }
@@ -135,15 +135,32 @@ router.get('/', async (req: Request, res: Response) => {
     params.push(offset);
 
     const result = await query(
-      `SELECT id, user_id, place_id, type, description, latitude, longitude, status, severity, created_at, updated_at, verified_at, verified_by
-       FROM reports
+      `SELECT r.id, r.user_id, r.place_id, 
+              p.name as place_name,
+              c.name as city_name,
+              u.full_name as reporter_name,
+              u.email as reporter_email,
+              r.type, r.description, r.latitude, r.longitude, 
+              r.status, r.severity, r.created_at, r.updated_at, r.verified_at, r.verified_by
+       FROM reports r
+       JOIN places p ON r.place_id = p.id
+       JOIN cities c ON p.city_id = c.id
+       LEFT JOIN users u ON r.user_id = u.id
        ${whereClause}
-       ORDER BY created_at DESC
+       ORDER BY r.created_at DESC
        LIMIT $${paramCount} OFFSET $${paramCount + 1}`,
       params
     );
 
-    const countResult = await query(`SELECT COUNT(*) as total FROM reports ${whereClause}`, params.slice(0, -2));
+    const countResult = await query(
+      `SELECT COUNT(*) as total 
+       FROM reports r
+       JOIN places p ON r.place_id = p.id
+       JOIN cities c ON p.city_id = c.id
+       LEFT JOIN users u ON r.user_id = u.id
+       ${whereClause}`, 
+      params.slice(0, -2)
+    );
     const total = parseInt(countResult.rows[0].total);
 
     res.json({
@@ -164,8 +181,18 @@ router.get('/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const reportResult = await query(
-      `SELECT id, user_id, place_id, type, description, latitude, longitude, status, severity, created_at, updated_at, verified_at, verified_by
-       FROM reports WHERE id = $1`,
+      `SELECT r.id, r.user_id, r.place_id,
+              p.name as place_name,
+              c.name as city_name,
+              u.full_name as reporter_name,
+              u.email as reporter_email,
+              r.type, r.description, r.latitude, r.longitude, 
+              r.status, r.severity, r.created_at, r.updated_at, r.verified_at, r.verified_by
+       FROM reports r
+       JOIN places p ON r.place_id = p.id
+       JOIN cities c ON p.city_id = c.id
+       LEFT JOIN users u ON r.user_id = u.id
+       WHERE r.id = $1`,
       [id]
     );
 
@@ -193,6 +220,10 @@ router.patch('/:id/verify', authMiddleware, adminMiddleware, async (req: AuthReq
   try {
     const { id } = req.params;
 
+    if (!req.user?.id) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+
     // Get report and place
     const reportResult = await query('SELECT place_id FROM reports WHERE id = $1', [id]);
     if (reportResult.rows.length === 0) {
@@ -207,7 +238,7 @@ router.patch('/:id/verify', authMiddleware, adminMiddleware, async (req: AuthReq
        SET status = $1, verified_at = CURRENT_TIMESTAMP, verified_by = $2, updated_at = CURRENT_TIMESTAMP
        WHERE id = $3
        RETURNING *`,
-      ['verified', req.user?.id, id]
+      ['verified', req.user.id, id]
     );
 
     // Recalculate safety scores
@@ -238,12 +269,16 @@ router.patch('/:id/reject', authMiddleware, adminMiddleware, async (req: AuthReq
   try {
     const { id } = req.params;
 
+    if (!req.user?.id) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+
     const result = await query(
       `UPDATE reports 
        SET status = $1, verified_at = CURRENT_TIMESTAMP, verified_by = $2, updated_at = CURRENT_TIMESTAMP
        WHERE id = $3
        RETURNING *`,
-      ['rejected', req.user?.id, id]
+      ['rejected', req.user.id, id]
     );
 
     if (result.rows.length === 0) {

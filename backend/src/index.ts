@@ -14,6 +14,8 @@ import citiesRoutes from './routes/cities.js';
 import reportsRoutes from './routes/reports.js';
 import alertsRoutes from './routes/alerts.js';
 import adminRoutes from './routes/admin.js';
+import attractionsRoutes from './routes/attractions.js';
+import emergencyRoutes from './routes/emergency.js';
 
 dotenv.config();
 
@@ -36,6 +38,8 @@ app.use('/api/cities', citiesRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/alerts', alertsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/attractions', attractionsRoutes);
+app.use('/api/emergency', emergencyRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

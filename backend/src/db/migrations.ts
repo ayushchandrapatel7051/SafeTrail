@@ -162,10 +162,10 @@ const migrations = [
 export async function runMigrations() {
   try {
     // Create migrations table if not exists
-    await query(migrations[7].up);
+    await query(migrations[8].up);
 
     // Run each migration (excluding migrations table)
-    for (const migration of migrations.slice(0, 7)) {
+    for (const migration of migrations.slice(0, 8)) {
       const result = await query(
         'SELECT * FROM migrations WHERE name = $1',
         [migration.name]

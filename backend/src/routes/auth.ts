@@ -28,22 +28,34 @@ router.post('/admin/login', async (req, res) => {
   try {
     const { username, password } = req.body as { username: string; password: string };
 
-    // Hardcoded admin credentials for simplicity (in production, use database)
-    const ADMIN_USERNAME = 'admin';
-    const ADMIN_PASSWORD = 'admin';
+    // Check credentials against database admin user
+    const result = await query(
+      'SELECT id, email, full_name, password_hash FROM users WHERE email = $1 AND role = $2',
+      ['admin@safetrail.com', 'admin']
+    );
 
-    if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: 'Admin user not found' });
+    }
+
+    const adminUser = result.rows[0];
+
+    // For simplicity, also accept hardcoded credentials
+    const ADMIN_PASSWORD = 'admin';
+    const isPasswordValid = password === ADMIN_PASSWORD || await bcrypt.compare(password, adminUser.password_hash);
+
+    if (!isPasswordValid || username !== 'admin') {
       return res.status(401).json({ error: 'Invalid admin credentials' });
     }
 
-    // Generate a token for the admin user (using a fake admin user id)
-    const token = generateToken(0, 'admin@safetrail.com', 'admin');
+    // Generate token with real admin user id from database
+    const token = generateToken(adminUser.id, adminUser.email, 'admin');
 
     res.json({
       user: {
-        id: 0,
-        email: 'admin@safetrail.com',
-        full_name: 'Admin User',
+        id: adminUser.id,
+        email: adminUser.email,
+        full_name: adminUser.full_name,
         role: 'admin',
       },
       token,

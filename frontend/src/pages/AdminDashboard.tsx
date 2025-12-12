@@ -30,6 +30,28 @@ const AdminDashboard = () => {
       return;
     }
 
+    // Decode token to check if it has valid user id (not 0)
+    try {
+      const tokenPayload = JSON.parse(atob(adminToken.split('.')[1]));
+      if (tokenPayload.id === 0) {
+        // Old token with invalid user id, force re-login
+        console.log('Invalid admin token detected, forcing re-login');
+        localStorage.removeItem('adminToken');
+        toast({
+          title: "Session Expired",
+          description: "Please login again with your admin credentials.",
+          variant: "destructive",
+        });
+        navigate('/admin-login');
+        return;
+      }
+    } catch (e) {
+      console.error('Error decoding token:', e);
+      localStorage.removeItem('adminToken');
+      navigate('/admin-login');
+      return;
+    }
+
     const loadDashboard = async () => {
       setFetchError(null);
       try {
@@ -303,6 +325,7 @@ const AdminDashboard = () => {
                         <TableHead>ID</TableHead>
                         <TableHead>Place</TableHead>
                         <TableHead>Type</TableHead>
+                        <TableHead>Reporter</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Date</TableHead>
                         <TableHead className="text-right">Actions</TableHead>
@@ -312,8 +335,20 @@ const AdminDashboard = () => {
                       {filteredReports.map(report => (
                         <TableRow key={report.id}>
                           <TableCell className="font-medium">#{report.id}</TableCell>
-                          <TableCell>{report.place_name || report.placeName || 'Unknown'}</TableCell>
+                          <TableCell>
+                            <div>
+                              <div className="font-medium">{report.place_name || 'Unknown'}</div>
+                              {report.city_name && (
+                                <div className="text-xs text-muted-foreground">{report.city_name}</div>
+                              )}
+                            </div>
+                          </TableCell>
                           <TableCell>{getTypeLabel(report.type)}</TableCell>
+                          <TableCell>
+                            <div className="text-sm">
+                              {report.reporter_name || <span className="text-muted-foreground italic">Anonymous</span>}
+                            </div>
+                          </TableCell>
                           <TableCell>{getStatusBadge(report.status)}</TableCell>
                           <TableCell className="text-muted-foreground">
                             {new Date(report.created_at || report.createdAt).toLocaleDateString()}
@@ -338,9 +373,27 @@ const AdminDashboard = () => {
                                     </DialogDescription>
                                   </DialogHeader>
                                   <div className="space-y-4 py-4">
-                                    <div>
-                                      <p className="text-sm font-medium mb-1">Place</p>
-                                      <p className="text-muted-foreground">{selectedReport?.place_name || selectedReport?.placeName || report.place_name || 'Unknown'}</p>
+                                    <div className="grid grid-cols-2 gap-4">
+                                      <div>
+                                        <p className="text-sm font-medium mb-1">Place</p>
+                                        <p className="text-muted-foreground">{selectedReport?.place_name || report.place_name || 'Unknown'}</p>
+                                        {(selectedReport?.city_name || report.city_name) && (
+                                          <p className="text-xs text-muted-foreground">{selectedReport?.city_name || report.city_name}</p>
+                                        )}
+                                      </div>
+                                      <div>
+                                        <p className="text-sm font-medium mb-1">Reported By</p>
+                                        {(selectedReport?.reporter_name || report.reporter_name) ? (
+                                          <>
+                                            <p className="text-muted-foreground">{selectedReport?.reporter_name || report.reporter_name}</p>
+                                            {(selectedReport?.reporter_email || report.reporter_email) && (
+                                              <p className="text-xs text-muted-foreground">{selectedReport?.reporter_email || report.reporter_email}</p>
+                                            )}
+                                          </>
+                                        ) : (
+                                          <p className="text-muted-foreground italic">Anonymous / Legacy Report</p>
+                                        )}
+                                      </div>
                                     </div>
                                     <div>
                                       <p className="text-sm font-medium mb-1">Type</p>

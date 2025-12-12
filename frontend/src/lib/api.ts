@@ -80,6 +80,13 @@ export const cities = {
   getById: (id: number) => apiCall(`/cities/${id}`),
 };
 
+// Attractions endpoints
+export const attractions = {
+  getAll: () => apiCall('/attractions'),
+  getByCity: (cityId: number) => apiCall(`/attractions/city/${cityId}`),
+  getById: (id: number) => apiCall(`/attractions/${id}`),
+};
+
 // Reports endpoints
 export const reports = {
   create: (data: {
@@ -141,6 +148,25 @@ export const alerts = {
       method: 'POST',
       body: JSON.stringify({ title, body, severity }),
     }),
+};
+
+// Attractions endpoints
+export const attractionsApi = {
+  getAll: () => apiCall('/attractions'),
+  getByCityId: (cityId: number) => apiCall(`/attractions/city/${cityId}`),
+  getById: (id: number) => apiCall(`/attractions/${id}`),
+};
+
+// Emergency services endpoints
+export const emergencyApi = {
+  getByCity: (cityId: number) => apiCall(`/emergency/city/${cityId}`),
+  getByPlace: (placeId: number) => apiCall(`/emergency/place/${placeId}`),
+  search: (params: { city?: string; place?: string }) => {
+    const queryParams = new URLSearchParams();
+    if (params.city) queryParams.append('city', params.city);
+    if (params.place) queryParams.append('place', params.place);
+    return apiCall(`/emergency/search?${queryParams.toString()}`);
+  },
 };
 
 // Admin endpoints

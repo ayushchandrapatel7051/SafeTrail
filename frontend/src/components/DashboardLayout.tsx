@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LogOut, Menu, X, Shield, MapPin, FileText, Home, Compass, User, ChevronDown, Settings, LogOut as LogOutIcon, ChevronLeft, ChevronRight } from "lucide-react";
+import { LogOut, Menu, X, Shield, MapPin, FileText, Home, Compass, User, ChevronDown, Settings, LogOut as LogOutIcon, ChevronLeft, ChevronRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { clearAuthToken } from "@/lib/api";
 import {
@@ -72,6 +72,7 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
         { icon: MapPin, label: "Safety Map", href: "/map" },
         { icon: FileText, label: "Report Issue", href: "/report" },
         { icon: Compass, label: "Trip Planner", href: "/trip-plan" },
+        { icon: Phone, label: "Emergency", href: "/emergency" },
         { icon: User, label: "Profile", href: "/profile" },
       ];
 

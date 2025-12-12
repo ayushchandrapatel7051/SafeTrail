@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,8 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
-import { MapPin, Wallet, AlertCircle, Star, MapPinIcon, Calendar, Users, Trash2, Plus, CheckCircle, AlertTriangle } from "lucide-react";
+import { MapPin, Wallet, AlertCircle, Star, MapPinIcon, Calendar, Users, Trash2, Plus, CheckCircle, AlertTriangle, ArrowLeft } from "lucide-react";
 import { cities, places } from "@/data/mockData";
+import { citiesApi, attractionsApi } from "@/lib/api";
 
 interface TripGuide {
   city: string;
@@ -57,6 +58,31 @@ export default function TripPlan() {
   const [draggedPlace, setDraggedPlace] = useState<(typeof places)[number] | null>(null);
   const [selectedDay, setSelectedDay] = useState<number>(1);
   const [editingTravelerIndex, setEditingTravelerIndex] = useState<number | null>(null);
+  const [attractions, setAttractions] = useState<any[]>([]);
+  const [isLoadingAttractions, setIsLoadingAttractions] = useState(false);
+
+  // Fetch attractions when city is selected
+  useEffect(() => {
+    const fetchAttractions = async () => {
+      if (!selectedCity) {
+        setAttractions([]);
+        return;
+      }
+      
+      setIsLoadingAttractions(true);
+      try {
+        const data = await attractionsApi.getByCityId(Number(selectedCity));
+        setAttractions(data);
+      } catch (error) {
+        console.error("Failed to fetch attractions:", error);
+        setAttractions([]);
+      } finally {
+        setIsLoadingAttractions(false);
+      }
+    };
+
+    fetchAttractions();
+  }, [selectedCity]);
 
   // Get unique countries
   const countries = useMemo(() => {
@@ -87,10 +113,23 @@ export default function TripPlan() {
       .sort((a, b) => b.safetyScore - a.safetyScore)
       .slice(0, 8);
 
-    const greatPlaces = cityPlaces
-      .filter((place) => place.type === "tourist_spot" || place.type === "restaurant")
-      .sort((a, b) => b.safetyScore - a.safetyScore)
-      .slice(0, 8);
+    // Use attractions from API instead of filtering places
+    const greatPlaces = attractions
+      .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+      .slice(0, 8)
+      .map(attraction => ({
+        id: attraction.id,
+        name: attraction.name,
+        type: attraction.category?.toLowerCase() || 'tourist_spot',
+        address: '',
+        cityId: attraction.city_id,
+        latitude: attraction.latitude,
+        longitude: attraction.longitude,
+        safetyScore: Math.round((attraction.rating || 4) * 20),
+        reportCount: 0,
+        description: attraction.description || '',
+        imageUrl: attraction.image_url || '/placeholder.svg',
+      }));
 
     // Generate safety tips based on city's safety score and traveler preferences
     const tips: string[] = [];
@@ -473,6 +512,16 @@ export default function TripPlan() {
         ) : (
           /* Trip Planning Interface */
           <div className="space-y-6">
+            {/* Back Button */}
+            <Button
+              onClick={() => setTripGuide(null)}
+              variant="outline"
+              className="mb-4"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Trip Planning
+            </Button>
+
             {/* Trip Header */}
             <Card className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0">
               <CardContent className="pt-8">
@@ -552,28 +601,36 @@ export default function TripPlan() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2 max-h-96 overflow-y-auto">
-                    {tripGuide.greatPlaces.map((place) => (
-                      <div
-                        key={place.id}
-                        draggable
-                        onDragStart={() => setDraggedPlace(place)}
-                        className="p-3 bg-white border border-yellow-200 rounded-lg cursor-move hover:shadow-md transition hover:border-yellow-400"
-                      >
-                        <p className="font-semibold text-sm text-gray-900">{place.name}</p>
-                        <p className="text-xs text-gray-500 capitalize mb-2">{place.type.replace("_", " ")}</p>
-                        <div className="flex items-center justify-between">
-                          <Badge className="bg-yellow-100 text-yellow-800 text-xs">{place.safetyScore}</Badge>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => addPlaceToItinerary(place)}
-                            className="h-6 px-2"
-                          >
-                            <Plus className="w-3 h-3" />
-                          </Button>
+                    {tripGuide.greatPlaces.length === 0 ? (
+                      <p className="text-sm text-gray-500 text-center py-4">
+                        No attractions found for this city
+                      </p>
+                    ) : (
+                      tripGuide.greatPlaces.map((place) => (
+                        <div
+                          key={place.id}
+                          draggable
+                          onDragStart={() => setDraggedPlace(place)}
+                          className="p-3 bg-white border border-yellow-200 rounded-lg cursor-move hover:shadow-md transition hover:border-yellow-400"
+                        >
+                          <p className="font-semibold text-sm text-gray-900">{place.name}</p>
+                          <p className="text-xs text-gray-500 capitalize mb-2">{place.type.replace("_", " ")}</p>
+                          <div className="flex items-center justify-between">
+                            <Badge className="bg-yellow-100 text-yellow-800 text-xs">
+                              {place.safetyScore}
+                            </Badge>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => addPlaceToItinerary(place)}
+                              className="h-6 px-2"
+                            >
+                              <Plus className="w-3 h-3" />
+                            </Button>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))
+                    )}
                   </CardContent>
                 </Card>
               </div>
