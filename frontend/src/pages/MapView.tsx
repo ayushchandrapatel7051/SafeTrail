@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from "react-leaflet";
 import { Icon, LatLngBounds } from "leaflet";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 import { cities as mockCities, places as mockPlaces } from "@/data/mockData";
 import { getSafetyStatus } from "@/data/mockData";
@@ -79,28 +79,33 @@ const getZoneColor = (score: number) => {
 };
 
 // Map controller component for auto-centering and fitting bounds
-const MapController = ({ city, places }: { city: City | undefined; places: Place[] }) => {
+const MapController = ({ city, places, selectedPlace }: { city: City | undefined; places: Place[]; selectedPlace: Place | null }) => {
   const map = useMap();
 
   useEffect(() => {
     if (!city || typeof city.latitude !== 'number' || typeof city.longitude !== 'number') return;
 
     try {
-      // Filter out places with invalid coordinates
-      const validPlaces = places.filter(
-        p => typeof p.latitude === 'number' && typeof p.longitude === 'number'
-      );
-
-      if (validPlaces.length > 0) {
-        // Create bounds from all places
-        const bounds = new LatLngBounds(
-          validPlaces.map((p) => [p.latitude, p.longitude])
-        );
-        // Fit map to bounds with padding
-        map.fitBounds(bounds, { padding: [100, 100], maxZoom: 14 });
+      // If a specific place is selected, zoom into that location
+      if (selectedPlace && typeof selectedPlace.latitude === 'number' && typeof selectedPlace.longitude === 'number') {
+        map.setView([selectedPlace.latitude, selectedPlace.longitude], 16);
       } else {
-        // Center on city if no valid places
-        map.setView([city.latitude, city.longitude], 12);
+        // Filter out places with invalid coordinates
+        const validPlaces = places.filter(
+          p => typeof p.latitude === 'number' && typeof p.longitude === 'number'
+        );
+
+        if (validPlaces.length > 0) {
+          // Create bounds from all places
+          const bounds = new LatLngBounds(
+            validPlaces.map((p) => [p.latitude, p.longitude])
+          );
+          // Fit map to bounds with padding
+          map.fitBounds(bounds, { padding: [100, 100], maxZoom: 14 });
+        } else {
+          // Center on city if no valid places
+          map.setView([city.latitude, city.longitude], 12);
+        }
       }
     } catch (error) {
       console.error('Error setting map view:', error);
@@ -109,7 +114,7 @@ const MapController = ({ city, places }: { city: City | undefined; places: Place
         map.setView([city.latitude, city.longitude], 12);
       }
     }
-  }, [city, places, map]);
+  }, [city, places, map, selectedPlace]);
 
   return null;
 };
@@ -120,6 +125,7 @@ const MapView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCity, setSelectedCity] = useState<number | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     // Load data from mockData - handle the coordinates array format
@@ -149,12 +155,38 @@ const MapView = () => {
     setCities(transformedCities);
     setPlaces(transformedPlaces);
 
-    if (transformedCities.length > 0) {
+    // Check for city parameter in URL
+    const cityParam = searchParams.get('city');
+    if (cityParam) {
+      const cityId = parseInt(cityParam, 10);
+      // Verify the city exists in the data
+      if (transformedCities.some(c => c.id === cityId)) {
+        setSelectedCity(cityId);
+      } else if (transformedCities.length > 0) {
+        // Fall back to first city if specified city not found
+        setSelectedCity(transformedCities[0].id);
+      }
+    } else if (transformedCities.length > 0) {
+      // Default to first city if no parameter specified
       setSelectedCity(transformedCities[0].id);
     }
 
     setIsLoading(false);
-  }, []);
+  }, [searchParams]);
+
+  // Separate effect to handle place parameter after data is loaded
+  useEffect(() => {
+    if (places.length === 0) return;
+
+    const placeParam = searchParams.get('place');
+    if (placeParam) {
+      const placeId = parseInt(placeParam, 10);
+      const place = places.find(p => p.id === placeId);
+      if (place) {
+        setSelectedPlace(place);
+      }
+    }
+  }, [searchParams, places]);
 
   const currentCity = cities.find(c => c.id === selectedCity);
   const cityPlaces = places.filter(p => p.cityId === selectedCity);
@@ -339,7 +371,7 @@ const MapView = () => {
                 </Marker>
               ))}
 
-              <MapController city={currentCity} places={cityPlaces} />
+              <MapController city={currentCity} places={cityPlaces} selectedPlace={selectedPlace} />
             </MapContainer>
           )}
 

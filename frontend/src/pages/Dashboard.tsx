@@ -150,7 +150,7 @@ const Dashboard = () => {
                   </div>
                   
                   <div className="flex gap-2">
-                    <Link to={`/map?city=${place.cityId}`} className="flex-1">
+                    <Link to={`/map?city=${place.cityId}&place=${place.id}`} className="flex-1">
                       <Button variant="outline" size="sm" className="w-full">
                         View on Map
                       </Button>
