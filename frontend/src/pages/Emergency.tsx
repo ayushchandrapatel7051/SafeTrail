@@ -14,12 +14,28 @@ import {
 import { Phone, MapPin, Search, ExternalLink, Hospital, Shield } from 'lucide-react';
 import { cities as citiesApi, emergencyApi } from '@/lib/api';
 
+interface City {
+  id: number;
+  name: string;
+  country?: string;
+}
+
+interface EmergencyService {
+  id: number;
+  name: string;
+  type: string;
+  phone?: string;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+}
+
 export default function Emergency() {
   const navigate = useNavigate();
-  const [cities, setCities] = useState<any[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [emergencyServices, setEmergencyServices] = useState<any[]>([]);
+  const [emergencyServices, setEmergencyServices] = useState<EmergencyService[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

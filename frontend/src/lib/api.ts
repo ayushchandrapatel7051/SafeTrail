@@ -41,7 +41,13 @@ const apiCall = async (endpoint: string, options: RequestInit = {}) => {
 
   if (!response.ok) {
     // Create an error object that includes the response status and data
-    const error = new Error(data.error || 'API request failed') as any;
+    interface ApiError extends Error {
+      response?: {
+        status: number;
+        data: Record<string, unknown>;
+      };
+    }
+    const error = new Error(data.error || 'API request failed') as ApiError;
     error.response = {
       status: response.status,
       data: data,

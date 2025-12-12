@@ -32,18 +32,34 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { reportTypes } from '@/data/mockData';
 
+interface Report {
+  id: number;
+  place_name?: string;
+  city_name?: string;
+  type: string;
+  reporter_name?: string;
+  reporter_email?: string;
+  status: string;
+  created_at?: string;
+  createdAt?: string;
+  description?: string;
+  photo_path?: string;
+  latitude?: string;
+  longitude?: string;
+}
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
-  const [reports, setReports] = useState<any[]>([]);
+  const [reports, setReports] = useState<Report[]>([]);
   const [stats, setStats] = useState({
     pendingReports: 0,
     verifiedReports: 0,
     totalPlaces: 0,
     totalCities: 0,
   });
-  const [selectedReport, setSelectedReport] = useState<any>(null);
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [tabValue, setTabValue] = useState('pending');

@@ -125,7 +125,15 @@ const PREFERENCES = [
 ];
 
 // Sortable Item Component
-function SortableItem({ item, onEdit, onDelete }: any) {
+function SortableItem({
+  item,
+  onEdit,
+  onDelete,
+}: {
+  item: ItineraryItem;
+  onEdit: (item: ItineraryItem) => void;
+  onDelete: (id: string) => void;
+}) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: item.id });
 
   const style = {
@@ -203,7 +211,7 @@ export default function TripPlanPage() {
   const [currentDay, setCurrentDay] = useState(1);
   const [itinerary, setItinerary] = useState<ItineraryItem[]>([]);
   const [attractions, setAttractions] = useState<Attraction[]>([]);
-  const [places, setPlaces] = useState<any[]>([]);
+  const [places, setPlaces] = useState<Attraction[]>([]);
 
   // Saved plans
   const [savedPlans, setSavedPlans] = useState<TripPlan[]>([]);
@@ -214,7 +222,9 @@ export default function TripPlanPage() {
   const [showEditDialog, setShowEditDialog] = useState(false);
 
   // View plan dialog
-  const [viewPlan, setViewPlan] = useState<any>(null);
+  const [viewPlan, setViewPlan] = useState<
+    (TripPlan & { travelers: Traveler[]; items: ItineraryItem[] }) | null
+  >(null);
   const [showViewDialog, setShowViewDialog] = useState(false);
 
   // Drag and drop
@@ -236,6 +246,7 @@ export default function TripPlanPage() {
     if (selectedCity) {
       loadCityData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCity, preferences]);
 
   const loadCities = async () => {
@@ -276,7 +287,7 @@ export default function TripPlanPage() {
               ['tourist', 'Religious Site', 'Monument', 'Nature'].includes(a.category))
         );
         const filteredPlaces = placesData.filter(
-          (p: any) =>
+          (p: Attraction) =>
             preferences.includes(p.category) ||
             (preferences.includes('tourist') && ['tourist'].includes(p.category))
         );
@@ -317,7 +328,7 @@ export default function TripPlanPage() {
     return Math.max(1, diff + 1);
   };
 
-  const addToItinerary = (item: Attraction | any, type: 'attraction' | 'place') => {
+  const addToItinerary = (item: Attraction, type: 'attraction' | 'place') => {
     const newItem: ItineraryItem = {
       id: `${type}-${item.id}-${Date.now()}`,
       type: type,
@@ -333,7 +344,7 @@ export default function TripPlanPage() {
     setItinerary([...itinerary, newItem]);
   };
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: { active: { id: string }; over: { id: string } }) => {
     const { active, over } = event;
 
     if (active.id !== over.id) {
@@ -431,7 +442,7 @@ export default function TripPlanPage() {
     }
   };
 
-  const updateTraveler = (id: string, field: keyof Traveler, value: any) => {
+  const updateTraveler = (id: string, field: keyof Traveler, value: string | number) => {
     setTravelers(travelers.map((t) => (t.id === id ? { ...t, [field]: value } : t)));
   };
 
@@ -478,19 +489,21 @@ export default function TripPlanPage() {
       }
 
       // Load itinerary items
-      const items = data.items.map((item: any) => ({
-        id: `${item.type || 'item'}-${item.place_id || item.attraction_id}-${Date.now()}-${Math.random()}`,
-        type: item.place_id ? 'place' : 'attraction',
-        place_id: item.place_id,
-        attraction_id: item.attraction_id,
-        name: item.name,
-        day_number: item.day_number,
-        time_slot: item.time_slot,
-        start_time: item.start_time || '',
-        notes: item.notes || '',
-        order_index: item.order_index,
-        category: item.category,
-      }));
+      const items = data.items.map(
+        (item: ItineraryItem & { place_id?: number; attraction_id?: number }) => ({
+          id: `${item.type || 'item'}-${item.place_id || item.attraction_id}-${Date.now()}-${Math.random()}`,
+          type: item.place_id ? 'place' : 'attraction',
+          place_id: item.place_id,
+          attraction_id: item.attraction_id,
+          name: item.name,
+          day_number: item.day_number,
+          time_slot: item.time_slot,
+          start_time: item.start_time || '',
+          notes: item.notes || '',
+          order_index: item.order_index,
+          category: item.category,
+        })
+      );
       setItinerary(items);
 
       // Switch to create tab
@@ -1126,7 +1139,7 @@ export default function TripPlanPage() {
                   <div>
                     <h4 className="font-semibold mb-2">Travelers</h4>
                     <div className="space-y-2">
-                      {viewPlan.travelers.map((traveler: any, idx: number) => (
+                      {viewPlan.travelers.map((traveler: Traveler, idx: number) => (
                         <div key={idx} className="flex items-center gap-4 p-3 bg-muted rounded-lg">
                           <div className="flex-1">
                             <div className="font-medium">{traveler.name || 'Unnamed'}</div>
@@ -1147,7 +1160,7 @@ export default function TripPlanPage() {
                         <span className="text-lg font-bold">
                           ₹
                           {viewPlan.travelers
-                            .reduce((sum: number, t: any) => sum + (t.budget || 0), 0)
+                            .reduce((sum: number, t: Traveler) => sum + (t.budget || 0), 0)
                             .toLocaleString()}
                         </span>
                       </div>
@@ -1160,9 +1173,11 @@ export default function TripPlanPage() {
                 <h4 className="font-semibold mb-3">Itinerary</h4>
                 {viewPlan.items && viewPlan.items.length > 0 ? (
                   <div className="space-y-4">
-                    {Array.from(new Set(viewPlan.items.map((item: any) => item.day_number)))
+                    {Array.from(
+                      new Set(viewPlan.items.map((item: ItineraryItem) => item.day_number))
+                    )
                       .sort()
-                      .map((day: any) => (
+                      .map((day: number) => (
                         <div key={day} className="border rounded-lg p-4">
                           <h5 className="font-semibold mb-3 flex items-center gap-2">
                             <CalendarIcon className="w-4 h-4" />
@@ -1170,9 +1185,12 @@ export default function TripPlanPage() {
                           </h5>
                           <div className="space-y-2">
                             {viewPlan.items
-                              .filter((item: any) => item.day_number === day)
-                              .sort((a: any, b: any) => a.order_index - b.order_index)
-                              .map((item: any, idx: number) => {
+                              .filter((item: ItineraryItem) => item.day_number === day)
+                              .sort(
+                                (a: ItineraryItem, b: ItineraryItem) =>
+                                  a.order_index - b.order_index
+                              )
+                              .map((item: ItineraryItem, idx: number) => {
                                 const timeSlot = TIME_SLOTS.find((t) => t.value === item.time_slot);
                                 const TimeIcon = timeSlot?.icon;
                                 return (

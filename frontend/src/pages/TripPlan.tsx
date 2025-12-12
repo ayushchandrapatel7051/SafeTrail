@@ -84,7 +84,7 @@ export default function TripPlan() {
   const [draggedPlace, setDraggedPlace] = useState<(typeof places)[number] | null>(null);
   const [selectedDay, setSelectedDay] = useState<number>(1);
   const [editingTravelerIndex, setEditingTravelerIndex] = useState<number | null>(null);
-  const [attractions, setAttractions] = useState<any[]>([]);
+  const [attractions, setAttractions] = useState<Attraction[]>([]);
   const [isLoadingAttractions, setIsLoadingAttractions] = useState(false);
 
   // Fetch attractions when city is selected

@@ -7,15 +7,30 @@ import { Badge } from '@/components/ui/badge';
 import { Phone, MapPin, ArrowLeft, Hospital, Shield, Navigation } from 'lucide-react';
 import { emergencyApi } from '@/lib/api';
 
+interface Hospital {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+}
+
+interface EmergencyData {
+  id: number;
+  name: string;
+  type: string;
+  phone?: string;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+  city_name?: string;
+  hospitals: Hospital[];
+}
+
 export default function EmergencyDetail() {
   const { placeId } = useParams<{ placeId: string }>();
   const navigate = useNavigate();
-  const [emergencyData, setEmergencyData] = useState<any>(null);
+  const [emergencyData, setEmergencyData] = useState<EmergencyData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    loadEmergencyDetail();
-  }, [placeId]);
 
   const loadEmergencyDetail = async () => {
     if (!placeId) return;
@@ -30,6 +45,11 @@ export default function EmergencyDetail() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadEmergencyDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [placeId]);
 
   if (isLoading) {
     return (
@@ -228,7 +248,7 @@ export default function EmergencyDetail() {
                         width="100%"
                         height="300"
                         frameBorder="0"
-                        style={{ border: 0 }}
+                        style={{ border: 0 } as React.CSSProperties}
                         referrerPolicy="no-referrer-when-downgrade"
                         src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${emergencyData.nearest_police_lat},${emergencyData.nearest_police_lon}&zoom=15`}
                         allowFullScreen
@@ -251,7 +271,7 @@ export default function EmergencyDetail() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {emergencyData.hospitals.map((hospital: any) => (
+                  {emergencyData.hospitals.map((hospital: Hospital) => (
                     <div
                       key={hospital.id}
                       className="border rounded-lg p-4 hover:shadow-md transition"
