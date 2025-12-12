@@ -13,6 +13,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminLogin from "./pages/AdminLogin";
 import UserLogin from "./pages/UserLogin";
 import UserSignup from "./pages/UserSignup";
+import VerifyEmail from "./pages/VerifyEmail";
 import TripPlan from "./pages/TripPlan";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
@@ -58,6 +59,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<UserLogin />} />
           <Route path="/signup" element={<UserSignup />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
           
           {/* Admin Routes */}
           <Route path="/admin-login" element={<AdminLogin />} />

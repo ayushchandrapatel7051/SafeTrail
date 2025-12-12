@@ -58,15 +58,25 @@ export default function UserSignup() {
 
     try {
       const response = await auth.register(email, password, fullName);
-      setAuthToken(response.token);
+      
+      // Store email for verification page
+      localStorage.setItem('verificationEmail', email);
       localStorage.setItem('userName', fullName);
       localStorage.setItem('userEmail', email);
       localStorage.setItem('userCountry', country);
       localStorage.setItem('userCity', city);
-      toast.success("Account created successfully!");
-      navigate("/dashboard");
+      
+      toast.success("Account created! Please check your email to verify your account.");
+      
+      // Redirect to verification page instead of dashboard
+      navigate("/verify-email");
     } catch (error) {
-      toast.error("Failed to create account. Email may already be in use.");
+      const errorMessage = error instanceof Error ? error.message : "Failed to create account";
+      if (errorMessage.includes("already exists") || errorMessage.includes("already in use")) {
+        toast.error("This email is already in use. Please try another email or login.");
+      } else {
+        toast.error(errorMessage);
+      }
     } finally {
       setLoading(false);
     }

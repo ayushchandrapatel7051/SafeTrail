@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { WebSocketServer, WebSocket } from 'ws';
 import { createServer } from 'http';
 import { runMigrations } from './db/migrations.js';
+import { manualMigration } from './db/manualMigration.js';
 import { query } from './db/connection.js';
 
 // Routes
@@ -118,6 +119,9 @@ async function start() {
   try {
     console.log('🔄 Initializing database...');
     await runMigrations();
+    
+    console.log('🔄 Running manual migrations...');
+    await manualMigration();
     
     const PORT = parseInt(process.env.PORT || '3000');
     server.listen(PORT, () => {

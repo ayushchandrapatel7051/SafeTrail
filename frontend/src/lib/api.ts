@@ -40,7 +40,13 @@ const apiCall = async (endpoint: string, options: RequestInit = {}) => {
   }
 
   if (!response.ok) {
-    throw new Error(data.error || 'API request failed');
+    // Create an error object that includes the response status and data
+    const error = new Error(data.error || 'API request failed') as any;
+    error.response = {
+      status: response.status,
+      data: data,
+    };
+    throw error;
   }
 
   return data;

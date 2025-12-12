@@ -10,6 +10,8 @@ const migrations = [
         password_hash VARCHAR(255) NOT NULL,
         full_name VARCHAR(255),
         role VARCHAR(50) DEFAULT 'user',
+        email_verified BOOLEAN DEFAULT FALSE,
+        email_verified_at TIMESTAMP,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
@@ -113,7 +115,23 @@ const migrations = [
     down: `DROP TABLE IF EXISTS alerts;`
   },
   {
-    name: '007_create_migrations_table',
+    name: '007_create_email_verification_otp_table',
+    up: `
+      CREATE TABLE email_verification_otp (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        otp VARCHAR(6) NOT NULL,
+        attempts INTEGER DEFAULT 0,
+        max_attempts INTEGER DEFAULT 5,
+        expires_at TIMESTAMP NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+      CREATE INDEX idx_verification_otp_user_id ON email_verification_otp(user_id);
+    `,
+    down: `DROP TABLE IF EXISTS email_verification_otp;`
+  },
+  {
+    name: '008_create_migrations_table',
     up: `
       CREATE TABLE IF NOT EXISTS migrations (
         id SERIAL PRIMARY KEY,
@@ -128,10 +146,10 @@ const migrations = [
 export async function runMigrations() {
   try {
     // Create migrations table if not exists
-    await query(migrations[6].up);
+    await query(migrations[7].up);
 
-    // Run each migration
-    for (const migration of migrations.slice(0, 6)) {
+    // Run each migration (excluding migrations table)
+    for (const migration of migrations.slice(0, 7)) {
       const result = await query(
         'SELECT * FROM migrations WHERE name = $1',
         [migration.name]
