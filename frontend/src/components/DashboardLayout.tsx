@@ -235,7 +235,17 @@ export default function DashboardLayout({ children, isAdmin = false }: Dashboard
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-2 px-2 hover:bg-muted/60 transition-colors">
+                <Button variant="ghost" className="flex items-center gap-2 px-2 cursor-pointer select-none
+
+hover:bg-transparent
+    hover:text-current
+    active:bg-transparent
+
+    focus-visible:ring-0
+    focus:ring-0
+    focus:outline-none
+
+    data-[state=open]:bg-transparent">
                   <Avatar className="w-8 h-8 border-2 border-primary/20">
                     <AvatarFallback className="text-xs font-bold bg-primary/20 text-primary">
                       {getUserInitials()}
