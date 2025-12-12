@@ -12,6 +12,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Shield, AlertTriangle, AlertCircle, Loader2, FileText } from "lucide-react";
 import DashboardLayout from "@/components/DashboardLayout";
 
+interface City {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+}
+
+interface Place {
+  id: number;
+  name: string;
+  type: string;
+  latitude: number;
+  longitude: number;
+  safety_score: number;
+  report_count: number;
+  city_id: number;
+}
+
 const getMarkerIcon = (score: number) => {
   const status = getSafetyStatus(score);
   const color = status === 'safe' ? '#22c55e' : status === 'caution' ? '#f59e0b' : '#ef4444';
@@ -37,11 +55,11 @@ const getZoneColor = (score: number) => {
 };
 
 const MapView = () => {
-  const [cities, setCities] = useState<any[]>([]);
-  const [places, setPlaces] = useState<any[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
+  const [places, setPlaces] = useState<Place[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCity, setSelectedCity] = useState<number | null>(null);
-  const [selectedPlace, setSelectedPlace] = useState<any>(null);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
