@@ -123,6 +123,73 @@ async function fixMigrations() {
       console.log('✅ admin_notifications table already exists');
     }
 
+    // Check if emergency_contacts table exists
+    const emergencyContactsTable = await query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'emergency_contacts'
+      );
+    `);
+
+    if (!emergencyContactsTable.rows[0].exists) {
+      console.log('Creating emergency_contacts table...');
+      await query(`
+        CREATE TABLE emergency_contacts (
+          id SERIAL PRIMARY KEY,
+          user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+          name VARCHAR(255) NOT NULL,
+          email VARCHAR(255) NOT NULL,
+          relationship VARCHAR(100),
+          is_primary BOOLEAN DEFAULT false,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
+      console.log('✅ Created emergency_contacts table');
+    } else {
+      console.log('✅ emergency_contacts table already exists');
+    }
+
+    // Check if medical_info exists in users table
+    const medicalInfo = await query(`
+      SELECT column_name FROM information_schema.columns 
+      WHERE table_name = 'users' AND column_name = 'medical_info'
+    `);
+
+    if (medicalInfo.rows.length === 0) {
+      console.log('Adding medical_info to users table...');
+      await query('ALTER TABLE users ADD COLUMN medical_info JSONB');
+      console.log('✅ Added medical_info to users');
+    } else {
+      console.log('✅ medical_info already exists in users');
+    }
+
+    // Check if sos_alerts table exists
+    const sosAlertsTable = await query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = 'sos_alerts'
+      );
+    `);
+
+    if (!sosAlertsTable.rows[0].exists) {
+      console.log('Creating sos_alerts table...');
+      await query(`
+        CREATE TABLE sos_alerts (
+          id SERIAL PRIMARY KEY,
+          user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+          location JSONB NOT NULL,
+          message TEXT,
+          status VARCHAR(50) DEFAULT 'active',
+          resolved_at TIMESTAMP,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
+      console.log('✅ Created sos_alerts table');
+    } else {
+      console.log('✅ sos_alerts table already exists');
+    }
+
     console.log('\n✅ All migration fixes applied successfully!');
     process.exit(0);
   } catch (error) {

@@ -183,6 +183,52 @@ export const emergencyApi = {
     if (params.place) queryParams.append('place', params.place);
     return apiCall(`/emergency/search?${queryParams.toString()}`);
   },
+
+  // Emergency Contacts
+  getContacts: () => apiCall('/emergency/contacts'),
+
+  addContact: (data: { name: string; email: string; relationship: string; is_primary?: boolean }) =>
+    apiCall('/emergency/contacts', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  updateContact: (
+    id: number,
+    data: {
+      name: string;
+      email: string;
+      relationship: string;
+      is_primary?: boolean;
+    }
+  ) =>
+    apiCall(`/emergency/contacts/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }),
+
+  deleteContact: (id: number) =>
+    apiCall(`/emergency/contacts/${id}`, {
+      method: 'DELETE',
+    }),
+
+  // Medical Info
+  getMedicalInfo: () => apiCall('/emergency/medical-info'),
+
+  updateMedicalInfo: (data: Record<string, unknown>) =>
+    apiCall('/emergency/medical-info', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }),
+
+  // SOS Alert
+  triggerSOS: (data: { location: { latitude: number; longitude: number }; message: string }) =>
+    apiCall('/emergency/sos', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  getSOSHistory: () => apiCall('/emergency/sos/history'),
 };
 
 // Admin endpoints
@@ -196,26 +242,26 @@ export const admin = {
 // Profile endpoints
 export const profile = {
   getMe: () => apiCall('/profile/me'),
-  
+
   updateMe: (fullName: string) =>
     apiCall('/profile/me', {
       method: 'PUT',
       body: JSON.stringify({ full_name: fullName }),
     }),
-  
+
   changePassword: (currentPassword: string, newPassword: string) =>
     apiCall('/profile/change-password', {
       method: 'POST',
       body: JSON.stringify({ currentPassword, newPassword }),
     }),
-  
+
   getStats: () => apiCall('/profile/stats'),
-  
+
   getReports: (params?: { limit?: number; offset?: number }) =>
     apiCall(
       `/profile/reports${params ? `?${new URLSearchParams(params as unknown as Record<string, string>).toString()}` : ''}`
     ),
-  
+
   deleteAccount: (password: string) =>
     apiCall('/profile/me', {
       method: 'DELETE',

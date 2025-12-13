@@ -1,6 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, X, Eye, Clock, CheckCircle, XCircle, Filter, Loader2, Send, Bell } from 'lucide-react';
+import {
+  Check,
+  X,
+  Eye,
+  Clock,
+  CheckCircle,
+  XCircle,
+  Filter,
+  Loader2,
+  Send,
+  Bell,
+} from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -67,7 +78,7 @@ const AdminDashboard = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [tabValue, setTabValue] = useState('pending');
-  
+
   // Notification state
   const [showNotificationForm, setShowNotificationForm] = useState(false);
   const [isSendingNotification, setIsSendingNotification] = useState(false);
@@ -269,8 +280,15 @@ const AdminDashboard = () => {
       }
 
       const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
-      
-      const payload: any = {
+
+      const payload: {
+        title: string;
+        message: string;
+        incident_type?: string;
+        send_to_all_users?: boolean;
+        send_to_city_users?: number;
+        recipient_emails?: string[];
+      } = {
         title: notificationData.title,
         message: notificationData.message,
         incident_type: notificationData.incident_type || undefined,
@@ -280,11 +298,14 @@ const AdminDashboard = () => {
         payload.send_to_all_users = true;
       } else if (notificationData.recipient_type === 'city' && notificationData.city_id) {
         payload.send_to_city_users = parseInt(notificationData.city_id);
-      } else if (notificationData.recipient_type === 'custom' && notificationData.recipient_emails) {
+      } else if (
+        notificationData.recipient_type === 'custom' &&
+        notificationData.recipient_emails
+      ) {
         payload.recipient_emails = notificationData.recipient_emails
           .split(',')
-          .map(email => email.trim())
-          .filter(email => email);
+          .map((email) => email.trim())
+          .filter((email) => email);
       }
 
       const res = await fetch(`${API_BASE_URL}/notifications/send`, {
@@ -302,7 +323,7 @@ const AdminDashboard = () => {
       }
 
       const result = await res.json();
-      
+
       toast({
         title: 'Notification Sent',
         description: `Successfully sent to ${result.recipients_count} recipient(s)`,

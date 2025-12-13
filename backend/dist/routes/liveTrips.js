@@ -110,7 +110,10 @@ router.put('/:id/location', authMiddleware, async (req, res) => {
             return res.status(400).json({ error: 'Latitude and longitude are required' });
         }
         // Verify trip belongs to user
-        const checkResult = await query('SELECT id FROM live_trips WHERE id = $1 AND user_id = $2', [id, userId]);
+        const checkResult = await query('SELECT id FROM live_trips WHERE id = $1 AND user_id = $2', [
+            id,
+            userId,
+        ]);
         if (checkResult.rows.length === 0) {
             return res.status(404).json({ error: 'Trip not found' });
         }
@@ -158,7 +161,10 @@ router.put('/:id/end', authMiddleware, async (req, res) => {
         const userId = req.user?.id;
         const { id } = req.params;
         // Verify trip belongs to user
-        const checkResult = await query('SELECT id FROM live_trips WHERE id = $1 AND user_id = $2', [id, userId]);
+        const checkResult = await query('SELECT id FROM live_trips WHERE id = $1 AND user_id = $2', [
+            id,
+            userId,
+        ]);
         if (checkResult.rows.length === 0) {
             return res.status(404).json({ error: 'Trip not found' });
         }

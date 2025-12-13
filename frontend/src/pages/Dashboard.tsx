@@ -24,6 +24,7 @@ import {
 import { getSafetyStatus } from '@/data/mockData';
 import { cities as citiesApi, places as placesApi } from '@/lib/api';
 import DashboardLayout from '@/components/DashboardLayout';
+import SOSButton from '@/components/SOSButton';
 
 interface City {
   id: number;
@@ -143,12 +144,19 @@ const Dashboard = () => {
           {/* Hero Section */}
           <div className="bg-gradient-to-br from-slate-50 to-slate-100 border-b border-slate-200 px-6 py-12 md:py-16">
             <div className="max-w-6xl mx-auto">
-              <h1 className="text-4xl md:text-5xl font-bold mb-3">Travel Safely</h1>
-              <p className="text-lg text-muted-foreground mb-8">
-                Explore <span className="font-semibold text-foreground">{userCountry}</span> with
-                confidence. Find safe places, report incidents, and plan your trips all in one
-                place.
-              </p>
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
+                <div className="flex-1">
+                  <h1 className="text-4xl md:text-5xl font-bold mb-3">Travel Safely</h1>
+                  <p className="text-lg text-muted-foreground">
+                    Explore <span className="font-semibold text-foreground">{userCountry}</span>{' '}
+                    with confidence. Find safe places, report incidents, and plan your trips all in
+                    one place.
+                  </p>
+                </div>
+                <div>
+                  <SOSButton size="lg" className="shadow-lg" />
+                </div>
+              </div>
 
               {/* Action Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

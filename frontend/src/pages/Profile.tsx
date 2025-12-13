@@ -268,9 +268,16 @@ export default function Profile() {
                       <User className="w-5 h-5" />
                       Account Information
                     </CardTitle>
-                    <CardDescription className="text-gray-200">Your account details and preferences</CardDescription>
+                    <CardDescription className="text-gray-200">
+                      Your account details and preferences
+                    </CardDescription>
                   </div>
-                  <Button variant="outline" size="sm" onClick={handleEditProfile} className="bg-white text-[#0A4D68] hover:bg-gray-100">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleEditProfile}
+                    className="bg-white text-[#0A4D68] hover:bg-gray-100"
+                  >
                     <Edit className="w-4 h-4 mr-2" />
                     Edit
                   </Button>
@@ -339,7 +346,9 @@ export default function Profile() {
                   <BarChart3 className="w-5 h-5" />
                   Your Activity
                 </CardTitle>
-                <CardDescription className="text-gray-100">SafeTrail community contributions</CardDescription>
+                <CardDescription className="text-gray-100">
+                  SafeTrail community contributions
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-4">
@@ -380,11 +389,18 @@ export default function Profile() {
                       <FileText className="w-5 h-5" />
                       Recent Reports
                     </CardTitle>
-                    <Button variant="ghost" size="sm" onClick={handleViewMyReports} className="text-white hover:bg-white/20">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleViewMyReports}
+                      className="text-white hover:bg-white/20"
+                    >
                       View All
                     </Button>
                   </div>
-                  <CardDescription className="text-gray-100">Your latest safety reports</CardDescription>
+                  <CardDescription className="text-gray-100">
+                    Your latest safety reports
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {userReports.map((report) => (
@@ -481,9 +497,7 @@ export default function Profile() {
                   <Trash2 className="w-4 h-4 mr-2" />
                   Delete Account
                 </Button>
-                <p className="text-xs text-muted-foreground mt-2">
-                  This action cannot be undone
-                </p>
+                <p className="text-xs text-muted-foreground mt-2">This action cannot be undone</p>
               </CardContent>
             </Card>
           </div>

@@ -120,10 +120,9 @@ router.get('/stats', authMiddleware, async (req: AuthRequest, res) => {
     const userId = req.user?.id;
 
     // Get reports count
-    const reportsResult = await query(
-      'SELECT COUNT(*) as count FROM reports WHERE user_id = $1',
-      [userId]
-    );
+    const reportsResult = await query('SELECT COUNT(*) as count FROM reports WHERE user_id = $1', [
+      userId,
+    ]);
     const reportsCount = parseInt(reportsResult.rows[0].count);
 
     // Get verified reports count

@@ -278,70 +278,71 @@ const MapView = () => {
             </div>
 
             {/* Weather and AQI Card */}
-            {currentCity && (currentCity.temperature !== undefined || currentCity.aqi !== undefined) && (
-              <Card className="mb-4 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <span className="text-lg">🌤️</span>
-                    Weather & Air Quality
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {currentCity.temperature !== undefined && (
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        {currentCity.weatherIcon && (
-                          <img
-                            src={`https://openweathermap.org/img/wn/${currentCity.weatherIcon}.png`}
-                            alt={currentCity.weatherDescription || 'Weather'}
-                            className="w-10 h-10"
-                          />
-                        )}
-                        <div>
-                          <div className="text-2xl font-bold text-blue-900">
-                            {currentCity.temperature}°C
-                          </div>
-                          <div className="text-xs text-blue-700 capitalize">
-                            {currentCity.weatherDescription || currentCity.weatherCondition}
+            {currentCity &&
+              (currentCity.temperature !== undefined || currentCity.aqi !== undefined) && (
+                <Card className="mb-4 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm flex items-center gap-2">
+                      <span className="text-lg">🌤️</span>
+                      Weather & Air Quality
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {currentCity.temperature !== undefined && (
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          {currentCity.weatherIcon && (
+                            <img
+                              src={`https://openweathermap.org/img/wn/${currentCity.weatherIcon}.png`}
+                              alt={currentCity.weatherDescription || 'Weather'}
+                              className="w-10 h-10"
+                            />
+                          )}
+                          <div>
+                            <div className="text-2xl font-bold text-blue-900">
+                              {currentCity.temperature}°C
+                            </div>
+                            <div className="text-xs text-blue-700 capitalize">
+                              {currentCity.weatherDescription || currentCity.weatherCondition}
+                            </div>
                           </div>
                         </div>
+                        <div className="text-right text-xs text-blue-700 space-y-1">
+                          {currentCity.humidity !== undefined && (
+                            <div>💧 {currentCity.humidity}%</div>
+                          )}
+                          {currentCity.windSpeed !== undefined && (
+                            <div>💨 {currentCity.windSpeed} m/s</div>
+                          )}
+                        </div>
                       </div>
-                      <div className="text-right text-xs text-blue-700 space-y-1">
-                        {currentCity.humidity !== undefined && (
-                          <div>💧 {currentCity.humidity}%</div>
-                        )}
-                        {currentCity.windSpeed !== undefined && (
-                          <div>💨 {currentCity.windSpeed} m/s</div>
-                        )}
+                    )}
+
+                    {currentCity.aqi !== undefined && (
+                      <div className="pt-3 border-t border-blue-200">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-medium text-blue-800">Air Quality</span>
+                          <Badge
+                            className={`font-semibold ${
+                              currentCity.aqi === 1
+                                ? 'bg-green-100 text-green-800 border-green-300'
+                                : currentCity.aqi === 2
+                                  ? 'bg-lime-100 text-lime-800 border-lime-300'
+                                  : currentCity.aqi === 3
+                                    ? 'bg-yellow-100 text-yellow-800 border-yellow-300'
+                                    : currentCity.aqi === 4
+                                      ? 'bg-orange-100 text-orange-800 border-orange-300'
+                                      : 'bg-red-100 text-red-800 border-red-300'
+                            } border`}
+                          >
+                            {currentCity.aqiCategory || 'AQI ' + currentCity.aqi}
+                          </Badge>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                  
-                  {currentCity.aqi !== undefined && (
-                    <div className="pt-3 border-t border-blue-200">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-blue-800">Air Quality</span>
-                        <Badge
-                          className={`font-semibold ${
-                            currentCity.aqi === 1
-                              ? 'bg-green-100 text-green-800 border-green-300'
-                              : currentCity.aqi === 2
-                                ? 'bg-lime-100 text-lime-800 border-lime-300'
-                                : currentCity.aqi === 3
-                                  ? 'bg-yellow-100 text-yellow-800 border-yellow-300'
-                                  : currentCity.aqi === 4
-                                    ? 'bg-orange-100 text-orange-800 border-orange-300'
-                                    : 'bg-red-100 text-red-800 border-red-300'
-                          } border`}
-                        >
-                          {currentCity.aqiCategory || 'AQI ' + currentCity.aqi}
-                        </Badge>
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            )}
+                    )}
+                  </CardContent>
+                </Card>
+              )}
 
             <h2 className="font-semibold mb-4">Places in {currentCity?.name}</h2>
 
@@ -518,58 +519,60 @@ const MapView = () => {
             )}
 
           {/* City Weather/AQI Info Card on Map */}
-          {currentCity && (currentCity.temperature !== undefined || currentCity.aqi !== undefined) && (
-            <Card className="absolute top-4 right-4 z-[1000] shadow-lg bg-white/95 backdrop-blur-sm border-blue-200 max-w-xs">
-              <CardContent className="p-3">
-                <div className="flex items-start justify-between gap-3">
-                  {currentCity.temperature !== undefined && (
-                    <div className="flex items-center gap-2">
-                      {currentCity.weatherIcon && (
-                        <img
-                          src={`https://openweathermap.org/img/wn/${currentCity.weatherIcon}.png`}
-                          alt={currentCity.weatherDescription || 'Weather'}
-                          className="w-12 h-12"
-                        />
-                      )}
-                      <div>
-                        <div className="text-xl font-bold text-gray-900">
-                          {currentCity.temperature}°C
-                        </div>
-                        <div className="text-xs text-gray-600 capitalize">
-                          {currentCity.weatherDescription}
-                        </div>
-                        <div className="text-xs text-gray-500 mt-0.5">
-                          {currentCity.humidity !== undefined && `💧 ${currentCity.humidity}%`}
-                          {currentCity.windSpeed !== undefined && ` • 💨 ${currentCity.windSpeed} m/s`}
+          {currentCity &&
+            (currentCity.temperature !== undefined || currentCity.aqi !== undefined) && (
+              <Card className="absolute top-4 right-4 z-[1000] shadow-lg bg-white/95 backdrop-blur-sm border-blue-200 max-w-xs">
+                <CardContent className="p-3">
+                  <div className="flex items-start justify-between gap-3">
+                    {currentCity.temperature !== undefined && (
+                      <div className="flex items-center gap-2">
+                        {currentCity.weatherIcon && (
+                          <img
+                            src={`https://openweathermap.org/img/wn/${currentCity.weatherIcon}.png`}
+                            alt={currentCity.weatherDescription || 'Weather'}
+                            className="w-12 h-12"
+                          />
+                        )}
+                        <div>
+                          <div className="text-xl font-bold text-gray-900">
+                            {currentCity.temperature}°C
+                          </div>
+                          <div className="text-xs text-gray-600 capitalize">
+                            {currentCity.weatherDescription}
+                          </div>
+                          <div className="text-xs text-gray-500 mt-0.5">
+                            {currentCity.humidity !== undefined && `💧 ${currentCity.humidity}%`}
+                            {currentCity.windSpeed !== undefined &&
+                              ` • 💨 ${currentCity.windSpeed} m/s`}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                  
-                  {currentCity.aqi !== undefined && (
-                    <div className="text-right">
-                      <div className="text-xs text-gray-600 mb-1">AQI</div>
-                      <Badge
-                        className={`font-semibold ${
-                          currentCity.aqi === 1
-                            ? 'bg-green-100 text-green-800 border-green-300'
-                            : currentCity.aqi === 2
-                              ? 'bg-lime-100 text-lime-800 border-lime-300'
-                              : currentCity.aqi === 3
-                                ? 'bg-yellow-100 text-yellow-800 border-yellow-300'
-                                : currentCity.aqi === 4
-                                  ? 'bg-orange-100 text-orange-800 border-orange-300'
-                                  : 'bg-red-100 text-red-800 border-red-300'
-                        } border text-xs`}
-                      >
-                        {currentCity.aqiCategory}
-                      </Badge>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+                    )}
+
+                    {currentCity.aqi !== undefined && (
+                      <div className="text-right">
+                        <div className="text-xs text-gray-600 mb-1">AQI</div>
+                        <Badge
+                          className={`font-semibold ${
+                            currentCity.aqi === 1
+                              ? 'bg-green-100 text-green-800 border-green-300'
+                              : currentCity.aqi === 2
+                                ? 'bg-lime-100 text-lime-800 border-lime-300'
+                                : currentCity.aqi === 3
+                                  ? 'bg-yellow-100 text-yellow-800 border-yellow-300'
+                                  : currentCity.aqi === 4
+                                    ? 'bg-orange-100 text-orange-800 border-orange-300'
+                                    : 'bg-red-100 text-red-800 border-red-300'
+                          } border text-xs`}
+                        >
+                          {currentCity.aqiCategory}
+                        </Badge>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
           {/* Selected place details */}
           {selectedPlace && (

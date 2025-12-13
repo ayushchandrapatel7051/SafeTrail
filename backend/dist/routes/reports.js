@@ -49,7 +49,9 @@ router.post('/', authMiddleware, upload.single('photo'), async (req, res) => {
         // Get user's current trust score
         let userTrustScore = 50; // Default for anonymous
         if (req.user?.id && !is_anonymous) {
-            const userResult = await query('SELECT trust_score FROM users WHERE id = $1', [req.user.id]);
+            const userResult = await query('SELECT trust_score FROM users WHERE id = $1', [
+                req.user.id,
+            ]);
             if (userResult.rows.length > 0) {
                 userTrustScore = userResult.rows[0].trust_score || 50;
             }
@@ -62,7 +64,7 @@ router.post('/', authMiddleware, upload.single('photo'), async (req, res) => {
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
         RETURNING id, user_id, place_id, type, description, latitude, longitude, 
                   status, severity, is_anonymous, reporter_trust_score, created_at`, [
-            is_anonymous ? null : (req.user?.id || null),
+            is_anonymous ? null : req.user?.id || null,
             place_id,
             type,
             description,
@@ -242,7 +244,9 @@ router.patch('/:id/reject', authMiddleware, adminMiddleware, async (req, res) =>
             return res.status(401).json({ error: 'User not authenticated' });
         }
         // Get report user_id to update trust score
-        const reportResult = await query('SELECT user_id, is_anonymous FROM reports WHERE id = $1', [id]);
+        const reportResult = await query('SELECT user_id, is_anonymous FROM reports WHERE id = $1', [
+            id,
+        ]);
         if (reportResult.rows.length === 0) {
             return res.status(404).json({ error: 'Report not found' });
         }

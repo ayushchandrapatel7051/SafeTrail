@@ -52,7 +52,7 @@ export async function fetchWeatherData(
       return null;
     }
 
-    const data = await response.json() as {
+    const data = (await response.json()) as {
       main: { temp: number; humidity: number };
       weather: Array<{ main: string; description: string; icon: string }>;
       wind: { speed: number };
@@ -90,7 +90,7 @@ export async function fetchAQIData(latitude: number, longitude: number): Promise
       return null;
     }
 
-    const data = await response.json() as {
+    const data = (await response.json()) as {
       list: Array<{ main: { aqi: number } }>;
     };
     const aqiValue = data.list[0].main.aqi;

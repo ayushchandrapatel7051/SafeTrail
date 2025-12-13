@@ -93,7 +93,8 @@ router.post('/send', authMiddleware, adminMiddleware, async (req: AuthRequest, r
       recipientEmails = recipient_emails;
     } else {
       return res.status(400).json({
-        error: 'Must specify recipients: recipient_emails, send_to_all_users, or send_to_city_users',
+        error:
+          'Must specify recipients: recipient_emails, send_to_all_users, or send_to_city_users',
       });
     }
 

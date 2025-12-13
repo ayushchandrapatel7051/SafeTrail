@@ -30,7 +30,7 @@ export async function fetchWeatherData(latitude, longitude) {
             console.error(`Weather API error: ${response.status}`);
             return null;
         }
-        const data = await response.json();
+        const data = (await response.json());
         return {
             temperature: Math.round(data.main.temp * 10) / 10,
             weatherCondition: data.weather[0].main,
@@ -60,7 +60,7 @@ export async function fetchAQIData(latitude, longitude) {
             console.error(`AQI API error: ${response.status}`);
             return null;
         }
-        const data = await response.json();
+        const data = (await response.json());
         const aqiValue = data.list[0].main.aqi;
         return {
             aqi: aqiValue,

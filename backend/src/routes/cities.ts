@@ -9,7 +9,7 @@ const router = Router();
 async function updateCityWeather(cityId: number, latitude: number, longitude: number) {
   try {
     const weatherData = await fetchWeatherAndAQI(latitude, longitude);
-    
+
     if (weatherData) {
       await query(
         `UPDATE cities 
@@ -30,7 +30,7 @@ async function updateCityWeather(cityId: number, latitude: number, longitude: nu
           cityId,
         ]
       );
-      
+
       // Clear cache for this city
       await redis.delete(`city:${cityId}`);
       await redis.delete('cities:all');
@@ -60,7 +60,7 @@ router.get('/', async (req, res) => {
     );
 
     const cities = result.rows;
-    
+
     // Update weather data for cities that need it (fire and forget)
     cities.forEach((city) => {
       if (needsWeatherUpdate(city.weather_updated_at)) {
@@ -105,7 +105,7 @@ router.get('/:id', async (req, res) => {
     }
 
     const city = cityResult.rows[0];
-    
+
     // Update weather data if needed (fire and forget)
     if (needsWeatherUpdate(city.weather_updated_at)) {
       updateCityWeather(city.id, parseFloat(city.latitude), parseFloat(city.longitude));

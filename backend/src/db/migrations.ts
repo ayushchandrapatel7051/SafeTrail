@@ -280,7 +280,7 @@ export async function runMigrations() {
     // Run each migration (excluding migrations table at index 8)
     for (let i = 0; i < migrations.length; i++) {
       if (i === 8) continue; // Skip migrations table itself
-      
+
       const migration = migrations[i];
       const result = await query('SELECT * FROM migrations WHERE name = $1', [migration.name]);
 

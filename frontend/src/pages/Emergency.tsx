@@ -4,6 +4,7 @@ import DashboardLayout from '@/components/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
   SelectContent,
@@ -11,8 +12,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Phone, MapPin, Search, ExternalLink, Hospital, Shield } from 'lucide-react';
+import {
+  Phone,
+  MapPin,
+  Search,
+  ExternalLink,
+  Hospital,
+  Shield,
+  AlertTriangle,
+  Heart,
+  History,
+} from 'lucide-react';
 import { cities as citiesApi, emergencyApi } from '@/lib/api';
+import EmergencyContacts from '@/components/EmergencyContacts';
+import MedicalInfo from '@/components/MedicalInfo';
+import SOSButton from '@/components/SOSButton';
 
 interface City {
   id: number;
@@ -114,158 +128,219 @@ export default function Emergency() {
         <div className="space-y-6">
           {/* Header */}
           <div>
-            <h1 className="text-3xl font-bold">Emergency Contacts</h1>
+            <h1 className="text-3xl font-bold">Emergency Center</h1>
             <p className="text-muted-foreground mt-1">
-              Quick access to emergency services and nearby hospitals
+              Manage emergency contacts, medical info, and access emergency services
             </p>
           </div>
 
-          {/* Search and Filters */}
-          <Card>
-            <CardContent className="pt-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="text-sm font-medium mb-2 block">City</label>
-                  <Select value={selectedCity} onValueChange={setSelectedCity}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select city" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {cities.map((city) => (
-                        <SelectItem key={city.id} value={city.id.toString()}>
-                          {city.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Search Location</label>
-                  <Input
-                    placeholder="Search by place name..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                  />
-                </div>
-
-                <div className="flex items-end">
-                  <Button onClick={handleSearch} className="w-full">
-                    <Search className="w-4 h-4 mr-2" />
-                    Search
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Emergency Services List */}
-          {isLoading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-              <p className="mt-4 text-muted-foreground">Loading emergency services...</p>
-            </div>
-          ) : filteredServices.length === 0 ? (
-            <Card>
-              <CardContent className="text-center py-12">
-                <p className="text-muted-foreground">
-                  No emergency services found for this location.
+          {/* SOS Button - Prominent at Top */}
+          <div className="bg-destructive/10 border-2 border-destructive/20 rounded-lg p-6">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <h2 className="text-xl font-semibold mb-1 flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5 text-destructive" />
+                  Emergency Alert
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Press to immediately notify your emergency contacts with your location
                 </p>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredServices.map((service) => (
-                <Card key={service.place_id} className="hover:shadow-lg transition">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <MapPin className="w-5 h-5 text-primary" />
-                      {service.place_name}
-                    </CardTitle>
-                    <p className="text-sm text-muted-foreground">{service.city_name}</p>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    {/* Emergency Numbers */}
-                    <div className="space-y-2">
-                      {service.police_number && (
-                        <div className="flex items-center gap-2 text-sm">
-                          <Shield className="w-4 h-4 text-blue-600" />
-                          <span className="font-medium">Police:</span>
-                          <a
-                            href={`tel:${service.police_number}`}
-                            className="text-blue-600 hover:underline"
-                          >
-                            {service.police_number}
-                          </a>
-                        </div>
-                      )}
-                      {service.ambulance_number && (
-                        <div className="flex items-center gap-2 text-sm">
-                          <Hospital className="w-4 h-4 text-red-600" />
-                          <span className="font-medium">Ambulance:</span>
-                          <a
-                            href={`tel:${service.ambulance_number}`}
-                            className="text-blue-600 hover:underline"
-                          >
-                            {service.ambulance_number}
-                          </a>
-                        </div>
-                      )}
-                      {service.fire_number && (
-                        <div className="flex items-center gap-2 text-sm">
-                          <Phone className="w-4 h-4 text-orange-600" />
-                          <span className="font-medium">Fire:</span>
-                          <a
-                            href={`tel:${service.fire_number}`}
-                            className="text-blue-600 hover:underline"
-                          >
-                            {service.fire_number}
-                          </a>
-                        </div>
-                      )}
-                      {service.women_helpline && (
-                        <div className="flex items-center gap-2 text-sm">
-                          <Phone className="w-4 h-4 text-pink-600" />
-                          <span className="font-medium">Women Helpline:</span>
-                          <a
-                            href={`tel:${service.women_helpline}`}
-                            className="text-blue-600 hover:underline"
-                          >
-                            {service.women_helpline}
-                          </a>
-                        </div>
-                      )}
+              </div>
+              <SOSButton size="lg" />
+            </div>
+          </div>
+
+          {/* Tabs for different sections */}
+          <Tabs defaultValue="contacts" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="contacts">
+                <Phone className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">My Contacts</span>
+                <span className="sm:hidden">Contacts</span>
+              </TabsTrigger>
+              <TabsTrigger value="medical">
+                <Heart className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Medical Info</span>
+                <span className="sm:hidden">Medical</span>
+              </TabsTrigger>
+              <TabsTrigger value="services">
+                <Shield className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Services</span>
+                <span className="sm:hidden">Services</span>
+              </TabsTrigger>
+              <TabsTrigger value="history">
+                <History className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">History</span>
+                <span className="sm:hidden">History</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="contacts">
+              <EmergencyContacts />
+            </TabsContent>
+
+            <TabsContent value="medical">
+              <MedicalInfo />
+            </TabsContent>
+
+            <TabsContent value="history">
+              <Card>
+                <CardContent className="text-center py-12">
+                  <History className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <p className="text-muted-foreground">Your SOS alert history will appear here</p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="services">
+              {/* Search and Filters */}
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">City</label>
+                      <Select value={selectedCity} onValueChange={setSelectedCity}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select city" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {cities.map((city) => (
+                            <SelectItem key={city.id} value={city.id.toString()}>
+                              {city.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
 
-                    {/* Nearest Police */}
-                    {service.nearest_police_name && (
-                      <div className="pt-2 border-t">
-                        <p className="text-xs font-medium text-muted-foreground mb-1">
-                          Nearest Police Station
-                        </p>
-                        <p className="text-sm">{service.nearest_police_name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {Math.round(service.nearest_police_distance_m)}m away
-                        </p>
-                      </div>
-                    )}
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Search Location</label>
+                      <Input
+                        placeholder="Search by place name..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                      />
+                    </div>
 
-                    {/* More Details Button */}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full mt-3"
-                      onClick={() => viewDetails(service.place_id)}
-                    >
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      View Full Details & Map
-                    </Button>
+                    <div className="flex items-end">
+                      <Button onClick={handleSearch} className="w-full">
+                        <Search className="w-4 h-4 mr-2" />
+                        Search
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Emergency Services List */}
+              {isLoading ? (
+                <div className="text-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+                  <p className="mt-4 text-muted-foreground">Loading emergency services...</p>
+                </div>
+              ) : filteredServices.length === 0 ? (
+                <Card>
+                  <CardContent className="text-center py-12">
+                    <p className="text-muted-foreground">
+                      No emergency services found. Select a city to get started.
+                    </p>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          )}
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {filteredServices.map((service) => (
+                    <Card key={service.place_id} className="hover:shadow-lg transition">
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-lg flex items-center gap-2">
+                          <MapPin className="w-5 h-5 text-primary" />
+                          {service.place_name}
+                        </CardTitle>
+                        <p className="text-sm text-muted-foreground">{service.city_name}</p>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        {/* Emergency Numbers */}
+                        <div className="space-y-2">
+                          {service.police_number && (
+                            <div className="flex items-center gap-2 text-sm">
+                              <Shield className="w-4 h-4 text-blue-600" />
+                              <span className="font-medium">Police:</span>
+                              <a
+                                href={`tel:${service.police_number}`}
+                                className="text-blue-600 hover:underline"
+                              >
+                                {service.police_number}
+                              </a>
+                            </div>
+                          )}
+                          {service.ambulance_number && (
+                            <div className="flex items-center gap-2 text-sm">
+                              <Hospital className="w-4 h-4 text-red-600" />
+                              <span className="font-medium">Ambulance:</span>
+                              <a
+                                href={`tel:${service.ambulance_number}`}
+                                className="text-blue-600 hover:underline"
+                              >
+                                {service.ambulance_number}
+                              </a>
+                            </div>
+                          )}
+                          {service.fire_number && (
+                            <div className="flex items-center gap-2 text-sm">
+                              <Phone className="w-4 h-4 text-orange-600" />
+                              <span className="font-medium">Fire:</span>
+                              <a
+                                href={`tel:${service.fire_number}`}
+                                className="text-blue-600 hover:underline"
+                              >
+                                {service.fire_number}
+                              </a>
+                            </div>
+                          )}
+                          {service.women_helpline && (
+                            <div className="flex items-center gap-2 text-sm">
+                              <Phone className="w-4 h-4 text-pink-600" />
+                              <span className="font-medium">Women Helpline:</span>
+                              <a
+                                href={`tel:${service.women_helpline}`}
+                                className="text-blue-600 hover:underline"
+                              >
+                                {service.women_helpline}
+                              </a>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Nearest Police */}
+                        {service.nearest_police_name && (
+                          <div className="pt-2 border-t">
+                            <p className="text-xs font-medium text-muted-foreground mb-1">
+                              Nearest Police Station
+                            </p>
+                            <p className="text-sm">{service.nearest_police_name}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {Math.round(service.nearest_police_distance_m)}m away
+                            </p>
+                          </div>
+                        )}
+
+                        {/* More Details Button */}
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full mt-3"
+                          onClick={() => viewDetails(service.place_id)}
+                        >
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          View Full Details & Map
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </DashboardLayout>

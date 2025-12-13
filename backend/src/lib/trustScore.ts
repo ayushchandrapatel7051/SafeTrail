@@ -2,10 +2,10 @@ import { query } from '../db/connection.js';
 
 /**
  * Trust Score System
- * 
+ *
  * Base Score: 50
  * Range: 0-100
- * 
+ *
  * Factors:
  * - Verified reports: +5 per verified report
  * - Rejected reports: -3 per rejected report
