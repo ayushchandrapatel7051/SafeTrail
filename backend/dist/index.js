@@ -1,10 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { WebSocketServer } from 'ws';
 import { createServer } from 'http';
 import { runMigrations } from './db/migrations.js';
 import { manualMigration } from './db/manualMigration.js';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Routes
 import authRoutes from './routes/auth.js';
 import placesRoutes from './routes/places.js';
@@ -12,6 +15,12 @@ import citiesRoutes from './routes/cities.js';
 import reportsRoutes from './routes/reports.js';
 import alertsRoutes from './routes/alerts.js';
 import adminRoutes from './routes/admin.js';
+import attractionsRoutes from './routes/attractions.js';
+import emergencyRoutes from './routes/emergency.js';
+import tripPlansRoutes from './routes/tripPlans.js';
+import profileRoutes from './routes/profile.js';
+import liveTripsRoutes from './routes/liveTrips.js';
+import notificationsRoutes from './routes/notifications.js';
 dotenv.config();
 const app = express();
 const server = createServer(app);
@@ -23,6 +32,8 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.static('public'));
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/places', placesRoutes);
@@ -30,6 +41,12 @@ app.use('/api/cities', citiesRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/alerts', alertsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/attractions', attractionsRoutes);
+app.use('/api/emergency', emergencyRoutes);
+app.use('/api/trip-plans', tripPlansRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/live-trips', liveTripsRoutes);
+app.use('/api/notifications', notificationsRoutes);
 // Health check
 app.get('/health', (req, res) => {
     res.json({ status: 'ok' });
@@ -72,7 +89,8 @@ export function broadcastAlert(alert) {
         data: alert,
     });
     connectedClients.forEach((client) => {
-        if (client.readyState === 1) { // WebSocket.OPEN
+        if (client.readyState === 1) {
+            // WebSocket.OPEN
             client.send(message);
         }
     });

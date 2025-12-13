@@ -193,6 +193,36 @@ export const admin = {
   getStats: () => apiCall('/admin/stats'),
 };
 
+// Profile endpoints
+export const profile = {
+  getMe: () => apiCall('/profile/me'),
+  
+  updateMe: (fullName: string) =>
+    apiCall('/profile/me', {
+      method: 'PUT',
+      body: JSON.stringify({ full_name: fullName }),
+    }),
+  
+  changePassword: (currentPassword: string, newPassword: string) =>
+    apiCall('/profile/change-password', {
+      method: 'POST',
+      body: JSON.stringify({ currentPassword, newPassword }),
+    }),
+  
+  getStats: () => apiCall('/profile/stats'),
+  
+  getReports: (params?: { limit?: number; offset?: number }) =>
+    apiCall(
+      `/profile/reports${params ? `?${new URLSearchParams(params as unknown as Record<string, string>).toString()}` : ''}`
+    ),
+  
+  deleteAccount: (password: string) =>
+    apiCall('/profile/me', {
+      method: 'DELETE',
+      body: JSON.stringify({ password }),
+    }),
+};
+
 // WebSocket connection
 export const createWebSocketConnection = (handlers: {
   onAlert?: (alert: Record<string, unknown>) => void;

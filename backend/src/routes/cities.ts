@@ -1,8 +1,44 @@
 import { Router } from 'express';
 import { query } from '../db/connection.js';
 import { redis } from '../lib/redis.js';
+import { fetchWeatherAndAQI, needsWeatherUpdate } from '../lib/weather.js';
 
 const router = Router();
+
+// Helper function to update weather data for a city
+async function updateCityWeather(cityId: number, latitude: number, longitude: number) {
+  try {
+    const weatherData = await fetchWeatherAndAQI(latitude, longitude);
+    
+    if (weatherData) {
+      await query(
+        `UPDATE cities 
+         SET temperature = $1, weather_condition = $2, weather_description = $3, 
+             weather_icon = $4, humidity = $5, wind_speed = $6, 
+             aqi = $7, aqi_category = $8, weather_updated_at = $9
+         WHERE id = $10`,
+        [
+          weatherData.temperature,
+          weatherData.weatherCondition,
+          weatherData.weatherDescription,
+          weatherData.weatherIcon,
+          weatherData.humidity,
+          weatherData.windSpeed,
+          weatherData.aqi,
+          weatherData.aqiCategory,
+          weatherData.updatedAt,
+          cityId,
+        ]
+      );
+      
+      // Clear cache for this city
+      await redis.delete(`city:${cityId}`);
+      await redis.delete('cities:all');
+    }
+  } catch (error) {
+    console.error(`Error updating weather for city ${cityId}:`, error);
+  }
+}
 
 // Get all cities
 router.get('/', async (req, res) => {
@@ -15,16 +51,27 @@ router.get('/', async (req, res) => {
 
     const result = await query(
       `SELECT c.id, c.country_id, c.name, c.latitude, c.longitude, c.safety_score, 
-              c.places_count, c.reports_count, co.name as country_name, co.code as country_code
+              c.places_count, c.reports_count, co.name as country_name, co.code as country_code,
+              c.temperature, c.weather_condition, c.weather_description, c.weather_icon,
+              c.humidity, c.wind_speed, c.aqi, c.aqi_category, c.weather_updated_at
        FROM cities c
        LEFT JOIN countries co ON c.country_id = co.id
        ORDER BY c.name`
     );
 
-    // Cache for 1 hour
-    await redis.set(cacheKey, result.rows, 3600);
+    const cities = result.rows;
+    
+    // Update weather data for cities that need it (fire and forget)
+    cities.forEach((city) => {
+      if (needsWeatherUpdate(city.weather_updated_at)) {
+        updateCityWeather(city.id, parseFloat(city.latitude), parseFloat(city.longitude));
+      }
+    });
 
-    res.json(result.rows);
+    // Cache for 10 minutes (weather updates every 30 min)
+    await redis.set(cacheKey, cities, 600);
+
+    res.json(cities);
   } catch (error) {
     console.error('Error fetching cities:', error);
     res.status(500).json({ error: 'Failed to fetch cities' });
@@ -44,7 +91,9 @@ router.get('/:id', async (req, res) => {
 
     const cityResult = await query(
       `SELECT c.id, c.country_id, c.name, c.latitude, c.longitude, c.safety_score, 
-              c.places_count, c.reports_count, co.name as country_name, co.code as country_code
+              c.places_count, c.reports_count, co.name as country_name, co.code as country_code,
+              c.temperature, c.weather_condition, c.weather_description, c.weather_icon,
+              c.humidity, c.wind_speed, c.aqi, c.aqi_category, c.weather_updated_at
        FROM cities c
        LEFT JOIN countries co ON c.country_id = co.id
        WHERE c.id = $1`,
@@ -56,6 +105,11 @@ router.get('/:id', async (req, res) => {
     }
 
     const city = cityResult.rows[0];
+    
+    // Update weather data if needed (fire and forget)
+    if (needsWeatherUpdate(city.weather_updated_at)) {
+      updateCityWeather(city.id, parseFloat(city.latitude), parseFloat(city.longitude));
+    }
 
     // Get places in city
     const placesResult = await query(
@@ -75,8 +129,8 @@ router.get('/:id', async (req, res) => {
       alerts: alertsResult.rows,
     };
 
-    // Cache for 1 hour
-    await redis.set(cacheKey, cityWithDetails, 3600);
+    // Cache for 10 minutes
+    await redis.set(cacheKey, cityWithDetails, 600);
 
     res.json(cityWithDetails);
   } catch (error) {

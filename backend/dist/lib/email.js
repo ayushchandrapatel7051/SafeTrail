@@ -132,4 +132,25 @@ export const sendPasswordResetEmail = async (email, token, fullName) => {
         throw new Error(`Failed to send password reset email: ${error instanceof Error ? error.message : String(error)}`);
     }
 };
+// Generic email sending function
+export const sendEmail = async (options) => {
+    try {
+        const transporter = getTransporter();
+        const mailOptions = {
+            from: process.env.SMTP_FROM || 'SafeTrail <noreply@safetrail.com>',
+            to: options.to,
+            subject: options.subject,
+            text: options.text,
+            html: options.html,
+        };
+        console.log(`📤 Sending email to: ${options.to}`);
+        const info = await transporter.sendMail(mailOptions);
+        console.log(`✅ Email sent successfully. Message ID: ${info.messageId}`);
+        return info;
+    }
+    catch (error) {
+        console.error('❌ Error sending email:', error);
+        throw new Error(`Failed to send email: ${error instanceof Error ? error.message : String(error)}`);
+    }
+};
 //# sourceMappingURL=email.js.map

@@ -12,19 +12,25 @@ const generateOTP = () => {
 router.post('/admin/login', async (req, res) => {
     try {
         const { username, password } = req.body;
-        // Hardcoded admin credentials for simplicity (in production, use database)
-        const ADMIN_USERNAME = 'admin';
+        // Check credentials against database admin user
+        const result = await query('SELECT id, email, full_name, password_hash FROM users WHERE email = $1 AND role = $2', ['admin@safetrail.com', 'admin']);
+        if (result.rows.length === 0) {
+            return res.status(401).json({ error: 'Admin user not found' });
+        }
+        const adminUser = result.rows[0];
+        // For simplicity, also accept hardcoded credentials
         const ADMIN_PASSWORD = 'admin';
-        if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+        const isPasswordValid = password === ADMIN_PASSWORD || (await bcrypt.compare(password, adminUser.password_hash));
+        if (!isPasswordValid || username !== 'admin') {
             return res.status(401).json({ error: 'Invalid admin credentials' });
         }
-        // Generate a token for the admin user (using a fake admin user id)
-        const token = generateToken(0, 'admin@safetrail.com', 'admin');
+        // Generate token with real admin user id from database
+        const token = generateToken(adminUser.id, adminUser.email, 'admin');
         res.json({
             user: {
-                id: 0,
-                email: 'admin@safetrail.com',
-                full_name: 'Admin User',
+                id: adminUser.id,
+                email: adminUser.email,
+                full_name: adminUser.full_name,
                 role: 'admin',
             },
             token,
@@ -93,7 +99,9 @@ router.post('/verify-otp', async (req, res) => {
             return res.status(400).json({ error: 'Email and OTP required' });
         }
         // Find user
-        const userResult = await query('SELECT id, email, full_name FROM users WHERE email = $1', [email]);
+        const userResult = await query('SELECT id, email, full_name FROM users WHERE email = $1', [
+            email,
+        ]);
         if (userResult.rows.length === 0) {
             return res.status(400).json({ error: 'User not found' });
         }
@@ -117,11 +125,15 @@ router.post('/verify-otp', async (req, res) => {
         // Verify OTP
         if (otpRecord.otp !== otp) {
             // Increment attempts
-            await query('UPDATE email_verification_otp SET attempts = attempts + 1 WHERE id = $1', [otpRecord.id]);
+            await query('UPDATE email_verification_otp SET attempts = attempts + 1 WHERE id = $1', [
+                otpRecord.id,
+            ]);
             return res.status(400).json({ error: 'Invalid OTP. Please try again.' });
         }
         // Mark email as verified
-        await query('UPDATE users SET email_verified = true, email_verified_at = NOW() WHERE id = $1', [user.id]);
+        await query('UPDATE users SET email_verified = true, email_verified_at = NOW() WHERE id = $1', [
+            user.id,
+        ]);
         // Delete the OTP record
         await query('DELETE FROM email_verification_otp WHERE id = $1', [otpRecord.id]);
         res.json({ message: 'Email verified successfully. You can now login.' });
@@ -170,9 +182,7 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ error: 'Email and password required' });
         }
         // Find user
-        const result = await query('SELECT id, email, password_hash, full_name, role, email_verified FROM users WHERE email = $1', [
-            email,
-        ]);
+        const result = await query('SELECT id, email, password_hash, full_name, role, email_verified FROM users WHERE email = $1', [email]);
         if (result.rows.length === 0) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
@@ -182,7 +192,7 @@ router.post('/login', async (req, res) => {
             return res.status(403).json({
                 error: 'Please verify your email before logging in',
                 code: 'EMAIL_NOT_VERIFIED',
-                email: user.email
+                email: user.email,
             });
         }
         // Verify password
@@ -248,10 +258,12 @@ router.post('/verify-login-otp', async (req, res) => {
         // Verify OTP
         if (otpRecord.otp !== otp) {
             // Increment attempts
-            await query('UPDATE email_verification_otp SET attempts = attempts + 1 WHERE id = $1', [otpRecord.id]);
+            await query('UPDATE email_verification_otp SET attempts = attempts + 1 WHERE id = $1', [
+                otpRecord.id,
+            ]);
             const remainingAttempts = 5 - (otpRecord.attempts + 1);
             return res.status(400).json({
-                error: `Invalid OTP. ${remainingAttempts} attempts remaining.`
+                error: `Invalid OTP. ${remainingAttempts} attempts remaining.`,
             });
         }
         // Delete the OTP record

@@ -6,7 +6,9 @@ const router = Router();
 router.get('/dashboard', authMiddleware, adminMiddleware, async (req, res) => {
     try {
         // Get pending reports count
-        const pendingResult = await query('SELECT COUNT(*) as count FROM reports WHERE status = $1', ['pending']);
+        const pendingResult = await query('SELECT COUNT(*) as count FROM reports WHERE status = $1', [
+            'pending',
+        ]);
         // Get verified reports count
         const verifiedResult = await query('SELECT COUNT(*) as count FROM reports WHERE status = $1', ['verified']);
         // Get total places
@@ -42,17 +44,26 @@ router.get('/dashboard', authMiddleware, adminMiddleware, async (req, res) => {
 router.get('/reports/pending', authMiddleware, adminMiddleware, async (req, res) => {
     try {
         const { limit = 20, offset = 0 } = req.query;
-        const result = await query(`SELECT r.id, r.user_id, r.place_id, p.name as place_name, r.type, r.description, 
-              r.latitude, r.longitude, r.severity, r.created_at,
+        const result = await query(`SELECT r.id, r.user_id, r.place_id, 
+              p.name as place_name, 
+              c.name as city_name,
+              u.full_name as reporter_name,
+              u.email as reporter_email,
+              r.type, r.description, 
+              r.latitude, r.longitude, r.severity, r.status, r.created_at,
               COUNT(rp.id) as photo_count
        FROM reports r
        JOIN places p ON r.place_id = p.id
+       JOIN cities c ON p.city_id = c.id
+       LEFT JOIN users u ON r.user_id = u.id
        LEFT JOIN report_photos rp ON r.id = rp.report_id
        WHERE r.status = $1
-       GROUP BY r.id, p.name
+       GROUP BY r.id, p.name, c.name, u.full_name, u.email
        ORDER BY r.created_at DESC
        LIMIT $2 OFFSET $3`, ['pending', limit, offset]);
-        const countResult = await query('SELECT COUNT(*) as total FROM reports WHERE status = $1', ['pending']);
+        const countResult = await query('SELECT COUNT(*) as total FROM reports WHERE status = $1', [
+            'pending',
+        ]);
         res.json({
             reports: result.rows,
             total: parseInt(countResult.rows[0].total),

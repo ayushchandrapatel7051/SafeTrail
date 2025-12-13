@@ -7,6 +7,7 @@ import {
   updatePlaceReportCount,
   updateCityReportCount,
 } from '../lib/safetyScore.js';
+import { updateUserTrustScore } from '../lib/trustScore.js';
 import { authMiddleware, adminMiddleware, AuthRequest } from '../middleware/auth.js';
 import multer from 'multer';
 import path from 'path';
@@ -48,6 +49,7 @@ interface CreateReportBody {
   latitude: number;
   longitude: number;
   severity?: number;
+  is_anonymous?: boolean;
 }
 
 // Create report
@@ -57,7 +59,7 @@ router.post(
   upload.single('photo'),
   async (req: AuthRequest, res: Response) => {
     try {
-      const { place_id, type, description, latitude, longitude, severity } =
+      const { place_id, type, description, latitude, longitude, severity, is_anonymous } =
         req.body as CreateReportBody;
 
       // Validate input
@@ -71,13 +73,29 @@ router.post(
         return res.status(400).json({ error: 'Place not found' });
       }
 
+      // Get user's current trust score
+      let userTrustScore = 50; // Default for anonymous
+      if (req.user?.id && !is_anonymous) {
+        const userResult = await query(
+          'SELECT trust_score FROM users WHERE id = $1',
+          [req.user.id]
+        );
+        if (userResult.rows.length > 0) {
+          userTrustScore = userResult.rows[0].trust_score || 50;
+        }
+      }
+
       // Create report
       const result = await query(
-        `INSERT INTO reports (user_id, place_id, type, description, latitude, longitude, severity, status)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-       RETURNING id, user_id, place_id, type, description, latitude, longitude, status, severity, created_at`,
+        `INSERT INTO reports (
+          user_id, place_id, type, description, latitude, longitude, 
+          severity, status, is_anonymous, reporter_trust_score
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        RETURNING id, user_id, place_id, type, description, latitude, longitude, 
+                  status, severity, is_anonymous, reporter_trust_score, created_at`,
         [
-          req.user?.id || null,
+          is_anonymous ? null : (req.user?.id || null),
           place_id,
           type,
           description,
@@ -85,6 +103,8 @@ router.post(
           longitude,
           severity || 1,
           'pending',
+          is_anonymous || false,
+          userTrustScore,
         ]
       );
 
@@ -161,7 +181,8 @@ router.get('/', async (req: Request, res: Response) => {
               u.full_name as reporter_name,
               u.email as reporter_email,
               r.type, r.description, r.latitude, r.longitude, 
-              r.status, r.severity, r.created_at, r.updated_at, r.verified_at, r.verified_by,
+              r.status, r.severity, r.is_anonymous, r.reporter_trust_score,
+              r.created_at, r.updated_at, r.verified_at, r.verified_by,
               (SELECT rp.file_path FROM report_photos rp WHERE rp.report_id = r.id LIMIT 1) as photo_path
        FROM reports r
        JOIN places p ON r.place_id = p.id
@@ -208,7 +229,8 @@ router.get('/:id', async (req: Request, res: Response) => {
               u.full_name as reporter_name,
               u.email as reporter_email,
               r.type, r.description, r.latitude, r.longitude, 
-              r.status, r.severity, r.created_at, r.updated_at, r.verified_at, r.verified_by
+              r.status, r.severity, r.is_anonymous, r.reporter_trust_score,
+              r.created_at, r.updated_at, r.verified_at, r.verified_by
        FROM reports r
        JOIN places p ON r.place_id = p.id
        JOIN cities c ON p.city_id = c.id
@@ -253,12 +275,15 @@ router.patch(
       }
 
       // Get report and place
-      const reportResult = await query('SELECT place_id FROM reports WHERE id = $1', [id]);
+      const reportResult = await query(
+        'SELECT place_id, user_id, is_anonymous FROM reports WHERE id = $1',
+        [id]
+      );
       if (reportResult.rows.length === 0) {
         return res.status(404).json({ error: 'Report not found' });
       }
 
-      const placeId = reportResult.rows[0].place_id;
+      const { place_id: placeId, user_id: userId, is_anonymous } = reportResult.rows[0];
 
       // Update report
       const result = await query(
@@ -268,6 +293,11 @@ router.patch(
        RETURNING *`,
         ['verified', req.user.id, id]
       );
+
+      // Update user's trust score if not anonymous
+      if (userId && !is_anonymous) {
+        await updateUserTrustScore(userId);
+      }
 
       // Recalculate safety scores
       await updatePlaceSafetyScore(placeId);
@@ -306,6 +336,17 @@ router.patch(
         return res.status(401).json({ error: 'User not authenticated' });
       }
 
+      // Get report user_id to update trust score
+      const reportResult = await query(
+        'SELECT user_id, is_anonymous FROM reports WHERE id = $1',
+        [id]
+      );
+      if (reportResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Report not found' });
+      }
+
+      const { user_id: userId, is_anonymous } = reportResult.rows[0];
+
       const result = await query(
         `UPDATE reports 
        SET status = $1, verified_at = CURRENT_TIMESTAMP, verified_by = $2, updated_at = CURRENT_TIMESTAMP
@@ -314,8 +355,9 @@ router.patch(
         ['rejected', req.user.id, id]
       );
 
-      if (result.rows.length === 0) {
-        return res.status(404).json({ error: 'Report not found' });
+      // Update user's trust score if not anonymous (rejected reports lower score)
+      if (userId && !is_anonymous) {
+        await updateUserTrustScore(userId);
       }
 
       // Invalidate cache

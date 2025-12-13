@@ -21,6 +21,9 @@ import adminRoutes from './routes/admin.js';
 import attractionsRoutes from './routes/attractions.js';
 import emergencyRoutes from './routes/emergency.js';
 import tripPlansRoutes from './routes/tripPlans.js';
+import profileRoutes from './routes/profile.js';
+import liveTripsRoutes from './routes/liveTrips.js';
+import notificationsRoutes from './routes/notifications.js';
 
 dotenv.config();
 
@@ -51,6 +54,9 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/attractions', attractionsRoutes);
 app.use('/api/emergency', emergencyRoutes);
 app.use('/api/trip-plans', tripPlansRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/live-trips', liveTripsRoutes);
+app.use('/api/notifications', notificationsRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

@@ -1,4 +1,4 @@
-import { query } from '../db/connection.js';
+import { query } from '../connection.js';
 
 export async function up() {
   await query(`

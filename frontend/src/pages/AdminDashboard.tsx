@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, X, Eye, Clock, CheckCircle, XCircle, Filter, Loader2 } from 'lucide-react';
+import { Check, X, Eye, Clock, CheckCircle, XCircle, Filter, Loader2, Send, Bell } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
@@ -63,6 +67,18 @@ const AdminDashboard = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [tabValue, setTabValue] = useState('pending');
+  
+  // Notification state
+  const [showNotificationForm, setShowNotificationForm] = useState(false);
+  const [isSendingNotification, setIsSendingNotification] = useState(false);
+  const [notificationData, setNotificationData] = useState({
+    title: '',
+    message: '',
+    incident_type: '',
+    recipient_type: 'all', // 'all', 'city', 'custom'
+    city_id: '',
+    recipient_emails: '',
+  });
 
   // Check auth on mount
   useEffect(() => {
@@ -235,6 +251,84 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleSendNotification = async () => {
+    if (!notificationData.title || !notificationData.message) {
+      toast({
+        title: 'Error',
+        description: 'Title and message are required',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setIsSendingNotification(true);
+    try {
+      const adminToken = localStorage.getItem('adminToken');
+      if (!adminToken) {
+        throw new Error('Admin token not found');
+      }
+
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      
+      const payload: any = {
+        title: notificationData.title,
+        message: notificationData.message,
+        incident_type: notificationData.incident_type || undefined,
+      };
+
+      if (notificationData.recipient_type === 'all') {
+        payload.send_to_all_users = true;
+      } else if (notificationData.recipient_type === 'city' && notificationData.city_id) {
+        payload.send_to_city_users = parseInt(notificationData.city_id);
+      } else if (notificationData.recipient_type === 'custom' && notificationData.recipient_emails) {
+        payload.recipient_emails = notificationData.recipient_emails
+          .split(',')
+          .map(email => email.trim())
+          .filter(email => email);
+      }
+
+      const res = await fetch(`${API_BASE_URL}/notifications/send`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${adminToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || `Send failed: ${res.status}`);
+      }
+
+      const result = await res.json();
+      
+      toast({
+        title: 'Notification Sent',
+        description: `Successfully sent to ${result.recipients_count} recipient(s)`,
+      });
+
+      // Reset form
+      setNotificationData({
+        title: '',
+        message: '',
+        incident_type: '',
+        recipient_type: 'all',
+        city_id: '',
+        recipient_emails: '',
+      });
+      setShowNotificationForm(false);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: error instanceof Error ? error.message : 'Failed to send notification',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSendingNotification(false);
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'pending':
@@ -354,6 +448,153 @@ const AdminDashboard = () => {
               </div>
             </div>
           </CardContent>
+        </Card>
+
+        {/* Send Notifications Card */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Bell className="w-5 h-5" />
+                  Send Notifications
+                </CardTitle>
+                <CardDescription>Send alerts and notifications to users</CardDescription>
+              </div>
+              <Button
+                onClick={() => setShowNotificationForm(!showNotificationForm)}
+                variant={showNotificationForm ? 'secondary' : 'default'}
+              >
+                {showNotificationForm ? 'Hide Form' : 'Create Notification'}
+              </Button>
+            </div>
+          </CardHeader>
+          {showNotificationForm && (
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="title">Notification Title *</Label>
+                <Input
+                  id="title"
+                  placeholder="e.g., Weather Alert, Safety Advisory"
+                  value={notificationData.title}
+                  onChange={(e) =>
+                    setNotificationData({ ...notificationData, title: e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="incident_type">Incident Type (optional)</Label>
+                <Input
+                  id="incident_type"
+                  placeholder="e.g., weather, safety, emergency"
+                  value={notificationData.incident_type}
+                  onChange={(e) =>
+                    setNotificationData({ ...notificationData, incident_type: e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="message">Message *</Label>
+                <Textarea
+                  id="message"
+                  placeholder="Enter the notification message..."
+                  value={notificationData.message}
+                  onChange={(e) =>
+                    setNotificationData({ ...notificationData, message: e.target.value })
+                  }
+                  rows={4}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Send To</Label>
+                <RadioGroup
+                  value={notificationData.recipient_type}
+                  onValueChange={(value) =>
+                    setNotificationData({ ...notificationData, recipient_type: value })
+                  }
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="all" id="all" />
+                    <Label htmlFor="all" className="font-normal cursor-pointer">
+                      All verified users
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="city" id="city" />
+                    <Label htmlFor="city" className="font-normal cursor-pointer">
+                      Users in specific city
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="custom" id="custom" />
+                    <Label htmlFor="custom" className="font-normal cursor-pointer">
+                      Custom email list
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
+              {notificationData.recipient_type === 'city' && (
+                <div className="space-y-2">
+                  <Label htmlFor="city_id">City ID</Label>
+                  <Input
+                    id="city_id"
+                    type="number"
+                    placeholder="Enter city ID"
+                    value={notificationData.city_id}
+                    onChange={(e) =>
+                      setNotificationData({ ...notificationData, city_id: e.target.value })
+                    }
+                  />
+                </div>
+              )}
+
+              {notificationData.recipient_type === 'custom' && (
+                <div className="space-y-2">
+                  <Label htmlFor="emails">Email Addresses</Label>
+                  <Textarea
+                    id="emails"
+                    placeholder="Enter emails separated by commas (e.g., user1@example.com, user2@example.com)"
+                    value={notificationData.recipient_emails}
+                    onChange={(e) =>
+                      setNotificationData({ ...notificationData, recipient_emails: e.target.value })
+                    }
+                    rows={3}
+                  />
+                </div>
+              )}
+
+              <div className="flex justify-end gap-2 pt-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowNotificationForm(false)}
+                  disabled={isSendingNotification}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSendNotification}
+                  disabled={isSendingNotification}
+                  className="gap-2"
+                >
+                  {isSendingNotification ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      Send Notification
+                    </>
+                  )}
+                </Button>
+              </div>
+            </CardContent>
+          )}
         </Card>
 
         {/* Reports Table with Tabs */}

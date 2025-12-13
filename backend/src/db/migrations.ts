@@ -157,6 +157,119 @@ const migrations = [
     `,
     down: `DROP TABLE IF EXISTS migrations;`,
   },
+  {
+    name: '009_add_weather_aqi_to_cities',
+    up: `
+      ALTER TABLE cities
+      ADD COLUMN IF NOT EXISTS temperature DECIMAL(5, 2),
+      ADD COLUMN IF NOT EXISTS weather_condition VARCHAR(100),
+      ADD COLUMN IF NOT EXISTS weather_description VARCHAR(255),
+      ADD COLUMN IF NOT EXISTS weather_icon VARCHAR(10),
+      ADD COLUMN IF NOT EXISTS humidity INTEGER,
+      ADD COLUMN IF NOT EXISTS wind_speed DECIMAL(5, 2),
+      ADD COLUMN IF NOT EXISTS aqi INTEGER,
+      ADD COLUMN IF NOT EXISTS aqi_category VARCHAR(50),
+      ADD COLUMN IF NOT EXISTS weather_updated_at TIMESTAMP;
+    `,
+    down: `
+      ALTER TABLE cities
+      DROP COLUMN IF EXISTS temperature,
+      DROP COLUMN IF EXISTS weather_condition,
+      DROP COLUMN IF EXISTS weather_description,
+      DROP COLUMN IF EXISTS weather_icon,
+      DROP COLUMN IF EXISTS humidity,
+      DROP COLUMN IF EXISTS wind_speed,
+      DROP COLUMN IF EXISTS aqi,
+      DROP COLUMN IF EXISTS aqi_category,
+      DROP COLUMN IF EXISTS weather_updated_at;
+    `,
+  },
+  {
+    name: '010_add_trust_score_system',
+    up: `
+      ALTER TABLE users
+      ADD COLUMN IF NOT EXISTS trust_score DECIMAL(5, 2) DEFAULT 50.0,
+      ADD COLUMN IF NOT EXISTS verified_reports_count INTEGER DEFAULT 0,
+      ADD COLUMN IF NOT EXISTS rejected_reports_count INTEGER DEFAULT 0,
+      ADD COLUMN IF NOT EXISTS reports_with_photos_count INTEGER DEFAULT 0,
+      ADD COLUMN IF NOT EXISTS total_reports_count INTEGER DEFAULT 0;
+      
+      ALTER TABLE reports
+      ADD COLUMN IF NOT EXISTS is_anonymous BOOLEAN DEFAULT FALSE,
+      ADD COLUMN IF NOT EXISTS trust_score_at_submission DECIMAL(5, 2),
+      ADD COLUMN IF NOT EXISTS has_photo BOOLEAN DEFAULT FALSE;
+      
+      CREATE INDEX IF NOT EXISTS idx_users_trust_score ON users(trust_score);
+      CREATE INDEX IF NOT EXISTS idx_reports_anonymous ON reports(is_anonymous);
+    `,
+    down: `
+      ALTER TABLE users
+      DROP COLUMN IF EXISTS trust_score,
+      DROP COLUMN IF EXISTS verified_reports_count,
+      DROP COLUMN IF EXISTS rejected_reports_count,
+      DROP COLUMN IF EXISTS reports_with_photos_count,
+      DROP COLUMN IF EXISTS total_reports_count;
+      
+      ALTER TABLE reports
+      DROP COLUMN IF EXISTS is_anonymous,
+      DROP COLUMN IF EXISTS trust_score_at_submission,
+      DROP COLUMN IF EXISTS has_photo;
+      
+      DROP INDEX IF EXISTS idx_users_trust_score;
+      DROP INDEX IF EXISTS idx_reports_anonymous;
+    `,
+  },
+  {
+    name: '011_create_live_trips_table',
+    up: `
+      CREATE TABLE IF NOT EXISTS live_trips (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        share_token VARCHAR(255) UNIQUE NOT NULL,
+        trip_name VARCHAR(255),
+        start_location VARCHAR(255),
+        destination VARCHAR(255),
+        current_latitude DECIMAL(10, 8),
+        current_longitude DECIMAL(11, 8),
+        is_active BOOLEAN DEFAULT TRUE,
+        emergency_triggered BOOLEAN DEFAULT FALSE,
+        emergency_message TEXT,
+        trusted_contacts JSONB,
+        route_waypoints JSONB,
+        started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        ended_at TIMESTAMP,
+        last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+      
+      CREATE INDEX IF NOT EXISTS idx_live_trips_user_id ON live_trips(user_id);
+      CREATE INDEX IF NOT EXISTS idx_live_trips_share_token ON live_trips(share_token);
+      CREATE INDEX IF NOT EXISTS idx_live_trips_active ON live_trips(is_active);
+    `,
+    down: `DROP TABLE IF EXISTS live_trips;`,
+  },
+  {
+    name: '012_create_admin_notifications_table',
+    up: `
+      CREATE TABLE IF NOT EXISTS admin_notifications (
+        id SERIAL PRIMARY KEY,
+        created_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+        title VARCHAR(255) NOT NULL,
+        incident_type VARCHAR(100),
+        message TEXT NOT NULL,
+        recipient_emails TEXT[],
+        send_to_all_users BOOLEAN DEFAULT FALSE,
+        send_to_city_users INTEGER,
+        status VARCHAR(50) DEFAULT 'pending',
+        sent_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+      
+      CREATE INDEX IF NOT EXISTS idx_admin_notifications_status ON admin_notifications(status);
+      CREATE INDEX IF NOT EXISTS idx_admin_notifications_created_at ON admin_notifications(created_at DESC);
+    `,
+    down: `DROP TABLE IF EXISTS admin_notifications;`,
+  },
 ];
 
 export async function runMigrations() {
@@ -164,8 +277,11 @@ export async function runMigrations() {
     // Create migrations table if not exists
     await query(migrations[8].up);
 
-    // Run each migration (excluding migrations table)
-    for (const migration of migrations.slice(0, 8)) {
+    // Run each migration (excluding migrations table at index 8)
+    for (let i = 0; i < migrations.length; i++) {
+      if (i === 8) continue; // Skip migrations table itself
+      
+      const migration = migrations[i];
       const result = await query('SELECT * FROM migrations WHERE name = $1', [migration.name]);
 
       if (result.rows.length === 0) {
