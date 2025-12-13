@@ -33,11 +33,22 @@ The platform serves both regular users seeking safety information and administra
 
 ## Features
 
+### 🆘 **Emergency Management System** ⭐ NEW
+- **One-Click SOS Alert**: Emergency button with location sharing
+- **Emergency Contacts**: Add/edit/delete trusted contacts with email notifications
+- **Medical Profile**: Store blood type, allergies, medications, and conditions
+- **Automatic Email Alerts**: SMTP-based emergency notifications with Google Maps links
+- **Geolocation Integration**: Browser-based location tracking with retry and fallback
+- **SOS History**: Track all emergency alerts and their timestamps
+- **Dashboard Integration**: Quick access SOS button on main dashboard
+- **Non-Blocking Design**: Alerts are created immediately, emails sent in background
+
 ### 🗺️ **Maps & Location Services**
 - Interactive map view with safety score visualization
 - City-level and place-level safety metrics
 - Search and filter by location type and safety status
 - Real-time location tracking for trip planning
+- Weather and Air Quality Index (AQI) integration
 
 ### 📍 **Incident Reporting**
 - Submit safety reports with detailed descriptions
@@ -58,11 +69,14 @@ The platform serves both regular users seeking safety information and administra
 - Dashboard statistics and metrics
 - Bulk action management
 
-### 🚨 **Emergency Services**
-- Emergency contact directory
-- Quick access to local emergency numbers
-- Safety resources and hotlines
-- Emergency navigation
+### 🚨 **Emergency Management System**
+- **SOS Alert Button**: One-click emergency alert with live location sharing
+- **Emergency Contacts**: Manage trusted contacts who receive SOS alerts via email
+- **Medical Information**: Store critical medical data (blood type, allergies, medications)
+- **Email Notifications**: Automatic SMTP email alerts to all emergency contacts with Google Maps link
+- **Emergency Services Directory**: Quick access to local emergency numbers (police, ambulance, fire)
+- **SOS History**: View all past emergency alerts and responses
+- **Geolocation Integration**: Automatic location detection with retry logic and fallback
 
 ### ✈️ **Trip Planning**
 - Create and manage trip plans
@@ -131,9 +145,11 @@ SafeTrail/
 │   │   │   ├── migrate.ts            # Migration runner
 │   │   │   ├── seed.ts               # Initial data seeding
 │   │   │   ├── seedAttractions.ts    # Attractions data seed
-│   │   │   ├── seedEmergencyData.ts  # Emergency contacts seed
+│   │   │   ├── seedEmergencyData.ts  # Emergency services seed
 │   │   │   ├── createTripPlansTable.ts
 │   │   │   ├── createEmergencyTables.ts
+│   │   │   ├── fixMigrations.ts      # Manual migrations for schema fixes
+│   │   │   ├── updateEmergencyContacts.ts # Emergency contacts migration
 │   │   │   ├── updateSafetyScores.ts # Safety score calculations
 │   │   │   ├── updateCounts.ts       # Report count updates
 │   │   │   └── migrations/
@@ -151,9 +167,11 @@ SafeTrail/
 │   │   │   └── admin.ts              # Admin dashboard endpoints
 │   │   ├── lib/
 │   │   │   ├── jwt.ts                # JWT token generation & verification
-│   │   │   ├── email.ts              # Email sending & OTP verification
+│   │   │   ├── email.ts              # Email sending, OTP verification & emergency alerts
 │   │   │   ├── redis.ts              # Redis client & cache utilities
-│   │   │   └── safetyScore.ts        # Safety score algorithms
+│   │   │   ├── safetyScore.ts        # Safety score algorithms
+│   │   │   ├── trustScore.ts         # User trust score calculations
+│   │   │   └── weather.ts            # Weather & AQI integration
 │   │   ├── middleware/
 │   │   │   └── auth.ts               # Authentication & authorization middleware
 │   │   └── utils/
@@ -186,6 +204,9 @@ SafeTrail/
 │   │   ├── components/
 │   │   │   ├── DashboardLayout.tsx   # Shared dashboard layout
 │   │   │   ├── NavLink.tsx           # Navigation component
+│   │   │   ├── EmergencyContacts.tsx # Emergency contacts management
+│   │   │   ├── MedicalInfo.tsx       # Medical information form
+│   │   │   ├── SOSButton.tsx         # Emergency SOS alert button
 │   │   │   ├── landing/              # Landing page components
 │   │   │   │   ├── Hero.tsx
 │   │   │   │   ├── Navbar.tsx
@@ -269,12 +290,29 @@ SafeTrail/
 🏨 Attractions
   ├─ id, city_id, name, category, latitude, longitude
   ├─ rating, description
-  └─ Relationships: [∞-1] Cities
+  └─ Relaplace_id, police_number, ambulance_number
+  ├─ fire_number, women_helpline, tourist_helpline
+  ├─ nearest_police_name, nearest_police_distance_m
+  └─ Relationships: [∞-1] Places
 
-🚑 EmergencyServices
-  ├─ id, city_id, name, type, phone, address
-  └─ Relationships: [∞-1] Cities
+👨‍👩‍👧 EmergencyContacts
+  ├─ id, user_id, name, email, relationship
+  ├─ is_primary, created_at, updated_at
+  └─ Relationships: [∞-1] Users
 
+🆘 SOSAlerts
+  ├─ id, user_id, location (JSON), message
+  ├─ created_at, resolved_at
+  └─ Relationships: [∞-1] Users
+
+🔐 EmailVerificationOTP
+  ├─ id, user_id, otp, expires_at
+  └─ Relationships: [∞-1] Users
+
+💊 Medical Info (stored in users.medical_info JSONB)
+  ├─ blood_type, allergies, medications
+  ├─ medical_conditions, emergency_notes
+  └─ Part of Users table
 🔐 EmailVerificationOTP
   ├─ id, user_id, otp, expires_at
   └─ Relationships: [∞-1] Users
@@ -315,11 +353,11 @@ REDIS_PORT=6379
 # JWT & Auth
 JWT_SECRET=your-super-secret-jwt-key-change-in-production
 
-# Email (Gmail SMTP)
+# Email (Gmail SMTP) - Required for OTP and Emergency Alerts
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-specific-password
+SMTP_PASS=your-app-specific-password  # Use Gmail App Password
 SMTP_FROM=SafeTrail <your-email@gmail.com>
 
 # Server
@@ -582,10 +620,134 @@ Response: { id, type, created_at, ... }
 ```
 
 ### Attractions Endpoints
-
-#### Get Attractions
+Contacts
 ```
-GET /attractions?city_id=1&category=museum
+GET /emergency/contacts
+Authorization: Bearer <jwt_token>
+
+Response: [{ id, name, email, relationship, is_primary, ... }]
+```
+
+#### Add Emergency Contact
+```
+POST /emergency/contacts
+Authorization: Bearer <jwt_token>
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "relationship": "Brother",
+  "is_primary": true
+}
+
+Response: { id, name, email, ... }
+```
+
+#### Update Emergency Contact
+```
+PUT /emergency/contacts/:id
+Authorization: Bearer <jwt_token>
+Content-Type: application/json
+
+{
+  "name": "John Doe Updated",
+  "email": "john.new@example.com"
+}
+
+Response: { id, name, email, ... }
+```
+
+#### Delete Emergency Contact
+```
+DELETE /emergency/contacts/:id
+Authorization: Bearer <jwt_token>
+
+Response: { success: true }
+```
+
+#### Get Medical Information
+```
+GET /emergency/medical-info
+Authorization: Bearer <jwt_token>
+
+Response: {
+  blood_type: "O+",
+  allergies: ["Penicillin"],
+  medications: ["Aspirin"],
+  medical_conditions: ["Asthma"],
+  emergency_notes: "..."
+}
+```
+
+#### Update Medical Information
+```
+PUT /emergency/medical-info
+Authorization: Bearer <jwt_token>
+Content-Type: application/json
+
+{
+  "blood_type": "O+",
+  "allergies": ["Penicillin", "Peanuts"],
+  "medications": ["Aspirin"],
+  "medical_conditions": ["Asthma"],
+  "emergency_notes": "Inhaler in bag"
+}
+
+Response: { success: true, medical_info: {...} }
+```
+
+#### Trigger SOS Alert
+```
+POST /emergency/sos
+Authorization: Bearer <jwt_token>
+Content-Type: application/json
+
+{
+  "location": {
+    "latitude": 40.7128,
+    "longitude": -74.0060,
+    "accuracy": 10
+  },
+  "message": "Emergency! I need immediate help!"
+}
+
+Response: {
+  success: true,
+  alert: { id, user_id, location, message, created_at },
+  contactsNotified: 3
+}
+
+Note: Automatically sends emails to all emergency contacts with:
+- User's name and email
+- Emergency message
+- Google Maps link to exact location
+- Timestamp of alert
+```
+
+#### Get SOS Alert History
+```
+GET /emergency/sos/history
+Authorization: Bearer <jwt_token>
+
+Response: [
+  {
+    id, location, message, created_at, resolved_at,
+    contacts_notified: 3
+  }
+]
+```
+
+#### Get Emergency Services
+```
+GET /emergency/services?city_id=1
+
+Response: [{ 
+  place_id, place_name, city_name,
+  police_number, ambulance_number, fire_number,
+  women_helpline, tourist_helpline,
+  nearest_police_name, nearest_police_distance_m,
+  ... 
 
 Response: [{ id, name, city_id, latitude, longitude, category, rating, ... }]
 ```
@@ -641,10 +803,15 @@ Authorization: Bearer <admin_jwt_token>
 
 Response: {
   totalReports: 150,
-  pendingReports: 12,
-  verifiedReports: 120,
-  citiesCount: 25,
-  placesCount: 500,
+  pendingReporor Emergency Alerts Not Sending
+- Verify SMTP credentials in `.env`
+- **Use Gmail App-Specific Password** (recommended):
+  1. Enable 2-Step Verification in Google Account
+  2. Go to Security → App passwords
+  3. Generate password for "Mail"
+  4. Use generated password in `SMTP_PASS`
+- Check spam folder for test emails
+- Verify email format is correct
   usersCount: 1200,
   recentReports: [...]
 }
@@ -784,6 +951,29 @@ npm run build
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit changes (`git commit -m 'Add AmazingFeature'`)
 4. Push to branch (`git push origin feature/AmazingFeature`)
+---
+
+## Recent Updates (December 2025)
+
+### Emergency Management System
+- ✅ Complete emergency contact management system
+- ✅ Medical information storage with JSONB
+- ✅ SOS alert button with real-time geolocation
+- ✅ Email notifications via Nodemailer (SMTP)
+- ✅ Emergency contacts table with email-only approach
+- ✅ Non-blocking email sending for reliability
+- ✅ Geolocation retry logic with fallback
+- ✅ Dashboard SOS button integration
+- ✅ Emergency page with tabs (Contacts, Medical Info, Services, History)
+
+### Weather & Environmental Data
+- ✅ OpenWeatherMap API integration
+- ✅ Air Quality Index (AQI) monitoring
+- ✅ Real-time weather updates for cities
+- ✅ Automatic data refresh
+
+---
+
 5. Open a Pull Request
 
 ---

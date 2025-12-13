@@ -162,11 +162,14 @@ const Dashboard = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* View on Map Card */}
                 <Link to="/map" className="group">
-                  <div className="relative bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl overflow-hidden h-64 md:h-72 shadow-lg hover:shadow-2xl transition-all duration-300">
+                  <div className="relative bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl overflow-hidden h-56 shadow-lg hover:shadow-2xl transition-all duration-300">
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
-                    <div className="absolute inset-0 flex flex-col justify-between p-6 text-white">
-                      <div></div>
-                      <div>
+                    {/* Icon at top */}
+                    <div className="absolute top-6 right-6 text-white opacity-20">
+                      <MapPin className="w-20 h-20" />
+                    </div>
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+                      <div className="relative z-10">
                         <h3 className="text-2xl font-bold mb-2">Explore the Map</h3>
                         <p className="text-blue-50 mb-4">
                           Discover safe routes and places in your city
@@ -177,20 +180,19 @@ const Dashboard = () => {
                         </Button>
                       </div>
                     </div>
-                    {/* Placeholder */}
-                    <div className="absolute inset-0 flex items-center justify-center text-blue-200 opacity-50">
-                      <MapPin className="w-24 h-24" />
-                    </div>
                   </div>
                 </Link>
 
                 {/* Report Incident Card */}
                 <Link to="/report" className="group">
-                  <div className="relative bg-gradient-to-br from-red-400 to-red-600 rounded-2xl overflow-hidden h-64 md:h-72 shadow-lg hover:shadow-2xl transition-all duration-300">
+                  <div className="relative bg-gradient-to-br from-red-400 to-red-600 rounded-2xl overflow-hidden h-56 shadow-lg hover:shadow-2xl transition-all duration-300">
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
-                    <div className="absolute inset-0 flex flex-col justify-between p-6 text-white">
-                      <div></div>
-                      <div>
+                    {/* Icon at top */}
+                    <div className="absolute top-6 right-6 text-white opacity-20">
+                      <AlertCircle className="w-20 h-20" />
+                    </div>
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+                      <div className="relative z-10">
                         <h3 className="text-2xl font-bold mb-2">Report an Incident</h3>
                         <p className="text-red-50 mb-4">Help others by reporting safety concerns</p>
                         <Button className="bg-white text-red-600 hover:bg-red-50 font-semibold">
@@ -199,20 +201,19 @@ const Dashboard = () => {
                         </Button>
                       </div>
                     </div>
-                    {/* Placeholder */}
-                    <div className="absolute inset-0 flex items-center justify-center text-red-200 opacity-50">
-                      <AlertCircle className="w-24 h-24" />
-                    </div>
                   </div>
                 </Link>
 
                 {/* Trip Planner Card */}
                 <Link to="/trip-plan" className="group">
-                  <div className="relative bg-gradient-to-br from-green-400 to-green-600 rounded-2xl overflow-hidden h-64 md:h-72 shadow-lg hover:shadow-2xl transition-all duration-300">
+                  <div className="relative bg-gradient-to-br from-green-400 to-green-600 rounded-2xl overflow-hidden h-56 shadow-lg hover:shadow-2xl transition-all duration-300">
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
-                    <div className="absolute inset-0 flex flex-col justify-between p-6 text-white">
-                      <div></div>
-                      <div>
+                    {/* Icon at top */}
+                    <div className="absolute top-6 right-6 text-white opacity-20">
+                      <Calendar className="w-20 h-20" />
+                    </div>
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+                      <div className="relative z-10">
                         <h3 className="text-2xl font-bold mb-2">Plan Your Trip</h3>
                         <p className="text-green-50 mb-4">Create safe travel itineraries</p>
                         <Button className="bg-white text-green-600 hover:bg-green-50 font-semibold">
@@ -220,10 +221,6 @@ const Dashboard = () => {
                           Plan Trip
                         </Button>
                       </div>
-                    </div>
-                    {/* Placeholder */}
-                    <div className="absolute inset-0 flex items-center justify-center text-green-200 opacity-50">
-                      <Calendar className="w-24 h-24" />
                     </div>
                   </div>
                 </Link>
