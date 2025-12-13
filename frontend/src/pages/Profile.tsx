@@ -244,9 +244,9 @@ export default function Profile() {
     <DashboardLayout>
       <div className="p-6 space-y-6">
         {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold">My Profile</h1>
-          <p className="text-muted-foreground">Manage your account and preferences</p>
+        <div className="mb-6 pb-4 border-b-4 border-amber-500">
+          <h1 className="text-3xl font-bold text-[#0A4D68]">My Profile</h1>
+          <p className="text-gray-600">Manage your account and preferences</p>
         </div>
 
         {error && (
@@ -260,17 +260,17 @@ export default function Profile() {
           {/* Main Profile Card */}
           <div className="lg:col-span-2 space-y-6">
             {/* User Information */}
-            <Card>
-              <CardHeader>
+            <Card className="border-2 border-[#0A4D68]">
+              <CardHeader className="bg-gradient-to-r from-[#0A4D68] to-[#0A4D68]/80 text-white">
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-white">
                       <User className="w-5 h-5" />
                       Account Information
                     </CardTitle>
-                    <CardDescription>Your account details and preferences</CardDescription>
+                    <CardDescription className="text-gray-200">Your account details and preferences</CardDescription>
                   </div>
-                  <Button variant="outline" size="sm" onClick={handleEditProfile}>
+                  <Button variant="outline" size="sm" onClick={handleEditProfile} className="bg-white text-[#0A4D68] hover:bg-gray-100">
                     <Edit className="w-4 h-4 mr-2" />
                     Edit
                   </Button>
@@ -278,8 +278,8 @@ export default function Profile() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Name */}
-                <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
-                  <User className="w-5 h-5 text-muted-foreground" />
+                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border border-amber-400">
+                  <User className="w-5 h-5 text-[#0A4D68]" />
                   <div className="flex-1">
                     <p className="text-sm text-muted-foreground">Full Name</p>
                     <p className="font-semibold">{userProfile?.full_name}</p>
@@ -287,19 +287,19 @@ export default function Profile() {
                 </div>
 
                 {/* Email */}
-                <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
-                  <Mail className="w-5 h-5 text-muted-foreground" />
+                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border border-amber-400">
+                  <Mail className="w-5 h-5 text-[#0A4D68]" />
                   <div className="flex-1">
                     <p className="text-sm text-muted-foreground">Email Address</p>
                     <p className="font-semibold">{userProfile?.email}</p>
                   </div>
                   {userProfile?.email_verified ? (
-                    <Badge className="bg-green-100 text-green-800">
+                    <Badge className="bg-[#0A4D68] text-white">
                       <CheckCircle className="w-3 h-3 mr-1" />
                       Verified
                     </Badge>
                   ) : (
-                    <Badge variant="destructive">
+                    <Badge className="bg-[#D32F2F] text-white">
                       <XCircle className="w-3 h-3 mr-1" />
                       Not Verified
                     </Badge>
@@ -307,8 +307,8 @@ export default function Profile() {
                 </div>
 
                 {/* Member Since */}
-                <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
-                  <Calendar className="w-5 h-5 text-muted-foreground" />
+                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border border-amber-400">
+                  <Calendar className="w-5 h-5 text-[#0A4D68]" />
                   <div className="flex-1">
                     <p className="text-sm text-muted-foreground">Member Since</p>
                     <p className="font-semibold">
@@ -322,8 +322,8 @@ export default function Profile() {
                 </div>
 
                 {/* Role */}
-                <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
-                  <Shield className="w-5 h-5 text-muted-foreground" />
+                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border border-amber-400">
+                  <Shield className="w-5 h-5 text-[#0A4D68]" />
                   <div className="flex-1">
                     <p className="text-sm text-muted-foreground">Account Type</p>
                     <p className="font-semibold capitalize">{userProfile?.role}</p>
@@ -333,37 +333,37 @@ export default function Profile() {
             </Card>
 
             {/* Account Stats */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+            <Card className="border-2 border-amber-500">
+              <CardHeader className="bg-gradient-to-r from-[#F57C00] to-[#FFA726]">
+                <CardTitle className="flex items-center gap-2 text-white">
                   <BarChart3 className="w-5 h-5" />
                   Your Activity
                 </CardTitle>
-                <CardDescription>SafeTrail community contributions</CardDescription>
+                <CardDescription className="text-gray-100">SafeTrail community contributions</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-blue-50 rounded-lg">
-                    <p className="text-sm text-muted-foreground">Reports Submitted</p>
-                    <p className="text-2xl font-bold text-blue-600">
+                  <div className="p-4 bg-[#0A4D68]/10 rounded-2xl border-2 border-[#0A4D68]">
+                    <p className="text-sm text-gray-600">Reports Submitted</p>
+                    <p className="text-2xl font-bold text-[#0A4D68]">
                       {userStats?.reports_submitted || 0}
                     </p>
                   </div>
-                  <div className="p-4 bg-green-50 rounded-lg">
-                    <p className="text-sm text-muted-foreground">Verified Reports</p>
-                    <p className="text-2xl font-bold text-green-600">
+                  <div className="p-4 bg-[#D32F2F]/10 rounded-2xl border-2 border-[#D32F2F]">
+                    <p className="text-sm text-gray-600">Verified Reports</p>
+                    <p className="text-2xl font-bold text-[#D32F2F]">
                       {userStats?.verified_reports || 0}
                     </p>
                   </div>
-                  <div className="p-4 bg-purple-50 rounded-lg">
-                    <p className="text-sm text-muted-foreground">Places Checked</p>
-                    <p className="text-2xl font-bold text-purple-600">
+                  <div className="p-4 bg-[#F57C00]/10 rounded-2xl border-2 border-[#F57C00]">
+                    <p className="text-sm text-gray-600">Places Checked</p>
+                    <p className="text-2xl font-bold text-[#F57C00]">
                       {userStats?.places_checked || 0}
                     </p>
                   </div>
-                  <div className="p-4 bg-orange-50 rounded-lg">
-                    <p className="text-sm text-muted-foreground">Cities Visited</p>
-                    <p className="text-2xl font-bold text-orange-600">
+                  <div className="p-4 bg-[#FFA726]/10 rounded-2xl border-2 border-[#FFA726]">
+                    <p className="text-sm text-gray-600">Cities Visited</p>
+                    <p className="text-2xl font-bold text-[#FFA726]">
                       {userStats?.cities_visited || 0}
                     </p>
                   </div>
@@ -373,24 +373,24 @@ export default function Profile() {
 
             {/* Recent Reports */}
             {userReports.length > 0 && (
-              <Card>
-                <CardHeader>
+              <Card className="border-2 border-[#D32F2F]">
+                <CardHeader className="bg-gradient-to-r from-[#D32F2F] to-[#D32F2F]/80">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-white">
                       <FileText className="w-5 h-5" />
                       Recent Reports
                     </CardTitle>
-                    <Button variant="ghost" size="sm" onClick={handleViewMyReports}>
+                    <Button variant="ghost" size="sm" onClick={handleViewMyReports} className="text-white hover:bg-white/20">
                       View All
                     </Button>
                   </div>
-                  <CardDescription>Your latest safety reports</CardDescription>
+                  <CardDescription className="text-gray-100">Your latest safety reports</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {userReports.map((report) => (
                     <div
                       key={report.id}
-                      className="flex items-start justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors"
+                      className="flex items-start justify-between p-3 border rounded-2xl hover:bg-muted/50 transition-colors"
                     >
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
@@ -420,14 +420,14 @@ export default function Profile() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Quick Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Quick Actions</CardTitle>
+            <Card className="border-2 border-amber-500">
+              <CardHeader className="bg-gradient-to-r from-[#FFA726] to-amber-400">
+                <CardTitle className="text-lg text-white">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
                 <Button
                   variant="outline"
-                  className="w-full justify-start"
+                  className="w-full justify-start border-[#0A4D68] text-[#0A4D68] hover:bg-[#0A4D68] hover:text-white"
                   onClick={handleViewMyReports}
                 >
                   <FileText className="w-4 h-4 mr-2" />
@@ -435,7 +435,7 @@ export default function Profile() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full justify-start"
+                  className="w-full justify-start border-[#F57C00] text-[#F57C00] hover:bg-[#F57C00] hover:text-white"
                   onClick={() => setIsPasswordDialogOpen(true)}
                 >
                   <Lock className="w-4 h-4 mr-2" />
@@ -443,7 +443,7 @@ export default function Profile() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full justify-start"
+                  className="w-full justify-start border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white"
                   onClick={() => navigate('/map')}
                 >
                   <MapPin className="w-4 h-4 mr-2" />
@@ -453,30 +453,29 @@ export default function Profile() {
             </Card>
 
             {/* Account Status */}
-            <Card className="bg-green-50 border-green-200">
-              <CardHeader>
-                <CardTitle className="text-base text-green-900">Account Status</CardTitle>
+            <Card className="bg-[#0A4D68]/5 border-2 border-[#0A4D68]">
+              <CardHeader className="bg-[#0A4D68]/10">
+                <CardTitle className="text-base text-[#0A4D68]">Account Status</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2 text-sm text-green-800">
+                <div className="space-y-2 text-sm text-[#0A4D68]">
                   <p className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-green-600 rounded-full"></span>
+                    <span className="w-2 h-2 bg-[#0A4D68] rounded-full"></span>
                     Active & Verified
                   </p>
-                  <p className="text-xs text-green-700">Your account is in good standing</p>
+                  <p className="text-xs text-[#0A4D68]/80">Your account is in good standing</p>
                 </div>
               </CardContent>
             </Card>
 
             {/* Danger Zone */}
-            <Card className="border-red-200">
-              <CardHeader>
-                <CardTitle className="text-base text-red-900">Danger Zone</CardTitle>
+            <Card className="border-2 border-[#D32F2F] bg-[#D32F2F]/5">
+              <CardHeader className="bg-[#D32F2F]/10">
+                <CardTitle className="text-base text-[#D32F2F]">Danger Zone</CardTitle>
               </CardHeader>
               <CardContent>
                 <Button
-                  variant="destructive"
-                  className="w-full"
+                  className="w-full bg-[#D32F2F] hover:bg-[#D32F2F]/90 text-white"
                   onClick={() => setIsDeleteDialogOpen(true)}
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
