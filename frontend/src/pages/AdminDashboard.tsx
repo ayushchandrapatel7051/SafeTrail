@@ -753,9 +753,13 @@ const AdminDashboard = () => {
                                         <div className="border rounded-lg overflow-hidden bg-muted">
                                           <img
                                             src={(() => {
-                                              const photoPath = selectedReport?.photo_path || report.photo_path;
+                                              const photoPath =
+                                                selectedReport?.photo_path || report.photo_path;
                                               // Handle absolute paths (old format)
-                                              if (photoPath.includes('\\') || photoPath.includes('D:')) {
+                                              if (
+                                                photoPath.includes('\\') ||
+                                                photoPath.includes('D:')
+                                              ) {
                                                 return `http://localhost:3000/uploads/${photoPath.split(/[\\/]/).pop()}`;
                                               }
                                               // Handle relative paths (new format)
