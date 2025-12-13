@@ -40,10 +40,8 @@ router.post('/admin/login', async (req, res) => {
 
     const adminUser = result.rows[0];
 
-    // For simplicity, also accept hardcoded credentials
-    const ADMIN_PASSWORD = 'admin';
-    const isPasswordValid =
-      password === ADMIN_PASSWORD || (await bcrypt.compare(password, adminUser.password_hash));
+    // Verify password using bcrypt
+    const isPasswordValid = await bcrypt.compare(password, adminUser.password_hash);
 
     if (!isPasswordValid || username !== 'admin') {
       return res.status(401).json({ error: 'Invalid admin credentials' });

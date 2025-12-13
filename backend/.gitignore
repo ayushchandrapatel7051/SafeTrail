@@ -14,13 +14,26 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Uploads - user generated content
+uploads/*
+!uploads/.gitkeep
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Redis dump
+dump.rdb
 
 # Cache
-.vite/
 .cache/
 
 # Editor directories and files
@@ -36,10 +49,25 @@ dist-ssr
 
 # Testing
 coverage/
+*.lcov
+.nyc_output
 
 # Temporary files
 *.tmp
 *.temp
+*.swp
+*.swo
+*~
 
-# Lock files
-bun.lockb
+# Certificate files - SECURITY: Never commit SSL/TLS certs
+*.pem
+*.key
+*.cert
+*.crt
+
+# Secrets
+secrets/
+*.secret
+
+# Session files
+sessions/
