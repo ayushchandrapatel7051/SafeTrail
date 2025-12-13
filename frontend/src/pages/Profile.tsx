@@ -276,9 +276,9 @@ export default function Profile() {
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 p-6">
                 {/* Name */}
-                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border border-amber-400">
+                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border-2 border-amber-400">
                   <User className="w-5 h-5 text-[#0A4D68]" />
                   <div className="flex-1">
                     <p className="text-sm text-muted-foreground">Full Name</p>
@@ -287,7 +287,7 @@ export default function Profile() {
                 </div>
 
                 {/* Email */}
-                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border border-amber-400">
+                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border-2 border-amber-400">
                   <Mail className="w-5 h-5 text-[#0A4D68]" />
                   <div className="flex-1">
                     <p className="text-sm text-muted-foreground">Email Address</p>
@@ -307,7 +307,7 @@ export default function Profile() {
                 </div>
 
                 {/* Member Since */}
-                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border border-amber-400">
+                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border-2 border-amber-400">
                   <Calendar className="w-5 h-5 text-[#0A4D68]" />
                   <div className="flex-1">
                     <p className="text-sm text-muted-foreground">Member Since</p>
@@ -322,7 +322,7 @@ export default function Profile() {
                 </div>
 
                 {/* Role */}
-                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border border-amber-400">
+                <div className="flex items-center gap-4 p-4 bg-[#EDE7B1]/30 rounded-2xl border-2 border-amber-400">
                   <Shield className="w-5 h-5 text-[#0A4D68]" />
                   <div className="flex-1">
                     <p className="text-sm text-muted-foreground">Account Type</p>
