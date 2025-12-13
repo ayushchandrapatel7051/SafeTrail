@@ -80,7 +80,8 @@ router.post(
           req.user.id,
         ]);
         if (userResult.rows.length > 0) {
-          userTrustScore = userResult.rows[0].trust_score || 50;
+          // Convert to integer to avoid type errors
+          userTrustScore = parseInt(userResult.rows[0].trust_score) || 50;
         }
       }
 
@@ -111,9 +112,11 @@ router.post(
 
       // Upload photo if provided
       if (req.file) {
+        // Store relative path for serving via static middleware
+        const relativePath = `uploads/${req.file.filename}`;
         await query(
           'INSERT INTO report_photos (report_id, file_path, file_name) VALUES ($1, $2, $3)',
-          [report.id, req.file.path, req.file.originalname]
+          [report.id, relativePath, req.file.originalname]
         );
       }
 

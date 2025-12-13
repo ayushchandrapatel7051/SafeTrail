@@ -752,7 +752,15 @@ const AdminDashboard = () => {
                                         <p className="text-sm font-medium mb-1">Attached Photo</p>
                                         <div className="border rounded-lg overflow-hidden bg-muted">
                                           <img
-                                            src={`http://localhost:3000/uploads/${(selectedReport?.photo_path || report.photo_path).split('/').pop()}`}
+                                            src={(() => {
+                                              const photoPath = selectedReport?.photo_path || report.photo_path;
+                                              // Handle absolute paths (old format)
+                                              if (photoPath.includes('\\') || photoPath.includes('D:')) {
+                                                return `http://localhost:3000/uploads/${photoPath.split(/[\\/]/).pop()}`;
+                                              }
+                                              // Handle relative paths (new format)
+                                              return `http://localhost:3000/${photoPath.replace(/\\/g, '/')}`;
+                                            })()}
                                             alt="Report evidence"
                                             className="w-full h-auto max-h-64 object-contain"
                                             onError={(e) => {
